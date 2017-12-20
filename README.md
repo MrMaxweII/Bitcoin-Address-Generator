@@ -10,7 +10,7 @@ sowie die zugehörige Bitcoin-Adresse und den öffentlichen Schlüssel.
 Eine grafische Benutzeroberfläche "GUI" wurde implementiert.                         
 Es kann eine Paper-Wallet mit QR-Code erstellt und ausgedruckt werden.  
     
-### Dies ist eine Java Anwendung, sie müssen also Java installieren!
+#### Dies ist eine Java Anwendung, sie müssen also Java installieren!
 
 #### Programm Starten
 Im Ordner "release" befindet sich die "Bitcoin_Adress_Generator_V2.1.jar" Datei.                        
