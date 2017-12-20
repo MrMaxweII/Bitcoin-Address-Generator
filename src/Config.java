@@ -7,11 +7,11 @@ import java.io.IOException;
 
 
 
-	/************************************************************
-	* 															*
+	/************************************************************************
+	* 									*
 	*	Creates a BAGen.cfg in which all settings are saved		*
-	*															*
-	*************************************************************/
+	*									*
+	*************************************************************************/
 
 
 
@@ -21,9 +21,9 @@ public class Config
 
 	public static final String  name    	= "BAGen.cfg";
 	public static final int anzahlSprachen  = 5;
-	public static final int laengeArray      = 43;			
-	public static String[]  settings 		= new String[laengeArray];
-	public static boolean   fileError 		= false;
+	public static final int laengeArray     = 43;			
+	public static String[]  settings 	= new String[laengeArray];
+	public static boolean   fileError 	= false;
 
 
 
@@ -90,20 +90,20 @@ public class Config
 	//  check settings
 	private static boolean isValid(String[] str)
 	{
-		for(int i=0; i<16; i++) if(str[i]==null) 		{fileError=true; 		return false;}
-		if(str[ 0].equals(settings[ 0])==false)  								return false; 
-		if(str[ 1].matches("[0-9](.[0-9]*)?")==false)  							return false;
-		if(str[ 2].equals(settings[ 2])==false)  								return false;
-		if(str[ 3].equals(settings[ 3])==false) 		{fileError=true;		return false;}
-		if(str[ 4].equals(settings[ 4])==false)  								return false;
-		if(str[ 5].equals(settings[ 5])==false)  								return false;
-		if(str[ 6].equals(settings[ 6])==false)  								return false;
-		if(str[ 7].equals(settings[ 7])==false)  								return false;
-		if(str[ 8].equals(settings[ 8])==false)  								return false;
-		if(str[ 9].equals(settings[ 9])==false)  								return false;
+		for(int i=0; i<16; i++) if(str[i]==null) 	{fileError=true;	return false;}
+		if(str[ 0].equals(settings[ 0])==false)  				return false; 
+		if(str[ 1].matches("[0-9](.[0-9]*)?")==false)  				return false;
+		if(str[ 2].equals(settings[ 2])==false)  				return false;
+		if(str[ 3].equals(settings[ 3])==false) 	{fileError=true;	return false;}
+		if(str[ 4].equals(settings[ 4])==false)  				return false;
+		if(str[ 5].equals(settings[ 5])==false)  				return false;
+		if(str[ 6].equals(settings[ 6])==false)  				return false;
+		if(str[ 7].equals(settings[ 7])==false)  				return false;
+		if(str[ 8].equals(settings[ 8])==false)  				return false;
+		if(str[ 9].equals(settings[ 9])==false)  				return false;
 		if(str[10].matches("[0-9]+")==false || isZwischen(str[10],0,anzahlSprachen-1)==false)	return false;
 		if(str[11].matches("[0-9]+")==false || isZwischen(str[11],0,3)  ==false)return false;
-		if(str[12].equals(settings[12])==false)  								return false;
+		if(str[12].equals(settings[12])==false)  				return false;
 		if(str[13].matches("[0-9]+")==false || isZwischen(str[13],0,255)==false)return false;
 		if(str[14].matches("[0-9]+")==false || isZwischen(str[14],0,255)==false)return false;
 		if(str[15].matches("[0-9]+")==false || isZwischen(str[15],0,255)==false)return false;
@@ -151,7 +151,7 @@ public class Config
 		BufferedReader br= null;
 		try   
 		{
-			br = new BufferedReader(new FileReader(name));
+		    br = new BufferedReader(new FileReader(name));
 		    String zeile = null;
 		    while(i<l)				
 		    {
@@ -164,7 +164,7 @@ public class Config
 		catch (FileNotFoundException e) {fehler = true;}
 		catch (IOException e){e.printStackTrace();fehler = true;}
 	    if(fehler==false && isValid(str)==true)  settings = str;
-	    else		loadDefaultConfig();
+	    else loadDefaultConfig();
 	}
 	
 	
@@ -193,8 +193,8 @@ public class Config
 
 	private static boolean isZwischen(String str, int a, int b)
 	{
-	int z = Integer.parseInt(str);	
-	if(z>=a && z<= b)return true;
-	else return false;	
+		int z = Integer.parseInt(str);	
+		if(z>=a && z<= b)return true;
+		else return false;	
 	}	
 }
