@@ -23,11 +23,11 @@ import javax.swing.event.ChangeEvent;
 
 
 
-	/********************************************
-	* 											*
-	*			MAIN and GUI					*
-	*											*
-	********************************************/
+	/************************************************
+	* 						*
+	*			MAIN and GUI		*
+	*						*
+	*************************************************/
 
 
 
@@ -37,7 +37,7 @@ public class GUI_MAIN extends JFrame
 
 
 	public static final String VersionsNummer = "2.1";
-	public static final String Autor		  = "Mr.Maxwell";
+	public static final String Autor	  = "Mr.Maxwell";
 	private static final long serialVersionUID = 2L;
 	private JFormattedTextField txtPrivateKey;
 	private JTextField txtOutPrivateKey;
