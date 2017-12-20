@@ -42,62 +42,62 @@ public class Calc
 	
 	public static String ConvertPrivKeyToBitcoinConformBase58(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-	   if(str.equals("")) return "";
-	   String msb = "80";                         									// VersionsNr.80
-	   String h = getHashSHA256_from_HexString(msb+str);
-	          h = getHashSHA256_from_HexString(h);              																				
-	          h = h.substring(0,8);																												
-	   return Convert.hexStringToBase58(msb + str + h);																									
+	   	if(str.equals("")) return "";
+	   	String msb = "80";                         								// VersionsNr.80
+	   	String h = getHashSHA256_from_HexString(msb+str);
+	        h = getHashSHA256_from_HexString(h);              																				
+	        h = h.substring(0,8);																												
+	   	return Convert.hexStringToBase58(msb + str + h);																									
 	}
 	
 	
 
    	public static String ConvertPrivKeyToBitcoinConformBase58Compressed(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-       	   if(str.equals("")) return "";
-   	   String msb = "80";                         									// VersionsNr. 80
-	   String com = "01";                         									// Compressed Bit  01
-	   String h = getHashSHA256_from_HexString(msb+str+com);
-	          h = getHashSHA256_from_HexString(h);               							// 2 x SHA256
-	          h = h.substring(0,8);																					
-	  return Convert.hexStringToBase58(msb + str + com + h);        			
+       	   	if(str.equals("")) return "";
+   	   	String msb = "80";                         								// VersionsNr. 80
+	   	String com = "01";                         								// Compressed Bit  01
+	   	String h = getHashSHA256_from_HexString(msb+str+com);
+	        h = getHashSHA256_from_HexString(h);               							// 2 x SHA256
+	        h = h.substring(0,8);																					
+	  	return Convert.hexStringToBase58(msb + str + com + h);        			
 	}
 
 	
 	
 // ---------------------------------------------- Public Key to Bitcoin Adress  --------------------------------------------------------//		
 	
-    public static String ConvertPublicKeyToBitcoinAdress(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
-    {
-      	  String h   = getHashSHA256_from_HexString(str);								// 1 x SHA256					
-	         h   = getHashRIPEMD160_from_HexString(h);								// 1 x RIPEMD160      
-	  String msb = "00";  												// VersionsNr. 00
-	  String adr = msb + h;                                             																					
-	         h   = getHashSHA256_from_HexString(adr);					
-	         h   = getHashSHA256_from_HexString(h);									// 2 x SHA256
-	         adr = adr +  h.substring(0,8);																													
-	  return Convert.hexStringToBase58(adr);																										
-   }
+    	public static String ConvertPublicKeyToBitcoinAdress(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
+    	{
+		String h   = getHashSHA256_from_HexString(str);								// 1 x SHA256					
+	        h   = getHashRIPEMD160_from_HexString(h);								// 1 x RIPEMD160      
+	  	String msb = "00";  											// VersionsNr. 00
+	  	String adr = msb + h;                                             																					
+	        h   = getHashSHA256_from_HexString(adr);					
+	        h   = getHashSHA256_from_HexString(h);									// 2 x SHA256
+	        adr = adr +  h.substring(0,8);																													
+	  	return Convert.hexStringToBase58(adr);																										
+    	}
 	
 	
 	
 	public static String wuerfelToHexString(String str)                  
 	{
-	  BigInteger mod = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141",16);	// Mod
-	  str = str.replaceAll("-","");								 																							
-	  byte[] b = Convert.hexStringToByteArray(str);									// convert in Byte Array
-      for(int i=0;i<b.length;i++)     																														
-      {	
-        b[i] = (byte)(b[i] - 16);
-        b[i]--;
-      }	
-      BigInteger eingabe = new BigInteger(1,b);																											
-      String a = eingabe.toString(16);																														
-      BigInteger dec = new BigInteger(a,6);																													
-      dec = dec.mod(mod);																																	
-      String erg = dec.toString(16);  																													
-      while(erg.length() < 64) erg="0"+erg;																												
-      return erg;
+	 	BigInteger mod = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141",16);	// Mod
+	 	str = str.replaceAll("-","");								 																							
+	 	byte[] b = Convert.hexStringToByteArray(str);								// convert in Byte Array
+      		for(int i=0;i<b.length;i++)     																														
+      		{	
+        		b[i] = (byte)(b[i] - 16);
+        		b[i]--;
+      		}	
+      	 	BigInteger eingabe = new BigInteger(1,b);																											
+      	 	String a = eingabe.toString(16);																														
+      	 	BigInteger dec = new BigInteger(a,6);																													
+      	 	dec = dec.mod(mod);																																	
+      	 	String erg = dec.toString(16);  																													
+      	 	while(erg.length() < 64) erg="0"+erg;																												
+      	 	return erg;
 	}
 	
 	
@@ -106,22 +106,22 @@ public class Calc
 	
 	public static String getHashSHA256_from_HexString(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-	  byte[] b = getHashSHA256(Convert.hexStringToByteArray(str));
-	  return Convert.byteArrayToHexString(b);
+	  	byte[] b = getHashSHA256(Convert.hexStringToByteArray(str));
+	  	return Convert.byteArrayToHexString(b);
 	}
 	
 	
 	public static String getHashSHA256(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-	  byte[] b = getHashSHA256((str).getBytes("UTF-8"));
-	  return Convert.byteArrayToHexString(b);
+	  	byte[] b = getHashSHA256((str).getBytes("UTF-8"));
+	  	return Convert.byteArrayToHexString(b);
 	}
 	
 	
 	public static byte[] getHashSHA256(byte[] b) throws NoSuchAlgorithmException
 	{
-	  MessageDigest sha = MessageDigest.getInstance("SHA-256");
-      return sha.digest(b);
+	  	MessageDigest sha = MessageDigest.getInstance("SHA-256");
+      		return sha.digest(b);
 	}
 	
 	
@@ -130,18 +130,18 @@ public class Calc
 		
 	public static String getHashRIPEMD160_from_HexString(String str)
 	{
-	  byte[] b = getHashRIPEMD160(Convert.hexStringToByteArray(str));
-	  return Convert.byteArrayToHexString(b);
+	  	byte[] b = getHashRIPEMD160(Convert.hexStringToByteArray(str));
+	  	return Convert.byteArrayToHexString(b);
 	}
 	
 	
 	public static byte[] getHashRIPEMD160(byte[] b)
 	{
-	  RIPEMD160Digest ripemd = new RIPEMD160Digest();
-      	  ripemd.update (b, 0, b.length);
-      	  byte[] hash160 = new byte[ripemd.getDigestSize()];
-      	  ripemd.doFinal (hash160, 0);
-	  return hash160;	
+	  	RIPEMD160Digest ripemd = new RIPEMD160Digest();
+      	  	ripemd.update (b, 0, b.length);
+      	  	byte[] hash160 = new byte[ripemd.getDigestSize()];
+      	  	ripemd.doFinal (hash160, 0);
+	  	return hash160;	
 	}
 	
 	
@@ -149,25 +149,25 @@ public class Calc
 // ------------------------------------------------- Public Key ---------------------------------------------------------//	
 	public static String getPublicKeyX(String str)
 	{
-	  return getPublicKey(str).substring(0,66);	
+	  	return getPublicKey(str).substring(0,66);	
 	}
 	
 	public static String getPublicKeyY(String str)
 	{
-	  return getPublicKey(str).substring(66,130);	
+	  	return getPublicKey(str).substring(66,130);	
 	}
 	
 	public static String getPublicKey(String str) 
 	{ 
-	  byte[] b = getPublicKey(Convert.hexStringToByteArray(str));
-	  return Convert.byteArrayToHexString(b);
+	  	byte[] b = getPublicKey(Convert.hexStringToByteArray(str));
+	  	return Convert.byteArrayToHexString(b);
 	}
 	
 	public static byte[] getPublicKey(byte[] privateKey) 
 	{
-	  ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp256k1"); 
-	  ECPoint pointQ = spec.getG().multiply(new BigInteger(1, privateKey)); 
-	  return pointQ.getEncoded(false); 
+	  	ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp256k1"); 
+	  	ECPoint pointQ = spec.getG().multiply(new BigInteger(1, privateKey)); 
+	  	return pointQ.getEncoded(false); 
 	} 
 	
 	
@@ -181,8 +181,8 @@ public class Calc
 	// 4 = Base64
 	public static int getFormat(String str)
 	{
-		if(str.equals(""))   								return 0;																								
-		if(str.length()==64 && str.matches("[0-9a-fA-F]+")) return 1;																								
+		if(str.equals(""))   					return 0;																								
+		if(str.length()==64 && str.matches("[0-9a-fA-F]+")) 	return 1;																								
 		if(str.length()==51 && str.matches("[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+") && str.charAt(0)=='5') 			return 2;
 		if(str.length()==52 && str.matches("[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+") && (str.charAt(0)=='L' || str.charAt(0)=='K'))return 3;
 		if(str.length()==44 && str.matches("[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=]+") &&  str.charAt(43)=='=') 		return 4;
@@ -212,7 +212,7 @@ public class Calc
 
 	public static boolean ist_PrivateKey_Base58_Valid(String str)
 	{
-		if(str.equals("") || str.length() != 51) 		return false;      
+		if(str.equals("") || str.length() != 51) return false;      
 		String roh = Convert.Base58ToHexString(str,74);											
 		String a = roh.substring(0,66);											
 		String b = roh.substring(66,74).toUpperCase();									
@@ -222,7 +222,7 @@ public class Calc
 			h = getHashSHA256_from_HexString(a);											
 			h = getHashSHA256_from_HexString(h);
 		} 
-		catch (NoSuchAlgorithmException | UnsupportedEncodingException e)	{e.printStackTrace();}
+		catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}
 		h=h.substring(0,8); 																
 		if(b.equals(h)) return true;												
 		return false;
@@ -232,7 +232,7 @@ public class Calc
 	
 	public static boolean ist_PrivateKey_Base58compressed_Valid(String str)
 	{
-		if(str.equals("") || str.length() != 52) 		return false; 
+		if(str.equals("") || str.length() != 52) return false; 
 		String roh = Convert.Base58ToHexString(str,76);					
 		String a = roh.substring(0,68);				
 		String b = roh.substring(68,76).toUpperCase();				
@@ -242,7 +242,7 @@ public class Calc
 			h = getHashSHA256_from_HexString(a);								
 			h = getHashSHA256_from_HexString(h);
 		} 
-		catch (NoSuchAlgorithmException | UnsupportedEncodingException e)	{e.printStackTrace();}
+		catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}
 		h=h.substring(0,8); 													
 		if(b.equals(h)) return true;							
 		return false;
