@@ -25,7 +25,7 @@ import javax.swing.event.ChangeEvent;
 
 	/************************************************
 	* 						*
-	*			MAIN and GUI		*
+	*		MAIN and GUI			*
 	*						*
 	*************************************************/
 
@@ -147,7 +147,7 @@ public class GUI_MAIN extends JFrame
 		btnFarbe1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				Config.saveConfig(Config.name);
+			    Config.saveConfig(Config.name);
 			    panelStyle.setVisible(false);
 			    getContentPane().repaint();
 			}
