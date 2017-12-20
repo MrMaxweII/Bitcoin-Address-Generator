@@ -151,20 +151,20 @@ public class Config
 		BufferedReader br= null;
 		try   
 		{
-		    br = new BufferedReader(new FileReader(name));
-		    String zeile = null;
-		    while(i<l)				
-		    {
-		    	zeile = br.readLine(); 	
-		    	str[i]=zeile;		
-		    	i++;      			
-		    }
-		    br.close();			
+		    	br = new BufferedReader(new FileReader(name));
+		    	String zeile = null;
+		    	while(i<l)				
+		    	{
+		    		zeile = br.readLine(); 	
+		    		str[i]=zeile;		
+		    		i++;      			
+		    	}
+		    	br.close();			
 		} 							
 		catch (FileNotFoundException e) {fehler = true;}
 		catch (IOException e){e.printStackTrace();fehler = true;}
-	    if(fehler==false && isValid(str)==true)  settings = str;
-	    else loadDefaultConfig();
+	    	if(fehler==false && isValid(str)==true)  settings = str;
+	    	else loadDefaultConfig();
 	}
 	
 	
@@ -172,20 +172,20 @@ public class Config
 
 	public static void saveConfig(String name)   
 	{
-	    String[] str=settings;
+	    	String[] str=settings;
 		if(fileError==false)
-	    {	
+	    	{	
 			BufferedWriter f=null;
 			try{f = new BufferedWriter(new FileWriter(name));} 
 			catch (IOException e){e.printStackTrace();}
-		    for(int i=0;i<str.length;i++)
-		    {	
-		    	try {f.write(str[i]+"\n");} 
-		    	catch (IOException e) {e.printStackTrace();}
-		    }
-		    try{f.close();} 
-		    catch (IOException e){e.printStackTrace();} 
-	    }    
+		    	for(int i=0;i<str.length;i++)
+		    	{	
+		    		try {f.write(str[i]+"\n");} 
+		    		catch (IOException e) {e.printStackTrace();}
+		    	}
+		    	try{f.close();} 
+		    	catch (IOException e){e.printStackTrace();} 
+	    	}    
 	} 
 	
 	
