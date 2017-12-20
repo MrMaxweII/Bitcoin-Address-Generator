@@ -38,11 +38,11 @@ public class QRCodeReaderZXING
 		int black = 0;
 		try 
 		{
-		    BitMatrix bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height);
-		    for (int i = 0; i < width; i++) 
-		    {
-		       for (int j = 0; j < height; j++) image.setRGB(i, j, bitMatrix.get(i, j) ? black : white);
-		    }
+		    	BitMatrix bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height);
+		    	for (int i = 0; i < width; i++) 
+		    	{
+		       		for (int j = 0; j < height; j++) image.setRGB(i, j, bitMatrix.get(i, j) ? black : white);
+		    	}
 		} 
 		catch (WriterException e) {e.printStackTrace();}
 		return image;
@@ -64,34 +64,34 @@ public class QRCodeReaderZXING
 		RGBLuminanceSource source = new RGBLuminanceSource(width, heigth, pixels);
 		BinaryBitmap 	   bitmap = new BinaryBitmap(new HybridBinarizer(source));
 		QRCodeReader       reader = new QRCodeReader(); 
-	    if(rotate)
-	    {	
-		  try {bitmap.getBlackMatrix().rotate180();} 
-		  catch (NotFoundException e1) {e1.printStackTrace();}
-	    }
+		if(rotate)
+	    	{	
+		  	try {bitmap.getBlackMatrix().rotate180();} 
+		  	catch (NotFoundException e1) {e1.printStackTrace();}
+	    	}
 	       
-	    try 
-	    {
-	    	Result result = reader.decode(bitmap);
-	        return result.getText();
-	    } 
-	    catch (NotFoundException e) 
-	    {
-	    	System.out.println("QR-Code: Bild wurde um 180� gedreht");
-	    	if(rotate==false) return readQRCode(image,true);			
-	    	else e.printStackTrace(); return "Not Found Fehler";
-	    } 
-	    catch (ChecksumException e) 
-	    {
-	    	System.out.println("QR-Code: Bild wurde um 180� gedreht");
-	    	if(rotate==false) return readQRCode(image,true);			
-	    	else e.printStackTrace(); return "Checksum Fehler";
-	    } 
-	    catch (FormatException e)   
-	    {
-	    	System.out.println("QR-Code: Bild wurde um 180� gedreht");
-	    	if(rotate==false) return readQRCode(image,true);			
-	    	else e.printStackTrace(); return "Format Fehler";
-	    }    
+	    	try 
+	    	{
+	    		Result result = reader.decode(bitmap);
+	        	return result.getText();
+	    	} 
+	    	catch (NotFoundException e) 
+	    	{
+	    		System.out.println("QR-Code: Bild wurde um 180� gedreht");
+	    		if(rotate==false) return readQRCode(image,true);			
+	    		else e.printStackTrace(); return "Not Found Fehler";
+	    	} 
+	    	catch (ChecksumException e) 
+	    	{
+	    		System.out.println("QR-Code: Bild wurde um 180� gedreht");
+	    		if(rotate==false) return readQRCode(image,true);			
+	    		else e.printStackTrace(); return "Checksum Fehler";
+	    	} 
+	    	catch (FormatException e)   
+	    	{
+	    		System.out.println("QR-Code: Bild wurde um 180� gedreht");
+	    		if(rotate==false) return readQRCode(image,true);			
+	    		else e.printStackTrace(); return "Format Fehler";
+	    	}    
     	}
 }
