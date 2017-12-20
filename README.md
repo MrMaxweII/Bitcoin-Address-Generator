@@ -91,6 +91,10 @@ Unter der Registerkarte „Stil“ können sie alle möglichen Farbeinstellungen
 Alle Einstellungen des Programms, wie Sprachen, Stil, etc. werden in der Datei: BAGen.cfg gespeichert.
 
 
+#### Kontakt
+Wenn sie Bug´s finden, Ideen für Verbesserungen, oder einfach Fragen haben,                 
+freue ich mich über jede Mail: Maxwell-KSP@gmx.de
+
 
 #### Spenden
 Wenn Ihnen der Bitcoin Adress Generator gefällt, würde ich mich über eine Spende sehr freuen: 
