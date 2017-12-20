@@ -16,11 +16,11 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 
 
-	/********************************************
-	* 											*
-	*			QRCodeReader ZXING				*
-	*											*
-	********************************************/
+	/****************************************
+	* 					*
+	*	QRCodeReader ZXING		*
+	*					*
+	*****************************************/
 
 
 
@@ -51,12 +51,12 @@ public class QRCodeReaderZXING
 
 
 	public static String readQRCode(BufferedImage image, boolean rotate)
-    {
+    	{
 		Image tmp = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	    BufferedImage dimg = new BufferedImage(150, 150, BufferedImage.TYPE_INT_ARGB);
-	    Graphics2D g2d = dimg.createGraphics();
-	    g2d.drawImage(tmp, 0, 0, null);
-	    g2d.dispose();
+	    	BufferedImage dimg = new BufferedImage(150, 150, BufferedImage.TYPE_INT_ARGB);
+	    	Graphics2D g2d = dimg.createGraphics();
+	    	g2d.drawImage(tmp, 0, 0, null);
+	    	g2d.dispose();
 		image = dimg;
 		int width = image.getWidth();
 		int heigth = image.getHeight();
@@ -93,5 +93,5 @@ public class QRCodeReaderZXING
 	    	if(rotate==false) return readQRCode(image,true);			
 	    	else e.printStackTrace(); return "Format Fehler";
 	    }    
-    }
+    	}
 }
