@@ -2,11 +2,11 @@
 
 
 
-	/********************************************
-	* 											*
-	*			language here					*
-	*											*
-	********************************************/
+	/************************************************
+	* 						*
+	*		language here			*
+	*						*
+	*************************************************/
 
 
 
@@ -14,7 +14,7 @@ public class Language
 {
 
 
-	public static final String meinPublicKey 	   = "049A442B458F5CCA534718DEF760CCEA8F7D944D157A8D653713957C6A57B6AD8A";
+	public static final String meinPublicKey       = "049A442B458F5CCA534718DEF760CCEA8F7D944D157A8D653713957C6A57B6AD8A";
 	public static final String meineBitcoinAdresse = "12zeCvN7zbAi3JDQhC8tU3DBm35kDEUNiB";
 	public static String InfoText;					
 	
@@ -54,11 +54,11 @@ public class Language
 
 
 
-	//  							0: Englisch
-	//								1: Deutsch
-	//								2: Französisch
-	//								3: Russisch
-	//								4: Chinesisch
+	//  			0: Englisch
+	//			1: Deutsch
+	//			2: Französisch
+	//			3: Russisch
+	//			4: Chinesisch
 	public static void setLanguage(int sprache)
 	{
 	  Config.settings[10] = Integer.toString(sprache);
@@ -103,23 +103,23 @@ public class Language
 			lblPrivateKeyIn_1		 = "Private key";
 			lblPublicKeyX			 = "    Public key X";
 			lblPublicKeyY			 = "    Public key Y";
-			lblBase58				 = "Base58";
+			lblBase58			 = "Base58";
 			lblBitcoinAdress		 = "Bitcoin adress";
-			btnStyle				 = "Style";
-			btnInfo					 = "Info";
-			btnDrucken				 = "Print";
+			btnStyle			 = "Style";
+			btnInfo				 = "Info";
+			btnDrucken			 = "Print";
 			btnSpeichern			 = "Save";
-			btnEnter				 = "Enter";
+			btnEnter			 = "Enter";
 			btnPrivateKeyAusblenden	 = "Hide private key";
 			comboBoxPrivateKey[0]    = "HEXA";
 			comboBoxPrivateKey[1]    = "Base58";
 			comboBoxPrivateKey[2]    = "Base58 compressed";
 			comboBoxPrivateKey[3]    = "Base64";
-			farbe					 = "Color";
-			farbenAnpassen			 = "Customize colors";
+			farbe			 = "Color";
+			farbenAnpassen		 = "Customize colors";
 			loadDefaultSettings 	 = "Load default settings";
-			lblFarben1				 = "Background                 Foreground";
-			lblFarben2               = "Logo\nand\nBitcoinadress\n\n\nMain window\nand\nlabel color\n\n\nInput box\n\n\n\n\nPrivate key\n\n\n\n\nPublic Key";
+			lblFarben1		 = "Background                 Foreground";
+			lblFarben2 = "Logo\nand\nBitcoinadress\n\n\nMain window\nand\nlabel color\n\n\nInput box\n\n\n\n\nPrivate key\n\n\n\n\nPublic Key";
 		break;			
 		}	
 
@@ -161,23 +161,23 @@ public class Language
 			lblPrivateKeyIn_1		 = "Privat Schlüssel";
 			lblPublicKeyX			 = "Öfftl. Schlüssel X";
 			lblPublicKeyY			 = "Öfftl. Schlüssel Y";
-			lblBase58				 = "Base58";
+			lblBase58			 = "Base58";
 			lblBitcoinAdress		 = "Bitcoin Adresse";
-			btnStyle				 = "Stil";
-			btnInfo					 = "Info";
-			btnDrucken				 = "Drucken";
+			btnStyle			 = "Stil";
+			btnInfo				 = "Info";
+			btnDrucken			 = "Drucken";
 			btnSpeichern			 = "Speichern";
-			btnEnter				 = "OK";
+			btnEnter			 = "OK";
 			btnPrivateKeyAusblenden	 = "Privat Schlüssel ausblenden";
 			comboBoxPrivateKey[0]    = "HEXA";
 			comboBoxPrivateKey[1]    = "Base58";
 			comboBoxPrivateKey[2]    = "Base58 compressed";
 			comboBoxPrivateKey[3]    = "Base64";
-			farbe					 = "Farbe";
-			farbenAnpassen			 = "Farben anpassen";
+			farbe			 = "Farbe";
+			farbenAnpassen		 = "Farben anpassen";
 			loadDefaultSettings 	 = "standard Konfig. laden";
-			lblFarben1				 = "Hintergrund                 Vordergrund";
-			lblFarben2               = "Logo\nund\nBitcoinadresse\n\n\nHauptfenster\nund\nLabel Farbe\n\n\nEingabefeld\n\n\n\n\nPrivat Schlüssel\n\n\n\nÖffentlicher Schlüssel";
+			lblFarben1		 = "Hintergrund                 Vordergrund";
+			lblFarben2 = "Logo\nund\nBitcoinadresse\n\n\nHauptfenster\nund\nLabel Farbe\n\n\nEingabefeld\n\n\n\n\nPrivat Schlüssel\n\n\n\nÖffentlicher Schlüssel";
 		break;	
 		}
 
@@ -219,23 +219,23 @@ public class Language
 			lblPrivateKeyIn_1		 = "Clé privée";
 			lblPublicKeyX			 = "  Clé publique X";
 			lblPublicKeyY			 = "  Clé publique Y";
-			lblBase58				 = "Base58";
+			lblBase58			 = "Base58";
 			lblBitcoinAdress		 = "Adresse Bitcoin";
-			btnStyle				 = "Style";
-			btnInfo					 = "Info";
-			btnDrucken				 = "imprimer";
+			btnStyle			 = "Style";
+			btnInfo				 = "Info";
+			btnDrucken			 = "imprimer";
 			btnSpeichern			 = "Enregistrer";
-			btnEnter				 = "OK";
+			btnEnter			 = "OK";
 			btnPrivateKeyAusblenden	 = "Masquer la clé privée";
 			comboBoxPrivateKey[0]    = "HEXA";
 			comboBoxPrivateKey[1]    = "Base58";
 			comboBoxPrivateKey[2]    = "Base58 compressée";
 			comboBoxPrivateKey[3]    = "Base64";
-			farbe					 = "couleur";
-			farbenAnpassen			 = "Personnaliser les couleurs";
+			farbe			 = "couleur";
+			farbenAnpassen		 = "Personnaliser les couleurs";
 			loadDefaultSettings 	 = "Charger les paramètres par défaut";
-			lblFarben1				 = "Contexte                     premier plan";
-			lblFarben2               = "Logo et \nAdresse Bitcoin\n\n\nFenêtre principale\net couleur de\nl'étiquette\n\n\nChamp de\nsaisie\n\n\n\nClé privée\n\n\n\nClé publique";
+			lblFarben1		 = "Contexte                     premier plan";
+			lblFarben2 = "Logo et \nAdresse Bitcoin\n\n\nFenêtre principale\net couleur de\nl'étiquette\n\n\nChamp de\nsaisie\n\n\n\nClé privée\n\n\n\nClé publique";
 		break;	
 		}
 
@@ -261,39 +261,39 @@ public class Language
 			+"   Вы должны ввести 64 случайных шестнадцатеричных символа или сгенерировать их.\n";	
 					
 			max = "Максимальное значение ключа:  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140";
-			F0  = "Ошибка! Ключ не может быть 0!";																		// Fehler, der Schlüssel darf nicht 0 sein!
-			F2  = "QR изображение ошибка!";																				// QR-Bild Fehler
+			F0  = "Ошибка! Ключ не может быть 0!";											
+			F2  = "QR изображение ошибка!";													
 			F3  = "Неверный формат закрытого ключа";
 					
-			W2  = "Внимание! Максимальный размер ключа превышен!";														// Warnung! Die maximale Größe des Schlüssels ist überschritten!
-			W3  = "Внимание! Ключ слишком маленький, небезопасный!";                                                    // Warnung!   Schlüssel zu klein, unsicher!
-			W4  = "Внимание! Парольная фраза слишком короткая!";                      									// Warnung!   Passphrase zu kurz!
+			W2  = "Внимание! Максимальный размер ключа превышен!";						
+			W3  = "Внимание! Ключ слишком маленький, небезопасный!";                                                   
+			W4  = "Внимание! Парольная фраза слишком короткая!";                      									
 							  
-			lblPassphrase 			 = "ключевая фраза";																// Passphrase
-			lblGebenSieEinen 		 = "Введите ключевую фразу";														// Geben Sie einen Text als Passphrase ein
-			lblWuerfelEingabe		 = "Создание секретных ключей путем игра в кости";									// Privat-Schlüssel durch würfeln generieren
-			lblWuerfelzeichenEingeben = "100 символов, допускаются только номера от 1 до 6!";                            // 100 Würfelzeichen eingeben, es sind nur Ziffern zwischen 1 und 6 erlaubt !";
-			lblPrivateKeyIn			 = "Введите закрытый ключ";															// Private Key eingeben
-			lblPrivateKeyIn_1		 = "Биткоин закрытый ключ";															// Bitcoin Private Key
-			lblPublicKeyX			 = "открытый ключ X";																// Public Key X
-			lblPublicKeyY			 = "открытый ключ Y";																// Public Key Y
-			lblBase58				 = "База58";																    	// Base58
-			lblBitcoinAdress		 = "Адрес биткоина ";																// Bitcoin Adresse
-			btnStyle				 = "стиль";
-			btnInfo					 = "Информация";																	// Info
-			btnDrucken				 = "печать";																		// Drucken
-			btnSpeichern			 = "сохранить";																		// Speichern
-			btnEnter				 = "ОК";																			// Enter
-			btnPrivateKeyAusblenden	 = "Скрыть закрытый ключ";															// Private Key ausblenden
-			comboBoxPrivateKey[0]    = "гекса";																			// Hexa
-			comboBoxPrivateKey[1]    = "База58";																		// Base58
-			comboBoxPrivateKey[2]    = "База58 сжата";																	// Base58 Compressed
-			comboBoxPrivateKey[3]    = "База64";																		// Base64
-			farbe					 = "цвет";																			// Farbe
-			farbenAnpassen			 = "Настройка цветов";																// Farben anpassen
-			loadDefaultSettings 	 = "Загрузить настройки по умолчанию";												// Default Einstellungen laden
-			lblFarben1				 = "задний план            передний план";
-			lblFarben2               = "Логотип и\nбиткоин-адрес\n\n\nГлавное\nокно и\nцвет ярлыка\n\n\nполе ввода\n\n\n\nБиткоин\nзакрытый ключ\n\n\nоткрытый ключ";
+			lblPassphrase 			 = "ключевая фраза";								
+			lblGebenSieEinen 		 = "Введите ключевую фразу";							
+			lblWuerfelEingabe		 = "Создание секретных ключей путем игра в кости";		
+			lblWuerfelzeichenEingeben = "100 символов, допускаются только номера от 1 до 6!";                            
+			lblPrivateKeyIn			 = "Введите закрытый ключ";										
+			lblPrivateKeyIn_1		 = "Биткоин закрытый ключ";										
+			lblPublicKeyX			 = "открытый ключ X";											
+			lblPublicKeyY			 = "открытый ключ Y";											
+			lblBase58			 = "База58";												
+			lblBitcoinAdress		 = "Адрес биткоина ";											
+			btnStyle			 = "стиль";
+			btnInfo				 = "Информация";												
+			btnDrucken			 = "печать";												
+			btnSpeichern			 = "сохранить";												
+			btnEnter			 = "ОК";												
+			btnPrivateKeyAusblenden	 = "Скрыть закрытый ключ";										
+			comboBoxPrivateKey[0]    = "гекса";														
+			comboBoxPrivateKey[1]    = "База58";												
+			comboBoxPrivateKey[2]    = "База58 сжата";											
+			comboBoxPrivateKey[3]    = "База64";												
+			farbe			 = "цвет";													
+			farbenAnpassen		 = "Настройка цветов";										
+			loadDefaultSettings 	 = "Загрузить настройки по умолчанию";								
+			lblFarben1		 = "задний план            передний план";
+			lblFarben2 = "Логотип и\nбиткоин-адрес\n\n\nГлавное\nокно и\nцвет ярлыка\n\n\nполе ввода\n\n\n\nБиткоин\nзакрытый ключ\n\n\nоткрытый ключ";
 		break;	
 		}
 
@@ -318,39 +318,39 @@ public class Language
 			+"   以及相关的比特币地址和公钥。\n"
 			+"   您必须输入64个随机的十六进制字符或生成它们。\n";	
 					
-			max = "最大密钥长度：  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140";						// Maximaler Schlüssel ist
-			F0  = "错了，关键不能零";																						// Fehler, der Schlüssel darf nicht 0 sein!
-			F2  = "二维码 错误";																							// QR-Bild Fehler
+			max = "最大密钥长度：  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140";		
+			F0  = "错了，关键不能零";							      // Fehler, der Schlüssel darf nicht 0 sein!
+			F2  = "二维码 错误";									// QR-Bild Fehler
 			F3  = "私钥格式无效";
 			
-			W2  = "警告！ 键的最大大小超过！";																				// Warnung! Die maximale Größe des Schlüssels ist überschritten!
-			W3  = "警告！ 钥匙太小，不安全！";                                                    							// Warnung!   Schlüssel zu klein, unsicher!
-			W4  = "请注意！ 密码太短了!";                      																// Warnung!   Passphrase zu kurz!
+			W2  = "警告！ 键的最大大小超过！";							   // Warnung! Die maximale Größe des Schlüssels ist überschritten!
+			W3  = "警告！ 钥匙太小，不安全！";                                                    			
+			W4  = "请注意！ 密码太短了!";                      						// Warnung!   Passphrase zu kurz!
 							  
-			lblPassphrase 			 = "密码";																			// Passphrase
-			lblGebenSieEinen 		 = "输入密码";																		// Geben Sie einen Text als Passphrase ein
-			lblWuerfelEingabe		 = "通过滚动骰子创建私钥";																// Privat-Schlüssel durch würfeln generieren
-			lblWuerfelzeichenEingeben = "100个字符，只允许1到6之间的数字！";               						            // 100 Würfelzeichen eingeben, es sind nur Ziffern zwischen 1 und 6 erlaubt !";
-			lblPrivateKeyIn			 = "输入私钥";																		// Private Key eingeben
-			lblPrivateKeyIn_1		 = "比特币私钥";																		// Bitcoin Private Key
-			lblPublicKeyX			 = "            公钥X";																// Public Key X
-			lblPublicKeyY			 = "            公钥Y";																// Public Key Y
-			lblBase58				 = "基地58";																	    	// Base58
-			lblBitcoinAdress		 = "比特币地址";																		// Bitcoin Adresse
-			btnStyle				 = "风格";
-			btnInfo					 = "И信息";																			// Info
-			btnDrucken				 = "打印";																			// Drucken
-			btnSpeichern			 = "保存";																			// Speichern
-			btnEnter				 = "输入";																			// Enter
-			btnPrivateKeyAusblenden	 = "隐藏私钥";																		// Private Key ausblenden
-			comboBoxPrivateKey[0]    = "十六进制";																		// Hexa
-			comboBoxPrivateKey[1]    = "基地58";																			// Base58
-			comboBoxPrivateKey[2]    = "基座58压缩";																		// Base58 Compressed
-			comboBoxPrivateKey[3]    = "基地64";																			// Base64
-			farbe					 = "颜色";																			// Farbe
-			farbenAnpassen			 = "自定义颜色";																		// Farben anpassen
+			lblPassphrase 			 = "密码";							// Passphrase
+			lblGebenSieEinen 		 = "输入密码";							// Geben Sie einen Text als Passphrase ein
+			lblWuerfelEingabe		 = "通过滚动骰子创建私钥";					// Privat-Schlüssel durch würfeln generieren
+			lblWuerfelzeichenEingeben = "100个字符，只允许1到6之间的数字！";              
+			lblPrivateKeyIn			 = "输入私钥";							// Private Key eingeben
+			lblPrivateKeyIn_1		 = "比特币私钥";							// Bitcoin Private Key
+			lblPublicKeyX			 = "            公钥X";						// Public Key X
+			lblPublicKeyY			 = "            公钥Y";						// Public Key Y
+			lblBase58			 = "基地58";							// Base58
+			lblBitcoinAdress		 = "比特币地址";							// Bitcoin Adresse
+			btnStyle			 = "风格";
+			btnInfo				 = "И信息";							// Info
+			btnDrucken			 = "打印";							// Drucken
+			btnSpeichern			 = "保存";							// Speichern
+			btnEnter			 = "输入";							// Enter
+			btnPrivateKeyAusblenden	 = "隐藏私钥";								// Private Key ausblenden
+			comboBoxPrivateKey[0]    = "十六进制";								// Hexa
+			comboBoxPrivateKey[1]    = "基地58";								// Base58
+			comboBoxPrivateKey[2]    = "基座58压缩";								// Base58 Compressed
+			comboBoxPrivateKey[3]    = "基地64";								// Base64
+			farbe			 = "颜色";								// Farbe
+			farbenAnpassen		 = "自定义颜色";								// Farben anpassen
 			loadDefaultSettings 	 = "加载默认设置";
-			lblFarben1				 = "     背景                                 前景";
+			lblFarben1		 = "     背景                                 前景";
 			lblFarben2               = "徽标和比特币地址\n\n\n\n主窗口和标签颜色\n\n\n\n输入字段\n\n\n\n\n比特币私钥\n\n\n\n公钥";
 		break;	
 		}				
