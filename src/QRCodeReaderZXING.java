@@ -31,7 +31,7 @@ public class QRCodeReaderZXING
 
 	public static BufferedImage writeQRCode(String data) 
 	{
-		int width  = 220, height = 220;
+		int width = 220, height = 220;
 		QRCodeWriter writer = new QRCodeWriter();
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		int white = 255 << 16 | 255 << 8 | 255;
@@ -60,7 +60,7 @@ public class QRCodeReaderZXING
 		image = dimg;
 		int width = image.getWidth();
 		int heigth = image.getHeight();
-		int[] 		   	   pixels = image.getRGB(0,0, width, heigth, null, 0, width);	
+		int[] 		   pixels = image.getRGB(0,0, width, heigth, null, 0, width);	
 		RGBLuminanceSource source = new RGBLuminanceSource(width, heigth, pixels);
 		BinaryBitmap 	   bitmap = new BinaryBitmap(new HybridBinarizer(source));
 		QRCodeReader       reader = new QRCodeReader(); 
