@@ -43,14 +43,14 @@ public class Save
 	public static void saveBufferedImage(BufferedImage img, String name) throws IOException
 	{
 		JFileChooser chooser = new JFileChooser();
-	    chooser.setSelectedFile(new File(name));
-	    chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-	    int button = chooser.showSaveDialog(null);
-	    File file = chooser.getSelectedFile();
+	    	chooser.setSelectedFile(new File(name));
+	    	chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+	    	int button = chooser.showSaveDialog(null);
+	    	File file = chooser.getSelectedFile();
 		if(button==0)
 		{
-	       FileOutputStream outputStream = new FileOutputStream(file);
-	       ImageIO.write(img, "png", outputStream);
+	       		FileOutputStream outputStream = new FileOutputStream(file);
+	       		ImageIO.write(img, "png", outputStream);
 		}
 	}
 }
