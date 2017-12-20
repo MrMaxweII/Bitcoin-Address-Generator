@@ -29,11 +29,11 @@ public class Calc
 		switch(getFormat(str))
 		{
 			case-1:  throw new KeyException(Language.F3);
-			case 0:  throw new KeyException(Language.F0);								// 0 = Null String
-			case 1:  return str;  											// 1 = Hexa       
-			case 2:  return Convert.base58_PrivateKey_to_HexPrivateKey(str);					// 2 = Base58
-			case 3:  return Convert.base58compressed_PrivateKey_to_HexPrivateKey(str);				// 3 = Base58 compressed              			
-			case 4:  return Convert.base64_PrivateKey_to_HexPrivateKey(str);  					// 4 = Base64            				
+			case 0:  throw new KeyException(Language.F0);							// 0 = Null String
+			case 1:  return str;  										// 1 = Hexa       
+			case 2:  return Convert.base58_PrivateKey_to_HexPrivateKey(str);				// 2 = Base58
+			case 3:  return Convert.base58compressed_PrivateKey_to_HexPrivateKey(str);			// 3 = Base58 compressed              			
+			case 4:  return Convert.base64_PrivateKey_to_HexPrivateKey(str);  				// 4 = Base64            				
 		}
 		return null;
 	}
@@ -43,7 +43,7 @@ public class Calc
 	public static String ConvertPrivKeyToBitcoinConformBase58(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 	   if(str.equals("")) return "";
-	   String msb = "80";                         										// VersionsNr.80
+	   String msb = "80";                         									// VersionsNr.80
 	   String h = getHashSHA256_from_HexString(msb+str);
 	          h = getHashSHA256_from_HexString(h);              																				
 	          h = h.substring(0,8);																												
@@ -55,26 +55,26 @@ public class Calc
    	public static String ConvertPrivKeyToBitcoinConformBase58Compressed(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
 	{
        	   if(str.equals("")) return "";
-   	   String msb = "80";                         										// VersionsNr. 80
-	   String com = "01";                         										// Compressed Bit  01
+   	   String msb = "80";                         									// VersionsNr. 80
+	   String com = "01";                         									// Compressed Bit  01
 	   String h = getHashSHA256_from_HexString(msb+str+com);
-	          h = getHashSHA256_from_HexString(h);               								// 2 x SHA256
+	          h = getHashSHA256_from_HexString(h);               							// 2 x SHA256
 	          h = h.substring(0,8);																					
 	  return Convert.hexStringToBase58(msb + str + com + h);        			
 	}
 
 	
 	
-// ---------------------------------------------- Bitcoin Adresse to Public Key  --------------------------------------------------------//		
+// ---------------------------------------------- Public Key to Bitcoin Adress  --------------------------------------------------------//		
 	
     public static String ConvertPublicKeyToBitcoinAdress(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException
     {
-      	  String h   = getHashSHA256_from_HexString(str);										// 1 x SHA256					
-	         h   = getHashRIPEMD160_from_HexString(h);									// 1 x RIPEMD160      
-	  String msb = "00";  													// VersionsNr. 00
+      	  String h   = getHashSHA256_from_HexString(str);								// 1 x SHA256					
+	         h   = getHashRIPEMD160_from_HexString(h);								// 1 x RIPEMD160      
+	  String msb = "00";  												// VersionsNr. 00
 	  String adr = msb + h;                                             																					
 	         h   = getHashSHA256_from_HexString(adr);					
-	         h   = getHashSHA256_from_HexString(h);										// 2 x SHA256
+	         h   = getHashSHA256_from_HexString(h);									// 2 x SHA256
 	         adr = adr +  h.substring(0,8);																													
 	  return Convert.hexStringToBase58(adr);																										
    }
@@ -83,9 +83,9 @@ public class Calc
 	
 	public static String wuerfelToHexString(String str)                  
 	{
-	  BigInteger mod = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141",16);		// Mod
+	  BigInteger mod = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141",16);	// Mod
 	  str = str.replaceAll("-","");								 																							
-	  byte[] b = Convert.hexStringToByteArray(str);										// convert in Byte Array
+	  byte[] b = Convert.hexStringToByteArray(str);									// convert in Byte Array
       for(int i=0;i<b.length;i++)     																														
       {	
         b[i] = (byte)(b[i] - 16);
