@@ -3,6 +3,10 @@ Generate Bitcoin private key and Bitcoin address
 
 
 
+![bitcoin adress generator](https://user-images.githubusercontent.com/34688939/34201546-1d9b754c-e575-11e7-9eff-99cb19cecdb7.png)
+
+
+
 ##### ------------------------------ DEUTSCH ------------------------------
 
 Der Bitcoin Adress Generator erstellt einen privat Schlüssel im Bitcoin Wallet Import Format WIF,           
@@ -17,8 +21,6 @@ https://java.com/de/download/
 Im Ordner "release" befindet sich die "Bitcoin_Adress_Generator_V2.1.jar" Datei.                        
 Diese können sie, wenn Java installiert ist einfach per Doppelklick Starten.
 
-
-![bitcoin adress generator](https://user-images.githubusercontent.com/34688939/34201546-1d9b754c-e575-11e7-9eff-99cb19cecdb7.png)
 
 
 #### Code kompilieren
