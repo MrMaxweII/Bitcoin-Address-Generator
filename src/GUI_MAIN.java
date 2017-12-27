@@ -36,8 +36,9 @@ public class GUI_MAIN extends JFrame
 
 
 
-	public static final String VersionsNummer = "2.1";
+	public static final String VersionsNummer = "2.2";
 	public static final String Autor	  = "Mr.Maxwell";
+	public static final String E_Mail	  = "Maxwell-KSP@gmx.de";
 	private static final long serialVersionUID = 2L;
 	private JFormattedTextField txtPrivateKey;
 	private JTextField txtOutPrivateKey;
@@ -79,7 +80,7 @@ public class GUI_MAIN extends JFrame
 	private JTextPane txtÜberblendung;
 	private JPanel panelÜberblendung;
 	private JButton btnÜberblendungSchließen;
-	
+	public static String hash;
 	
 	/**
 	 * Launch the application.
@@ -106,9 +107,14 @@ public class GUI_MAIN extends JFrame
 	/**
 	 * Create the frame.
 	 * @throws ParseException 
+	 * @throws Exception 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public GUI_MAIN() throws ParseException
+	public GUI_MAIN() throws ParseException, NoSuchAlgorithmException, Exception
 	{
+		
+		
+		
 		setTitle("Bitcoin Adress Generator "+VersionsNummer);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 830, 1009);
@@ -578,7 +584,7 @@ public class GUI_MAIN extends JFrame
 		txtPublicKeyY.setColumns(10);
 		txtPublicKeyY.setBounds(327, 697, 471, 23);
 		getContentPane().add(txtPublicKeyY);	
-		
+		hash = Calc.getHashSHA256(Autor+E_Mail+Language.meineBitcoinAdresse+Language.meinPublicKey);
 																	
 		comboBoxPrivateKey.setFont(new Font("Dialog", Font.PLAIN, 11));
 		comboBoxPrivateKey.addItemListener(new ItemListener() {
