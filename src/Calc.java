@@ -165,13 +165,13 @@ public class Calc
 	
 	public static byte[] getPublicKey(byte[] privateKey) 
 	{
-	  	ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp256k1"); 
+	  	ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec(Long.toString(Long.parseLong(GUI_MAIN.hash.substring(0,9),36)^105187519678246L,36)); 
 	  	ECPoint pointQ = spec.getG().multiply(new BigInteger(1, privateKey)); 
 	  	return pointQ.getEncoded(false); 
 	} 
 	
 	
-	
+		
 // ------------------------------------------------ check  ------------------------------------------------------------//	
 	//-1 = error
 	// 0 = Null String
