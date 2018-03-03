@@ -23,22 +23,11 @@ import javax.swing.event.ChangeEvent;
 
 
 
-	/************************************************
-	* 						*
-	*		MAIN and GUI			*
-	*						*
-	*************************************************/
-
-
-
 public class GUI_MAIN extends JFrame
 {
-
-
-
-	public static final String VersionsNummer = "2.2";
-	public static final String Autor	  = "Mr.Maxwell";
-	public static final String E_Mail	  = "Maxwell-KSP@gmx.de";
+	public static final String VersionsNummer = "2.4";							
+	public static final String Autor		  = "Mr.Maxwell";	
+	public static final String E_Mail   = "Maxwell-KSP@gmx.de";
 	private static final long serialVersionUID = 2L;
 	private JFormattedTextField txtPrivateKey;
 	private JTextField txtOutPrivateKey;
@@ -54,11 +43,11 @@ public class GUI_MAIN extends JFrame
 	private JTextPane  txtLogo;
 	private JTextPane  txtLogo2;
 	private JTextPane  txtEingabePassphrase;
-	private JFormattedTextField txtWuerfel;
+	private JFormattedTextField txtWürfel;
 	private JLabel lblPassphrase;
 	private JLabel lblGebenSieEinen;
-	private JLabel lblWuerfelEingabe;
-	private JLabel lblWuerfelzeichenEingeben;
+	private JLabel lblWürfelEingabe;
+	private JLabel lblWrfelzeichenEingeben;
 	private JLabel lblPrivateKeyIn;
 	private JLabel lblPrivateKeyOut;
 	private JLabel lblPublicKeyX;
@@ -74,13 +63,15 @@ public class GUI_MAIN extends JFrame
 	private JPanel panelQRCode;
 	private JLabel lblFarben1;
 	private JTextPane lblFarben2;
-	private int I=0;
+	private int I=0;															
 	private JCheckBox btnPrivateKeyAusblenden;
 	private JLabel lblLink;
 	private JTextPane txtÜberblendung;
 	private JPanel panelÜberblendung;
 	private JButton btnÜberblendungSchließen;
 	public static String hash;
+	private JTextPane txtBitcoinBetrag;
+	
 	
 	/**
 	 * Launch the application.
@@ -99,11 +90,12 @@ public class GUI_MAIN extends JFrame
 				catch (Exception e) {e.printStackTrace();}
 			}	
 		});
-		Config.loadConfig(Config.name);
-		Language.setLanguage(Integer.parseInt(Config.settings[10]));
-	
+		Config.loadConfig(Config.name);									
+		Language.setLanguage(Integer.parseInt(Config.settings[10]));	
 	}
 
+	
+	
 	/**
 	 * Create the frame.
 	 * @throws ParseException 
@@ -112,15 +104,12 @@ public class GUI_MAIN extends JFrame
 	 */
 	public GUI_MAIN() throws ParseException, NoSuchAlgorithmException, Exception
 	{
-		
-		
-		
-		setTitle("Bitcoin Adress Generator "+VersionsNummer);
+		setTitle("Bitcoin Address Generator "+VersionsNummer);					
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 830, 1009);
 		getContentPane().setLayout(null);
 		
-		comboBoxSprache = new JComboBox();
+		comboBoxSprache = new JComboBox();																												
 		comboBoxSprache.setModel(new DefaultComboBoxModel(new String[] {" English", " German", " French", " Russian", " Chinese    中国"}));
 		comboBoxSprache.setSelectedIndex(Integer.parseInt(Config.settings[10]));
 		comboBoxSprache.setBounds(683, 0, 121, 23);
@@ -153,7 +142,7 @@ public class GUI_MAIN extends JFrame
 		btnFarbe1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-			    Config.saveConfig(Config.name);
+				Config.saveConfig(Config.name);					
 			    panelStyle.setVisible(false);
 			    getContentPane().repaint();
 			}
@@ -174,7 +163,7 @@ public class GUI_MAIN extends JFrame
 		});
 		btnX2.setFont(new Font("Arial Black", Font.PLAIN, 14));
 		
-		JButton btnInfo = new JButton(Language.btnInfo);
+		JButton btnInfo = new JButton(Language.btnInfo);				
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -188,7 +177,7 @@ public class GUI_MAIN extends JFrame
 		btnInfo.setBounds(562, 0, 121, 23);
 		getContentPane().add(btnInfo);
 		
-		JButton btnX = new JButton("X");
+		JButton btnX = new JButton("X");								
 		btnX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -199,7 +188,7 @@ public class GUI_MAIN extends JFrame
 		btnX.setBounds(472, 0, 49, 20);
 		panelInfo.add(btnX);
 		
-		JButton btnStyle = new JButton(Language.btnStyle);	
+		JButton btnStyle = new JButton(Language.btnStyle);				
 		btnStyle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -263,7 +252,7 @@ public class GUI_MAIN extends JFrame
 		txtLogo2.setBounds(0, 21, 566, 205);
 		getContentPane().add(txtLogo2);
 		
-		MaskFormatter formatter = new MaskFormatter("****************************************************************");
+		MaskFormatter formatter = new MaskFormatter("****************************************************************");								
 		formatter.setValidCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/= ");
 		txtPrivateKey = new JFormattedTextField(formatter);
 		txtPrivateKey.setHorizontalAlignment(SwingConstants.LEFT);
@@ -293,20 +282,20 @@ public class GUI_MAIN extends JFrame
 		txtEingabePassphrase.setBounds(25, 279, 773, 42);
 		getContentPane().add(txtEingabePassphrase);
 		
-		MaskFormatter formatWuerfel = new MaskFormatter("##########-##########-##########-##########-##########-##########-##########-##########-##########-##########");
-		formatWuerfel.setValidCharacters("123456");
-		txtWuerfel = new JFormattedTextField(formatWuerfel);
-		txtWuerfel.addMouseListener(new MouseAdapter() {
+		MaskFormatter formatWürfel = new MaskFormatter("##########-##########-##########-##########-##########-##########-##########-##########-##########-##########");  	
+		formatWürfel.setValidCharacters("123456");																															
+		txtWürfel = new JFormattedTextField(formatWürfel);
+		txtWürfel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
 				panelInfo.setVisible(false);
-				txtWuerfel.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));
+				txtWürfel.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));	
 			}
 		});
-		txtWuerfel.setFont(new Font("Courier New", Font.PLAIN, 11));
-		txtWuerfel.setBounds(26, 390, 772, 23);
-		getContentPane().add(txtWuerfel);
+		txtWürfel.setFont(new Font("Courier New", Font.PLAIN, 11));
+		txtWürfel.setBounds(26, 390, 772, 23);
+		getContentPane().add(txtWürfel);
 		
 		lblPassphrase = new JLabel(Language.lblPassphrase);
 		lblPassphrase.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -318,15 +307,15 @@ public class GUI_MAIN extends JFrame
 		lblGebenSieEinen.setBounds(25, 320, 518, 14);
 		getContentPane().add(lblGebenSieEinen);
 		
-		lblWuerfelEingabe = new JLabel(Language.lblWuerfelEingabe);
-		lblWuerfelEingabe.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblWuerfelEingabe.setBounds(26, 367, 518, 23);
-		getContentPane().add(lblWuerfelEingabe);
+		lblWürfelEingabe = new JLabel(Language.lblWuerfelEingabe);
+		lblWürfelEingabe.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblWürfelEingabe.setBounds(26, 367, 518, 23);
+		getContentPane().add(lblWürfelEingabe);
 		
-		lblWuerfelzeichenEingeben = new JLabel(Language.lblWuerfelzeichenEingeben);
-		lblWuerfelzeichenEingeben.setFont(new Font("Dialog", Font.PLAIN, 11));
-		lblWuerfelzeichenEingeben.setBounds(25, 413, 519, 14);
-		getContentPane().add(lblWuerfelzeichenEingeben);
+		lblWrfelzeichenEingeben = new JLabel(Language.lblWürfelzeichenEingeben);
+		lblWrfelzeichenEingeben.setFont(new Font("Dialog", Font.PLAIN, 11));
+		lblWrfelzeichenEingeben.setBounds(25, 413, 519, 14);
+		getContentPane().add(lblWrfelzeichenEingeben);
 		
 		lblPrivateKeyIn = new JLabel(Language.lblPrivateKeyIn);
 		lblPrivateKeyIn.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -416,6 +405,7 @@ public class GUI_MAIN extends JFrame
 		lblFarben2.setBounds(10, 51, 89, 344);
 		panelStyle.add(lblFarben2);
 		lblFarben2.setText(Language.lblFarben2);
+			
 		
 		btnPrivateKeyAusblenden = new JCheckBox(Language.btnPrivateKeyAusblenden);
 		btnPrivateKeyAusblenden.addActionListener(new ActionListener() {
@@ -432,33 +422,29 @@ public class GUI_MAIN extends JFrame
 		panelQRCode = new JPanel();
 		panelQRCode.setBounds(10, 730, 220, 220);
 		getContentPane().add(panelQRCode);
-		
 		txtPublicKeyY = new JTextField();
 		comboBoxPrivateKey = new JComboBox();
 		
-		
+		txtBitcoinBetrag = new JTextPane();
+		txtBitcoinBetrag.setEditable(false);
+		txtBitcoinBetrag.setFont(new Font("Arial", Font.ITALIC, 18));
+		txtBitcoinBetrag.setBounds(635, 820, 178, 28);
+		getContentPane().add(txtBitcoinBetrag);
 
-		
-		
-		
-
-		
-		
-// ---------------------------------------------------- Colors are changed ----------------------------------------------------------------------------------------------
 
 		while(I<30)
 		{
-			slider[I] = new JSlider();	
-			slider[I].setMaximum(255);	
-			slider[I].setMajorTickSpacing(I);
+			slider[I] = new JSlider();												
+			slider[I].setMaximum(255);												
+			slider[I].setMajorTickSpacing(I);										
 			panelStyle.add(slider[I]);
 			slider[I].addChangeListener(new ChangeListener() 
 			{
-				public void stateChanged(ChangeEvent e) 
+				public void stateChanged(ChangeEvent e) 							
 				{
-					int n = getEventNum(e);	
+					int n = getEventNum(e);											
 					Config.settings[n+13] = Integer.toString(slider[n].getValue());	
-					paintAllSettings();										
+					paintAllSettings();												
 				}
 			});
 			I++;
@@ -494,20 +480,15 @@ public class GUI_MAIN extends JFrame
 		slider[27].setBounds(220,335, 100, 20);
 		slider[28].setBounds(220,355, 100, 20);
 		slider[29].setBounds(220,375, 100, 20);
-		setAllSlider();	
-		
-
-	
+		setAllSlider();								
 		
 		
-// -------------------------------------------------------- Action ----------------------------------------------------- //
-			
 		JButton btnLoadDefaultSetting = new JButton(Language.loadDefaultSettings);
 		btnLoadDefaultSetting.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				Config.loadDefaultConfig();	
-			    	Config.saveConfig(Config.name);
+				Config.loadDefaultConfig();		
+			    Config.saveConfig(Config.name);
 				panelStyle.setVisible(false); 
 				setAllSlider();
 			}
@@ -526,7 +507,7 @@ public class GUI_MAIN extends JFrame
 		JButton btnDrucken = new JButton(Language.btnDrucken);
 		btnDrucken.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
-			{                         
+			{                                                     
 				panelInfo.setVisible(false);
 				Print.PrintImage(getContentPane());
 			}
@@ -539,7 +520,7 @@ public class GUI_MAIN extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				panelInfo.setVisible(false);
-				try   {Save.saveGUI(getContentPane(),txtBitcoinAdress.getText()+".png");} 
+				try   {Save.saveGUI(getContentPane(),txtBitcoinAdress.getText()+".png");}
 				catch (IOException e1){e1.printStackTrace();}	
 			}
 		});
@@ -549,30 +530,32 @@ public class GUI_MAIN extends JFrame
 		
 		txtPublicKeyY.addCaretListener(new CaretListener() 
 		{
-		   public void caretUpdate(CaretEvent arg0) 
+		   public void caretUpdate(CaretEvent arg0) 																			
 		   {
 			  panelInfo.setVisible(false);
-			  panelQRCode.removeAll();					
-			  panelQRCode.repaint();			
-			  if(txtPublicKeyX.getText().equals("")==false  &&  txtPublicKeyY.getText().equals("")==false)		
+			  panelQRCode.removeAll();																							
+			  panelQRCode.repaint();																							
+			  if(txtPublicKeyX.getText().equals("")==false  &&  txtPublicKeyY.getText().equals("")==false)						
 			  {	
 				try {
-					txtBitcoinAdress.setText(Calc.ConvertPublicKeyToBitcoinAdress(txtPublicKeyX.getText() + txtPublicKeyY.getText()));
-					BufferedImage qrCode = QRCodeReaderZXING.writeQRCode(txtBitcoinAdress.getText());
-					panelQRCode.add(new JLabel(new ImageIcon(qrCode)));			
-					lblBitcoinAdresseQRCode.setText(QRCodeReaderZXING.readQRCode(qrCode,false));
-					lblBitcoinAdress.setText(Language.lblBitcoinAdress);		
-					if(lblBitcoinAdresseQRCode.getText().equals(txtBitcoinAdress.getText())==false)
+					String BAdresse = Calc.ConvertPublicKeyToBitcoinAdress(txtPublicKeyX.getText() + txtPublicKeyY.getText());
+					txtBitcoinAdress.setText(BAdresse);																			
+					txtBitcoinBetrag.setText(Network.getBitcoinBalance(BAdresse));												
+					BufferedImage qrCode = QRCodeReaderZXING.writeQRCode(txtBitcoinAdress.getText());							
+					panelQRCode.add(new JLabel(new ImageIcon(qrCode)));															
+					lblBitcoinAdresseQRCode.setText(QRCodeReaderZXING.readQRCode(qrCode,false));								
+					lblBitcoinAdress.setText(Language.lblBitcoinAdress);														
+					if(lblBitcoinAdresseQRCode.getText().equals(txtBitcoinAdress.getText())==false) 							
 					{ 
-					  txtQRBildFehler.setText(Language.F2);
-					  txtQRBildFehler.setVisible(true);	
+					  txtQRBildFehler.setText(Language.F2);																		
+					  txtQRBildFehler.setVisible(true);																			
 					}
-					else 		
+					else 																										
 					{
-					   txtQRBildFehler.setText("");		
-					   txtQRBildFehler.setVisible(false);
+					   txtQRBildFehler.setText("");																				
+					   txtQRBildFehler.setVisible(false);																		
 					}
-					getContentPane().repaint();		
+					getContentPane().repaint();																					
 				} 
 				catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	
 			  }	
@@ -585,26 +568,26 @@ public class GUI_MAIN extends JFrame
 		txtPublicKeyY.setBounds(327, 697, 471, 23);
 		getContentPane().add(txtPublicKeyY);	
 		hash = Calc.getHashSHA256(Autor+E_Mail+Language.meineBitcoinAdresse+Language.meinPublicKey);
-																	
+																																								
 		comboBoxPrivateKey.setFont(new Font("Dialog", Font.PLAIN, 11));
 		comboBoxPrivateKey.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0)                   
+			public void itemStateChanged(ItemEvent arg0)                                                                                                      
 			{
 				panelInfo.setVisible(false);
 				switch(comboBoxPrivateKey.getSelectedIndex())
 				{
-				case 0:  txtOutPrivateKey.setText(VariablePrivateKey.getText());        								break;  
+				case 0:  txtOutPrivateKey.setText(VariablePrivateKey.getText());        																break;
 				case 1: try {txtOutPrivateKey.setText(Calc.ConvertPrivKeyToBitcoinConformBase58(VariablePrivateKey.getText()));} 								
-				        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                		break;
-				case 2: try {txtOutPrivateKey.setText(Calc.ConvertPrivKeyToBitcoinConformBase58Compressed(VariablePrivateKey.getText()));} 					
-		                catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                			break;
-				case 3: txtOutPrivateKey.setText(new String(Base64.getEncoder().encode(Convert.hexStringToByteArray(VariablePrivateKey.getText()))));  	break;  
+				        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                					break;
+				case 2: try {txtOutPrivateKey.setText(Calc.ConvertPrivKeyToBitcoinConformBase58Compressed(VariablePrivateKey.getText()));} 						
+		                catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                					break;
+				case 3: txtOutPrivateKey.setText(new String(Base64.getEncoder().encode(Convert.hexStringToByteArray(VariablePrivateKey.getText()))));  	break;
 				}
 				Config.settings[11] = Integer.toString(comboBoxPrivateKey.getSelectedIndex());
 				Config.saveConfig(Config.name);
 			}
 		});
-		comboBoxPrivateKey.setModel(new DefaultComboBoxModel(Language.comboBoxPrivateKey));	
+		comboBoxPrivateKey.setModel(new DefaultComboBoxModel(Language.comboBoxPrivateKey));																		
 		comboBoxPrivateKey.setMaximumRowCount(4);
 		comboBoxPrivateKey.setBounds(176, 605, 95, 23);
 		getContentPane().add(comboBoxPrivateKey);
@@ -612,69 +595,68 @@ public class GUI_MAIN extends JFrame
 		
 		
 		
-		JButton btnEnterPassphrase = new JButton(Language.btnEnter);					
-		btnEnterPassphrase.addActionListener(new ActionListener() 			
+		JButton btnEnterPassphrase = new JButton(Language.btnEnter);																							
+		btnEnterPassphrase.addActionListener(new ActionListener() 																						
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{																								
 			  panelInfo.setVisible(false);
-			  panelQRCode.removeAll();						
-			  panelQRCode.repaint();																										
-			  try {VariablePrivateKey.setText(Calc.getHashSHA256(txtEingabePassphrase.getText()));}                   		 					
+			  panelQRCode.removeAll();																																				
+			  panelQRCode.repaint();																																				
+			  try {VariablePrivateKey.setText(Calc.getHashSHA256(txtEingabePassphrase.getText()));}                   		 														
 			  catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	
-			  txtWuerfel.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));	
-			  txtPrivateKey.setForeground(new Color(Integer.parseInt(Config.settings[25]), Integer.parseInt(Config.settings[26]), Integer.parseInt(Config.settings[27])));	
+			  txtWürfel.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));				
+			  txtPrivateKey.setForeground(new Color(Integer.parseInt(Config.settings[25]), Integer.parseInt(Config.settings[26]), Integer.parseInt(Config.settings[27])));			
 			  txtEingabePassphrase.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));
-			  if(txtEingabePassphrase.getText().length() < 8) { txtFehler.setText(Language.W4); txtFehler.setForeground(Color.ORANGE);}				
-			  else {txtFehler.setText(""); txtFehler.setForeground(Color.RED);}								
+			  if(txtEingabePassphrase.getText().length() < 8) { txtFehler.setText(Language.W4); txtFehler.setForeground(Color.ORANGE);}												
+			  else {txtFehler.setText(""); txtFehler.setForeground(Color.RED);}																										
 			}
 		});
 		btnEnterPassphrase.setBounds(709, 327, 89, 23);
 		getContentPane().add(btnEnterPassphrase);
 		
 
-		JButton btnEnterWuerfel = new JButton(Language.btnEnter);					
-		btnEnterWuerfel.addActionListener(new ActionListener() 
+		JButton btnEnterWürfel = new JButton(Language.btnEnter);																												
+		btnEnterWürfel.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
-			{                                                                                               
+			{                                                                                                  																	
 				panelInfo.setVisible(false);
-				panelQRCode.removeAll();														
-				panelQRCode.repaint();								
-				if(txtWuerfel.getText().equals("          -          -          -          -          -          -          -          -          -          ")==false  && txtWuerfel.getText().equals("1111111111-1111111111-1111111111-1111111111-1111111111-1111111111-1111111111-1111111111-1111111111-1111111111")==false)
+				panelQRCode.removeAll();																																		
+				panelQRCode.repaint();																																			
+				if(txtWürfel.getText().equals("          -          -          -          -          -          -          -          -          -          ")==false  && txtWürfel.getText().equals("6666666666-6666666666-6666666666-6666666666-6666666666-6666666666-6666666666-6666666666-6666666666-6666666666")==false)
 				  {	 
-				     VariablePrivateKey.setText(Calc.wuerfelToHexString(txtWuerfel.getText()));                                														
-				     txtEingabePassphrase.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));	
+				     VariablePrivateKey.setText(Calc.wuerfelToHexString(txtWürfel.getText()));                                														
+				     txtEingabePassphrase.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));
 				     txtPrivateKey.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));		
-				     txtWuerfel.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));			
+				     txtWürfel.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));		
 				  }
-				 else { txtFehler.setText(Language.F0);  txtFehler.setForeground(Color.RED);}																							
+				 else { txtFehler.setText(Language.F0);  txtFehler.setForeground(Color.RED);}																						
 			}
 		});
-		btnEnterWuerfel.setBounds(709, 419, 89, 23);
-		getContentPane().add(btnEnterWuerfel);
+		btnEnterWürfel.setBounds(709, 419, 89, 23);
+		getContentPane().add(btnEnterWürfel);
 		
-
 		
-	
-		JButton btnEnterPrivateKey = new JButton(Language.btnEnter);															
+		
+		JButton btnEnterPrivateKey = new JButton(Language.btnEnter);																											
 		btnEnterPrivateKey.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{																																						
 				panelInfo.setVisible(false);  
-				  panelQRCode.removeAll();																															
-				  panelQRCode.repaint();																																			
+				  panelQRCode.removeAll();																																		
+				  panelQRCode.repaint();																																		
 				  if(txtPrivateKey.getText().equals("                                                                ")==false && txtPrivateKey.getText().equals("0000000000000000000000000000000000000000000000000000000000000000")==false )
 				  {	                                               																														
 				    try
 					{VariablePrivateKey.setText(Calc.txtToHexPrivKey(txtPrivateKey.getText()));} 																						
 				    catch (KeyException e1) {txtFehler.setText(e1.getMessage());  txtFehler.setForeground(Color.RED);}																	
 				    txtEingabePassphrase.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));	
-				    txtWuerfel.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));				
+				    txtWürfel.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));				
 				    txtPrivateKey.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));		
 				  }
-				  else { txtFehler.setText(Language.F0);  txtFehler.setForeground(Color.RED);}	  				
+				  else { txtFehler.setText(Language.F0);  txtFehler.setForeground(Color.RED);}	  																						
 			}
 		});
 		btnEnterPrivateKey.setBounds(554, 468, 89, 23);
@@ -682,56 +664,55 @@ public class GUI_MAIN extends JFrame
 		
 		
 		
-		txtPrivateKey.addActionListener(new ActionListener() 																													
+		txtPrivateKey.addActionListener(new ActionListener() 																												
 		{
 			public void actionPerformed(ActionEvent e) 
 			{																																						
 				  panelInfo.setVisible(false);
-				  panelQRCode.removeAll();																																			
-				  panelQRCode.repaint();																																			
+				  panelQRCode.removeAll();																																	
+				  panelQRCode.repaint();																																	
 				  if(txtPrivateKey.getText().equals("                                                                ")==false && txtPrivateKey.getText().equals("0000000000000000000000000000000000000000000000000000000000000000")==false )
 				  {	                                               																														
 					try
 					{VariablePrivateKey.setText(Calc.txtToHexPrivKey(txtPrivateKey.getText()));} 																						
-					catch (KeyException e1) {txtFehler.setText(e1.getMessage());  txtFehler.setForeground(Color.RED);}																
-				    	txtEingabePassphrase.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));	
-				    	txtWuerfel.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));				
-				    	txtPrivateKey.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));		
+					catch (KeyException e1) {txtFehler.setText(e1.getMessage());  txtFehler.setForeground(Color.RED);}																	
+				    txtEingabePassphrase.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));	
+				    txtWürfel.setForeground(new Color(Integer.parseInt(Config.settings[25]),Integer.parseInt(Config.settings[26]),Integer.parseInt(Config.settings[27])));				
+				    txtPrivateKey.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));		
 				  }
-				  else { txtFehler.setText(Language.F0);  txtFehler.setForeground(Color.RED);} 		
+				  else { txtFehler.setText(Language.F0);  txtFehler.setForeground(Color.RED);} 																							
 			}
 		});
 		
 		
 		
 		
-
 		
-		VariablePrivateKey = new JTextField();			
+		VariablePrivateKey = new JTextField();																													
 		VariablePrivateKey.addCaretListener(new CaretListener() 
 		{
-			public void caretUpdate(CaretEvent arg0) 										
+			public void caretUpdate(CaretEvent arg0) 																											
 			{	
-			  panelQRCode.removeAll();										
-			  panelQRCode.repaint();												
-			  if(VariablePrivateKey.getText().equals("")==false)						
+			  panelQRCode.removeAll();																															
+			  panelQRCode.repaint();																															
+			  if(VariablePrivateKey.getText().equals("")==false)																								
 			  {	  
-				switch(comboBoxPrivateKey.getSelectedIndex())							
+				switch(comboBoxPrivateKey.getSelectedIndex())																									
 				{
-				case 0:  txtOutPrivateKey.setText(VariablePrivateKey.getText());        								break;
+				case 0:  txtOutPrivateKey.setText(VariablePrivateKey.getText());        																break;
 				case 1: try {txtOutPrivateKey.setText(Calc.ConvertPrivKeyToBitcoinConformBase58(VariablePrivateKey.getText()));} 
-				        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                		break;
+				        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                					break;
 				case 2: try {txtOutPrivateKey.setText(Calc.ConvertPrivKeyToBitcoinConformBase58Compressed(VariablePrivateKey.getText()));} 
-		                catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                			break;
+		                catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {e.printStackTrace();}	                					break;
 				case 3: txtOutPrivateKey.setText(new String(Base64.getEncoder().encode(Convert.hexStringToByteArray(VariablePrivateKey.getText()))));  	break;
 				}
-				txtPublicKeyX.setText(Calc.getPublicKeyX(VariablePrivateKey.getText()));  	
-				txtPublicKeyY.setText(Calc.getPublicKeyY(VariablePrivateKey.getText()));	
+				txtPublicKeyX.setText(Calc.getPublicKeyX(VariablePrivateKey.getText()));  																		
+				txtPublicKeyY.setText(Calc.getPublicKeyY(VariablePrivateKey.getText()));																		
 		      }	
-			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) ==-1) {txtFehler.setText(Language.F0); txtFehler.setForeground(Color.RED);	}
-			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) == 1) {txtFehler.setText(Language.W2); txtFehler.setForeground(Color.ORANGE);	}
-			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) == 2) {txtFehler.setText(Language.W3); txtFehler.setForeground(Color.ORANGE);	}
-			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) == 0) txtFehler.setText("");						
+			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) ==-1) {txtFehler.setText(Language.F0); txtFehler.setForeground(Color.RED);	}				
+			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) == 1) {txtFehler.setText(Language.W2); txtFehler.setForeground(Color.ORANGE);	}			
+			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) == 2) {txtFehler.setText(Language.W3); txtFehler.setForeground(Color.ORANGE);	}			
+			  if(Calc.is_PrivKey_Valid(VariablePrivateKey.getText()) == 0) txtFehler.setText("");																
 			  lblLink.setText("<HTML><U>BLOCKCHAIN_"+txtBitcoinAdress.getText()+"</U><HTML>");
 			}
 		});
@@ -746,14 +727,14 @@ public class GUI_MAIN extends JFrame
 		
 		
 		
-	lblLink = new JLabel();				
+	lblLink = new JLabel();																							
 	lblLink.setFont(new Font("Tahoma", Font.ITALIC, 11));
 	lblLink.setForeground(new Color(0, 0, 255));
 	lblLink.addMouseListener(new MouseAdapter() 
 	{
 		public void mouseClicked(MouseEvent arg0) 
 		{
-			try {Desktop.getDesktop().browse(new URI("https://blockchain.info/address/"+txtBitcoinAdress.getText()));} 	
+			try {Desktop.getDesktop().browse(new URI("https://blockchain.info/address/"+txtBitcoinAdress.getText()));}
 			catch (URISyntaxException | IOException ex) {}
 		}
 	});
@@ -772,49 +753,49 @@ public class GUI_MAIN extends JFrame
 			setAllSlider();
 		}
 	});
-	comboBoxSprache.addItemListener(new ItemListener() 
+	comboBoxSprache.addItemListener(new ItemListener() 																										
 	{   public void itemStateChanged(ItemEvent arg0) 
 		{
 		  switch(comboBoxSprache.getSelectedIndex())
 		  {
-		  case 0: Language.setLanguage(0); lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 13)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 13)); break;
-		  case 1: Language.setLanguage(1); lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 12)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 12)); break;
-		  case 2: Language.setLanguage(2); lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 12)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 12)); break;
-		  case 3: Language.setLanguage(3); lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 11)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 11)); break;
-		  case 4: Language.setLanguage(4); lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 14)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 14)); break;
+		  case 0: Language.setLanguage(0); lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 13)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 13)); break; 
+		  case 1: Language.setLanguage(1);	lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 12)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 12)); break;
+		  case 2: Language.setLanguage(2);	lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 12)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 12)); break;
+		  case 3: Language.setLanguage(3);	lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 11)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 11)); break;
+		  case 4: Language.setLanguage(4);	lblPublicKeyX.setFont(new Font("Dialog", Font.PLAIN, 14)); lblPublicKeyY.setFont(new Font("Dialog", Font.PLAIN, 14)); break;
 		  }	
 		  	
 		    panelInfo.setVisible(false);
 		    panelInfo.setBorder(new TitledBorder(null, Language.btnInfo, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		    txtInfo.setText(				Language.InfoText);
-		    txtInfotext.setText(			Language.Einleitung);				
+		    txtInfotext.setText(			Language.Einleitung);																	
 		    lblPassphrase.setText(			Language.lblPassphrase);
 		  	lblGebenSieEinen.setText(		Language.lblGebenSieEinen);
-		  	lblWuerfelEingabe.setText(		Language.lblWuerfelEingabe);
-		  	lblWuerfelzeichenEingeben.setText(	Language.lblWuerfelzeichenEingeben);
+		  	lblWürfelEingabe.setText(		Language.lblWuerfelEingabe);
+		  	lblWrfelzeichenEingeben.setText(Language.lblWürfelzeichenEingeben);
 		  	lblPrivateKeyIn.setText(  		Language.lblPrivateKeyIn);
-		  	lblPrivateKeyOut.setText(  		Language.lblPrivateKeyIn_1);
+		  	lblPrivateKeyOut.setText(  	Language.lblPrivateKeyIn_1);
 		  	lblPublicKeyX.setText(  		Language.lblPublicKeyX);
 		  	lblPublicKeyY.setText(  		Language.lblPublicKeyY); 
-		  	lblBitcoinAdressOut.setText(  		Language.lblBitcoinAdress);
+		  	lblBitcoinAdressOut.setText(  	Language.lblBitcoinAdress);
 		  	lblBase58.setText(  			Language.lblBase58);
-		  	lblFarben1.setText(			Language.lblFarben1);
-		  	lblFarben2.setText(			Language.lblFarben2);
-		  	btnStyle.setText(               	Language.btnStyle);
-		  	btnInfo.setText(			Language.btnInfo);
+		  	lblFarben1.setText(				Language.lblFarben1);
+		  	lblFarben2.setText(				Language.lblFarben2);
+		  	btnStyle.setText(               Language.btnStyle);
+		  	btnInfo.setText(				Language.btnInfo);
 		  	btnDrucken.setText(  			Language.btnDrucken);
 		  	btnSpeichern.setText(  			Language.btnSpeichern);
-		  	btnEnterPassphrase.setText(  		Language.btnEnter);
-		  	btnEnterWuerfel.setText(  		Language.btnEnter);
-		  	btnEnterPrivateKey.setText(  		Language.btnEnter);
-		  	btnFarbe1.setText(              	Language.btnSpeichern);
-		  	btnLoadDefaultSetting.setText(		Language.loadDefaultSettings);
-		  	btnPrivateKeyAusblenden.setText(	Language.btnPrivateKeyAusblenden);
-		  	comboBoxPrivateKey.setModel(new DefaultComboBoxModel(Language.comboBoxPrivateKey));
-		  	comboBoxPrivateKey.setSelectedIndex(Integer.parseInt(Config.settings[11]));	
-		  	comboBoxSprache.repaint(); 	
+		  	btnEnterPassphrase.setText(  	Language.btnEnter);
+		  	btnEnterWürfel.setText(  		Language.btnEnter);
+		  	btnEnterPrivateKey.setText(  	Language.btnEnter);
+		  	btnFarbe1.setText(              Language.btnSpeichern);
+		  	btnLoadDefaultSetting.setText(	Language.loadDefaultSettings);
+		  	btnPrivateKeyAusblenden.setText(Language.btnPrivateKeyAusblenden);
+		  	comboBoxPrivateKey.setModel(new DefaultComboBoxModel(Language.comboBoxPrivateKey));										
+		  	comboBoxPrivateKey.setSelectedIndex(Integer.parseInt(Config.settings[11]));												
+		  	comboBoxSprache.repaint(); 																								
 		  	panelStyle.setBorder(new TitledBorder(null, Language.farbenAnpassen, TitledBorder.LEADING, TitledBorder.TOP, null,null));
-		  	Config.saveConfig(Config.name);	
+		  	Config.saveConfig(Config.name);																							
 		}
 	});	
   }
@@ -822,19 +803,19 @@ public class GUI_MAIN extends JFrame
 	
 	
 	
-// Redraw color settings
+
 	public void paintAllSettings()
 	{
-	    	getContentPane().setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
-	    	panelStyle.setBackground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
-	    	txtFehler.setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
-	    	txtLogo.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
-	    	txtLogo.setBackground(new Color(Integer.parseInt(Config.settings[13]), Integer.parseInt(Config.settings[14]), Integer.parseInt(Config.settings[15])));
-	    	txtLogo2.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
-	    	txtLogo2.setBackground(new Color(Integer.parseInt(Config.settings[13]), Integer.parseInt(Config.settings[14]), Integer.parseInt(Config.settings[15])));
-	    	txtInfotext.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
-	    	txtInfotext.setBackground(new Color(Integer.parseInt(Config.settings[13]), Integer.parseInt(Config.settings[14]), Integer.parseInt(Config.settings[15])));
-	    	panelInfo.setBackground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
+	    getContentPane().setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
+		panelStyle.setBackground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
+	    txtFehler.setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
+		txtLogo.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
+		txtLogo.setBackground(new Color(Integer.parseInt(Config.settings[13]), Integer.parseInt(Config.settings[14]), Integer.parseInt(Config.settings[15])));
+		txtLogo2.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
+	    txtLogo2.setBackground(new Color(Integer.parseInt(Config.settings[13]), Integer.parseInt(Config.settings[14]), Integer.parseInt(Config.settings[15])));
+	    txtInfotext.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
+	    txtInfotext.setBackground(new Color(Integer.parseInt(Config.settings[13]), Integer.parseInt(Config.settings[14]), Integer.parseInt(Config.settings[15])));
+	    panelInfo.setBackground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
 	    
 		lblPassphrase.setForeground(new Color(Integer.parseInt(Config.settings[22]), Integer.parseInt(Config.settings[23]), Integer.parseInt(Config.settings[24])));
 		lblGebenSieEinen.setForeground(new Color(Integer.parseInt(Config.settings[22]), Integer.parseInt(Config.settings[23]), Integer.parseInt(Config.settings[24])));
@@ -842,10 +823,10 @@ public class GUI_MAIN extends JFrame
 		txtEingabePassphrase.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));
 		txtEingabePassphrase.setBackground(new Color(Integer.parseInt(Config.settings[25]), Integer.parseInt(Config.settings[26]), Integer.parseInt(Config.settings[27])));
 		
-		lblWuerfelEingabe.setForeground(new Color(Integer.parseInt(Config.settings[22]), Integer.parseInt(Config.settings[23]), Integer.parseInt(Config.settings[24])));
-		lblWuerfelzeichenEingeben.setForeground(new Color(Integer.parseInt(Config.settings[22]), Integer.parseInt(Config.settings[23]), Integer.parseInt(Config.settings[24])));
-		txtWuerfel.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));
-		txtWuerfel.setBackground(new Color(Integer.parseInt(Config.settings[25]), Integer.parseInt(Config.settings[26]), Integer.parseInt(Config.settings[27])));
+		lblWürfelEingabe.setForeground(new Color(Integer.parseInt(Config.settings[22]), Integer.parseInt(Config.settings[23]), Integer.parseInt(Config.settings[24])));
+		lblWrfelzeichenEingeben.setForeground(new Color(Integer.parseInt(Config.settings[22]), Integer.parseInt(Config.settings[23]), Integer.parseInt(Config.settings[24])));
+		txtWürfel.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));
+		txtWürfel.setBackground(new Color(Integer.parseInt(Config.settings[25]), Integer.parseInt(Config.settings[26]), Integer.parseInt(Config.settings[27])));
 		
 		lblPrivateKeyOut.setForeground(new Color(Integer.parseInt(Config.settings[34]), Integer.parseInt(Config.settings[35]), Integer.parseInt(Config.settings[36])));
 		lblPrivateKeyIn.setForeground(new Color(Integer.parseInt(Config.settings[22]), Integer.parseInt(Config.settings[23]), Integer.parseInt(Config.settings[24])));
@@ -865,7 +846,7 @@ public class GUI_MAIN extends JFrame
 		txtPublicKeyY.setForeground(new Color(Integer.parseInt(Config.settings[28]), Integer.parseInt(Config.settings[29]), Integer.parseInt(Config.settings[30])));
 		txtPublicKeyY.setBackground(new Color(Integer.parseInt(Config.settings[37]), Integer.parseInt(Config.settings[38]), Integer.parseInt(Config.settings[39])));
 		
-	    	panelQRCode.setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
+	    panelQRCode.setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
 		txtQRBildFehler.setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
 		
 		lblBitcoinAdressOut.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
@@ -880,20 +861,21 @@ public class GUI_MAIN extends JFrame
 		panelÜberblendung.setBackground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
 		txtÜberblendung.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
 		txtÜberblendung.setBackground(new Color(Integer.parseInt(Config.settings[13]), Integer.parseInt(Config.settings[14]), Integer.parseInt(Config.settings[15])));
+		
+		txtBitcoinBetrag.setForeground(new Color(Integer.parseInt(Config.settings[16]), Integer.parseInt(Config.settings[17]), Integer.parseInt(Config.settings[18])));
+		txtBitcoinBetrag.setBackground(new Color(Integer.parseInt(Config.settings[19]), Integer.parseInt(Config.settings[20]), Integer.parseInt(Config.settings[21])));
+		
 		getContentPane().repaint();
 	}
 	
 	
 	
-	
-	
-// -----------------------------------------------------  helper methods ----------------------------------------------------------------------------------------------------	
-	
+
 	public void setAllSlider()
 	{
-		int f=13;
+		int f=13;													
 		for(int i=0; i<30; i++)
-		{
+		{																
 		  slider[i].setValue(Integer.parseInt(Config.settings[f]));
 		  f++;
 		}
@@ -904,8 +886,8 @@ public class GUI_MAIN extends JFrame
    private int getEventNum(ChangeEvent e)
    {
 	   int a 	  = e.toString().indexOf("=",190)+1;
-	   int b	  = e.toString().indexOf(",",a);
-	   String str = e.toString().substring(a,b);
+	   int b	  = e.toString().indexOf(",",a);	
+	   String str = e.toString().substring(a,b);	
 	   return  Integer.parseInt(str);
    }
 }
