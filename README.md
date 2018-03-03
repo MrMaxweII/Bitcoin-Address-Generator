@@ -97,7 +97,7 @@ Wenn sie das Programm schließen, ohne vorher das Bild ausgedruckt oder gespeich
 sind alle eingegebenen Key´s unwiderruflich verloren!
 
 Unter der Registerkarte „Stil“ können sie alle möglichen Farbeinstellungen vornehmen.
-Alle Einstellungen des Programms, wie Sprachen, Stil, etc. werden in der Datei: BAGen.cfg gespeichert.
+Alle Einstellungen des Programms, wie Sprachen, Stil, etc. werden in der Datei: BAGenSettings.cfg gespeichert.
 
 
 #### Kontakt
