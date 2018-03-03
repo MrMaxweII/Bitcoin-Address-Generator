@@ -1,15 +1,15 @@
-# Bitcoin-Adress-Generator
+# Bitcoin-Address-Generator
 Generate Bitcoin private key and Bitcoin address
 
 
 
-![bitcoin adress generator](https://user-images.githubusercontent.com/34688939/34201546-1d9b754c-e575-11e7-9eff-99cb19cecdb7.png)
+![bitcoin address generator](https://user-images.githubusercontent.com/34688939/34201546-1d9b754c-e575-11e7-9eff-99cb19cecdb7.png)
 
 
 
 ##### ------------------------------ DEUTSCH ------------------------------
 
-Der Bitcoin Adress Generator erstellt einen privat Schlüssel im Bitcoin Wallet Import Format WIF,           
+Der Bitcoin Address Generator erstellt einen privat Schlüssel im Bitcoin Wallet Import Format WIF,           
 sowie die zugehörige Bitcoin-Adresse und den öffentlichen Schlüssel.            
 Eine grafische Benutzeroberfläche "GUI" wurde implementiert.                         
 Es kann eine Paper-Wallet mit QR-Code erstellt und ausgedruckt werden.  
@@ -18,7 +18,7 @@ Es kann eine Paper-Wallet mit QR-Code erstellt und ausgedruckt werden.
 https://java.com/de/download/
 
 #### Programm Starten
-Im Ordner "release" befindet sich die "Bitcoin_Adress_Generator_V2.1.jar" Datei.                        
+Im Ordner "release" befindet sich die "Bitcoin_Address_GeneratorV2_4.jar" Datei.                        
 Diese können sie, wenn Java installiert ist einfach per Doppelklick Starten.
 
 
@@ -49,6 +49,7 @@ Public Key und die Bitcoin Adresse erzeugt.
 
 2. Würfelzeichen:                                   
 Es können 100 Würfelzeichen in Base6 (also Zeichen zwischen 1 und 6) eingegeben werden.
+Dabei entspricht: 1=1, 2=2, 3=3, 4=4, 5=5, 6=0.
 
 3. Der Private Key kann aber auch direkt in allen üblichen Formaten eingegeben werden:
 Hexa, Base58, Base58 compressed und Base64.
@@ -61,6 +62,13 @@ Checksumme Prüfung ist implementiert.
 - der öffentliche Schlüssel wird in Hexa ausgegeben. (X und Y Koordinate)
 - Die Bitcoin Adresse wird in Base58 ausgegeben
 - Der QR-Code der Bitcoin Adresse wird angezeigt
+
+
+
+#### Ausgabe des Bitcoin Betrages
+- Bei aktiver Internetverbindung wird der Bitcoin Betrag der zu dem Key gehört angezeigt
+- Dazu wird der Betrag auf der Internetseite www.blockchain.com abgefragt
+- Ist keine Internetverbindung verfügbar, wird nichts angezeigt.
 
 
 
