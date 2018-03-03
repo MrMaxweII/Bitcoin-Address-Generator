@@ -1,6 +1,8 @@
 # Bitcoin-Address-Generator
 Generate Bitcoin private key and Bitcoin address
 
+Hash SHA-256  "Bitcoin_Address_GeneratorV2_4.jar"   =   f138511a3e9a8018c1a760ba949ac5a48fa1af695bdb355156e171fd261d40a4
+
 
 
 ![bitcoin address generator](https://user-images.githubusercontent.com/34688939/36938090-c547b32e-1f1c-11e8-8542-38839e44b81a.png)
