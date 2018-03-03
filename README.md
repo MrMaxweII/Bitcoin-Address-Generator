@@ -3,8 +3,7 @@ Generate Bitcoin private key and Bitcoin address
 
 
 
-![bitcoin address generator](https://user-images.githubusercontent.com/34688939/34201546-1d9b754c-e575-11e7-9eff-99cb19cecdb7.png)
-
+![bitcoin address generator](https://user-images.githubusercontent.com/34688939/36937466-e2373562-1f13-11e8-867c-ebeb1492ebee.png)
 
 
 ##### ------------------------------ DEUTSCH ------------------------------
