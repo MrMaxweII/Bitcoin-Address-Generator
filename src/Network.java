@@ -12,16 +12,16 @@ public class Network
 
 public static String getBitcoinBalance(String BitcoinAddress)
 {
-		try 
-		{
-			String[] str = getURLString("https://blockchain.info/de/balance?active="+BitcoinAddress);
-			int posA = str[1].indexOf("final_balance");
-			int posB = str[1].indexOf(",");
-			double b = Double.parseDouble(str[1].substring(posA+16,posB));
-			double betrag = b/100000000.0;
-			return String.format("%13.8f", betrag)+" BTC"; 	
-		} 
-		catch (Exception e) {return "";}
+	try 
+	{
+		String[] str = getURLString("https://blockchain.info/de/balance?active="+BitcoinAddress);
+		int posA = str[1].indexOf("final_balance");
+		int posB = str[1].indexOf(",");
+		double b = Double.parseDouble(str[1].substring(posA+16,posB));
+		double betrag = b/100000000.0;
+		return String.format("%13.8f", betrag)+" BTC"; 	
+	} 
+	catch (Exception e) {return "";}
 }
 	
 	
@@ -46,7 +46,5 @@ static String[] getURLString(String urlName)
 	catch (java.net.SocketTimeoutException e) {  return null;} 
 	catch (java.io.IOException e) { return null;}	 
 }
-
-
 
 }
