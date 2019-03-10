@@ -6,13 +6,13 @@ import org.json.JSONObject;
 
 
 
-  /************************************************************************
-   *                                    									*
-   *    Schnittstelle mit Webseiten                  						*
-   *    Hier können Webseiten geslesen werden             					*
-   *    oder mit ihnen kommuniziert werden                					*
-   *                                    									*
-   ************************************************************************/
+  /**********************************************************************
+   *                                    				*
+   *    Schnittstelle mit Webseiten                  			*
+   *    Hier können Webseiten geslesen werden             		*
+   *    oder mit ihnen kommuniziert werden                		*
+   *                                    				*
+   **********************************************************************/
 public class Network 
 {
 
@@ -25,18 +25,18 @@ public class Network
 public static String getBitcoinBalance(String BitcoinAddress)
 {
 	try {		
-		String[] url = getURLString(httpString+BitcoinAddress);								// Die Webseite wird als String-Array in "url" gespeichert		
+		String[] url = getURLString(httpString+BitcoinAddress);			// Die Webseite wird als String-Array in "url" gespeichert		
 		String jon = "";	
-		for(int i=0;i<url.length;i++){jon = jon + url[i];} 									// Verbindet das String-Array zu einem String, zur JSON-Verarbeitung
-		JSONObject op  = new JSONObject(jon); 												// op enthält nun das JSON Object
-		JSONObject x = op.getJSONObject(op.getNames(op)[0]);								// Verschachteltes "x" JSON Object im OP Object (Alle weiteren Inhalte sind im "x" Object)	
-		Double	final_balance 	= x.getDouble("final_balance");								// Die Balance wird aus dem JSON Objekt geparst
+		for(int i=0;i<url.length;i++){jon = jon + url[i];} 			// Verbindet das String-Array zu einem String, zur JSON-Verarbeitung
+		JSONObject op  = new JSONObject(jon); 					// op enthält nun das JSON Object
+		JSONObject x = op.getJSONObject(op.getNames(op)[0]);			// Verschachteltes "x" JSON Object im OP Object (Alle weiteren Inhalte sind im "x" Object)	
+		Double	final_balance 	= x.getDouble("final_balance");			// Die Balance wird aus dem JSON Objekt geparst
 		//int	n_tx			= x.getInt("n_tx");
 		//int	total_received	= x.getInt("total_received");
-		double betrag = final_balance/100000000.0;											// Die Balance im Bitoin-Format wird umgewandelt
+		double betrag = final_balance/100000000.0;				// Die Balance im Bitoin-Format wird umgewandelt
 		return String.format("%13.8f", betrag)+" BTC"; 	
 		}
-		catch (Exception e) {return "";}													// Im Fehlerfall (Wenn keine Verbindung zustande kommt) wird nichts ausgegeben. Fehler wird ignoriert.
+		catch (Exception e) {return "";}					// Im Fehlerfall (Wenn keine Verbindung zustande kommt) wird nichts ausgegeben. Fehler wird ignoriert.
 }
 	
 	
@@ -52,7 +52,7 @@ static String[] getURLString(String urlName)
 		URL url = new URL(urlName);
 		URLConnection con= url.openConnection();
 		con.setConnectTimeout(2000);							// Time Out der Verbindung
-		con.setReadTimeout(2000);								// Time Out für das Lesen
+		con.setReadTimeout(2000);							// Time Out für das Lesen
 		BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String[] feld = new String[2000000];
 		int i=0;
@@ -65,37 +65,4 @@ static String[] getURLString(String urlName)
 	catch (java.net.SocketTimeoutException e) {  return null;} 
 	catch (java.io.IOException e) { return null;}	 
 }
-
-
-
-
-
-
-
-
-
-//alt und fehlerhaft, nicht mehr verwenden!	
-//Gibt den Bitcoin Betrag von Blockchain.info zurück
-//public static String getBitcoinBalance(String BitcoinAddress)
-//{
-//	String httpString = "https://blockchain.info/de/balance?active=";
-//	
-//		try 
-//		{
-//			String[] str = getURLString(httpString+BitcoinAddress);
-//			int posA = str[1].indexOf("final_balance");
-//			int posB = str[1].indexOf(",");
-//			double b = Double.parseDouble(str[1].substring(posA+16,posB));
-//			double betrag = b/100000000.0;
-//			return String.format("%13.8f", betrag)+" BTC"; 	
-//		} 
-//		//catch (Exception e) {return "";}
-//		catch (Exception e) {e.printStackTrace(); return "verbindungsfehler";}
-//}
-
-
-
-
-
-
 }
