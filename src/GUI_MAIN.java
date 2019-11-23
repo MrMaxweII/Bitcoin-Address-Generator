@@ -26,10 +26,10 @@ import javax.swing.event.ChangeEvent;
 
 public class GUI_MAIN extends JFrame
 {
-	public static final String VersionsNummer = "2.7";							
-	public static final String Autor		  = "Mr.Maxwell";	
-	public static final String E_Mail   = "Maxwell-KSP@gmx.de";
-	private static final long serialVersionUID = 2L;
+	public static final String VersionsNummer 	= "2.7";							
+	public static final String Autor		= "Mr.Maxwell";	
+	public static final String E_Mail   		= "Maxwell-KSP@gmx.de";
+	private static final long serialVersionUID 	= 2L;
 	private JFormattedTextField txtPrivateKey;
 	private JTextField txtOutPrivateKey;
 	private JTextField txtPublicKeyX;
@@ -217,11 +217,7 @@ public class GUI_MAIN extends JFrame
 		txtInfotext.setBounds(10, 158, 566, 68);
 		panel.add(txtInfotext);
 		
-		
-		
-		
-
-		
+			
 		
 		panelÜberblendung = new JPanel();
 		panelÜberblendung.setBorder(new TitledBorder(null, "private", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -860,13 +856,7 @@ public class GUI_MAIN extends JFrame
 		  	panelStyle.setBorder(new TitledBorder(null, Language.farbenAnpassen, TitledBorder.LEADING, TitledBorder.TOP, null,null));
 		  	Config.saveConfig(Config.name);																															// Config wird gespeichert
 		}
-	});	
-		
-
-		
-	
-	
-	
+	});		
   }
 	
 	
@@ -948,15 +938,15 @@ public class GUI_MAIN extends JFrame
 	
 	
 // läd alle Positionen der Slider	
-	public void setAllSlider()
-	{
-		int f=13;															// Start Index Farbcode
-		for(int i=0; i<30; i++)
-		{																
-		  slider[i].setValue(Integer.parseInt(Config.settings[f]));
-		  f++;
-		}
+public void setAllSlider()
+{
+	int f=13;															// Start Index Farbcode
+	for(int i=0; i<30; i++)
+	{																
+	  slider[i].setValue(Integer.parseInt(Config.settings[f]));
+	  f++;
 	}
+}
 	
 	
 	
