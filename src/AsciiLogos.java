@@ -84,6 +84,47 @@ public static String BitcoinText =""
 
 
 
+public static String TestNet ="\n"+
+
+"           TTTTTTTTTTTTTTTTTTTTTTT                                              tttt               NNNNNNNN        NNNNNNNN                              tttt          \r\n" + 
+"           T:::::::::::::::::::::T                                           ttt:::t               N:::::::N       N::::::N                           ttt:::t          \r\n" + 
+"           T:::::::::::::::::::::T                                           t:::::t               N::::::::N      N::::::N                           t:::::t          \r\n" + 
+"           T:::::TT:::::::TT:::::T                                           t:::::t               N:::::::::N     N::::::N                           t:::::t          \r\n" + 
+"           TTTTTT  T:::::T  TTTTTT    eeeeeeeeeeee        ssssssssss   ttttttt:::::ttttttt         N::::::::::N    N::::::N     eeeeeeeeeeee    ttttttt:::::ttttttt    \r\n" + 
+"                   T:::::T          ee::::::::::::ee    ss::::::::::s  t:::::::::::::::::t         N:::::::::::N   N::::::N   ee::::::::::::ee  t:::::::::::::::::t    \r\n" + 
+"                   T:::::T         e::::::eeeee:::::eess:::::::::::::s t:::::::::::::::::t         N:::::::N::::N  N::::::N  e::::::eeeee:::::eet:::::::::::::::::t    \r\n" + 
+"                   T:::::T        e::::::e     e:::::es::::::ssss:::::stttttt:::::::tttttt         N::::::N N::::N N::::::N e::::::e     e:::::etttttt:::::::tttttt    \r\n" + 
+"                   T:::::T        e:::::::eeeee::::::e s:::::s  ssssss       t:::::t               N::::::N  N::::N:::::::N e:::::::eeeee::::::e      t:::::t          \r\n" + 
+"                   T:::::T        e:::::::::::::::::e    s::::::s            t:::::t               N::::::N   N:::::::::::N e:::::::::::::::::e       t:::::t          \r\n" + 
+"                   T:::::T        e::::::eeeeeeeeeee        s::::::s         t:::::t               N::::::N    N::::::::::N e::::::eeeeeeeeeee        t:::::t          \r\n" + 
+"                   T:::::T        e:::::::e           ssssss   s:::::s       t:::::t    tttttt     N::::::N     N:::::::::N e:::::::e                 t:::::t    tttttt\r\n" + 
+"                 TT:::::::TT      e::::::::e          s:::::ssss::::::s      t::::::tttt:::::t     N::::::N      N::::::::N e::::::::e                t::::::tttt:::::t\r\n" + 
+"                 T:::::::::T       e::::::::eeeeeeee  s::::::::::::::s       tt::::::::::::::t     N::::::N       N:::::::N  e::::::::eeeeeeee        tt::::::::::::::t\r\n" + 
+"                 T:::::::::T        ee:::::::::::::e   s:::::::::::ss          tt:::::::::::tt     N::::::N        N::::::N   ee:::::::::::::e          tt:::::::::::tt\r\n" + 
+"                 TTTTTTTTTTT          eeeeeeeeeeeeee    sssssssssss              ttttttttttt       NNNNNNNN         NNNNNNN     eeeeeeeeeeeeee            ttttttttttt \n"
++""
++"\n                 /.\\          ||`    ||`                              .|'''''|                                         ||                  "
++"\n                // \\\\         ||     ||                               || .                                             ||                 "
++"\n               //...\\\\    .|''|| .|''||  '||''| .|''|, ['''' [''''    || |''|| .|''|, `||''|,  .|''|, '||''|  '''|.  ''||''  .|''|, '||''|"
++"\n              //     \\\\   ||  || ||  ||   ||    ||..||  ''']  ''']    ||    || ||..||  ||  ||  ||..||  ||    .|''||    ||    ||  ||  ||   "
++"\n            .//       \\\\. `|..||.`|..||. .||.   `|...  +++*  +++*     `|....|' `|...  .||  ||. `|...  .||.   `|..||.   `|..' `|..|' .||.  ";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 public static String Private = ""          
 +"\n\n\n\n\n\n\n"
