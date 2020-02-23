@@ -52,11 +52,11 @@ public static double getValue(String coinAddress, String coinParameterSymbol)
 	{
 		switch(coinParameterSymbol) 
 	      { 
-	          case "BTC"   	:  {return getJSON("https://blockchain.info/de/balance?active="+ coinAddress)						.getJSONObject(coinAddress).getDouble("final_balance");}  
-	          case "BTC-T" 	:  {return getJSON("https://api.blockchair.com/bitcoin/testnet/dashboards/address/"+coinAddress)	.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
-	          case "BCH" 	:  {return getJSON("https://api.blockchair.com/bitcoin-cash/dashboards/address/"+coinAddress)		.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
-	          case "LTC" 	:  {return getJSON("https://api.blockchair.com/litecoin/dashboards/address/"+coinAddress)			.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
-	          case "BSV" 	:  {return getJSON("https://api.blockchair.com/bitcoin-sv/dashboards/address/"+coinAddress)			.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");} 
+	          case "BTC"  : {return getJSON("https://api.blockchair.com/bitcoin/dashboards/address/"+ coinAddress)		.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");} 
+	          case "BTC-T": {return getJSON("https://api.blockchair.com/bitcoin/testnet/dashboards/address/"+coinAddress).getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
+	          case "BCH"  : {return getJSON("https://api.blockchair.com/bitcoin-cash/dashboards/address/"+coinAddress)	.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
+	          case "LTC"  : {return getJSON("https://api.blockchair.com/litecoin/dashboards/address/"+coinAddress)		.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
+	          case "BSV"  : {return getJSON("https://api.blockchair.com/bitcoin-sv/dashboards/address/"+coinAddress)	.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");} 
 	      } 
 		}
 	catch(Exception e) {}
