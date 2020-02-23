@@ -82,7 +82,7 @@ public static String readQRCode(BufferedImage image, boolean rotate)
 	try 
 	{
 		Result result = reader.decode(bitmap);
-	    return result.getText();
+	    	return result.getText();
 	} 
 	catch (NotFoundException e) 
 	{
