@@ -6,7 +6,7 @@ Hash SHA-256  "Bitcoin_Address_GeneratorV2_7.jar"   =   3d36a12fad01fc84e850456a
 
 
 
-![bitcoin address generator](https://user-images.githubusercontent.com/34688939/36938090-c547b32e-1f1c-11e8-8542-38839e44b81a.png)
+![CoinAddressGenV3](https://user-images.githubusercontent.com/34688939/75117189-a18dba00-566f-11ea-9ff1-2c1db29ded1a.png)
 
 
 ##### ------------------------------ DEUTSCH ------------------------------
