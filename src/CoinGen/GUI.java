@@ -41,10 +41,10 @@ import java.awt.Insets;
 
 public class GUI extends JFrame 
 {
-	public static final String		progName		= "Coin Address Generator";
-	public static final String		version 		= "V3.0.0";
-	public static final String		autor 			= "Mr. Maxwell";
-	public static final String		eMail			= "Maxwell-KSP@gmx.de";
+	public static final String		progName	= "Coin Address Generator";
+	public static final String		version 	= "V3.0.0";
+	public static final String		autor 		= "Mr. Maxwell";
+	public static final String		eMail		= "Maxwell-KSP@gmx.de";
 	public static final String		myBitcoinAddr 	= "12zeCvN7zbAi3JDQhC8tU3DBm35kDEUNiB";	
 	public static GUI 			frame;
 	public static Color 			color1 		= new Color(255, 247, 230);
