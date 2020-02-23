@@ -3,9 +3,9 @@ package CoinGen;
 
 
 /***************************************************************************************************************
-*	Version 1.3    						Autor: Mr. Maxwell   						vom 21.02.2020				*
-*	Nicht statische Klasse die eine Coin-Adresse erstellt.														*
-*	Diese Klasse ist für mehrere Coins verwendbar. Mit dem Präfix Argument wird der jeweilige Coin angegeben.	*
+*	Version 1.3    			Autor: Mr. Maxwell   			vom 21.02.2020			*
+*	Nicht statische Klasse die eine Coin-Adresse erstellt.							*
+*	Diese Klasse ist für mehrere Coins verwendbar. Mit dem Präfix Argument wird der jeweilige Coin angegeben.*
 ****************************************************************************************************************/
 
 
@@ -32,7 +32,7 @@ public BitcoinAddr(byte[] hash160, byte[] pref_pubKey)
 
 
 
-/**	Dem Konstruktor wird die BitcoinAdresse als Base58 String übergeben.	
+/**	Dem Konstruktor wird die BitcoinAdresse als Base58 String übergeben.
 	@param addr Base58 String der Bitcoin-Adresse		
 	@param pref_pubKey Das Präfix aus den CoinParametern für die Bitcoin Adresse  **/
 public BitcoinAddr(String addr, byte[] pref_pubKey) throws IllegalArgumentException
@@ -42,7 +42,7 @@ public BitcoinAddr(String addr, byte[] pref_pubKey) throws IllegalArgumentExcept
 	if(address.substring(0,2).equals(Convert.byteArrayToHexString(pref_pubKey)))
 	{
 		String m = address.substring(0,42);
-		String h   = Calc.getHashSHA256_from_HexString(Calc.getHashSHA256_from_HexString(m));	// 2 x SHA256				
+		String h   = Calc.getHashSHA256_from_HexString(Calc.getHashSHA256_from_HexString(m));
 		h=h.substring(0, 8);
 		if(h.equals(address.substring(42, 50))) hash160 =  Convert.hexStringToByteArray(address.substring(2,42));
 		else throw new IllegalArgumentException("Error in \"BitcoinAddr\" : False Address-Hash!"); 
@@ -66,7 +66,7 @@ public byte[] getHash160()
 
 /**	@return Gibt die Bitcoin-Adresse als Base58 String im WIF-Format zurück  (compressed wird selbst erkannt)**/
 public String getBase58Address()
-{																												
+{	
 	String prefix = Convert.byteArrayToHexString(pref_Pub);
 	String h160   = Convert.byteArrayToHexString(hash160);
 	String addr   = prefix+h160;
