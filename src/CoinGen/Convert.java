@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 
 /************************************************************************************************************
-*	Version 1.5    Autor: Mr. Maxwell   	vom 09.01.2020		decodeMAGIC() wurde hinzugefügt				*
-*	Hier werden verschiedene Konvertierungen vorgenommen.													*
-*																											*
+*	Version 1.5    Autor: Mr. Maxwell   	vom 09.01.2020		decodeMAGIC() wurde hinzugefügt		*
+*	Hier werden verschiedene Konvertierungen vorgenommen.							*
+*														*
 ************************************************************************************************************/
 
 
