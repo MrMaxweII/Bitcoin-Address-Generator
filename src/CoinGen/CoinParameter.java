@@ -4,15 +4,15 @@ import java.util.Arrays;
 
 
 /***********************************************************************************************************
-*																											*
-*	V1.4 	Autor: Mr. Maxwell		Bip44 und Bech32 hinzugefügt					vom 15.02.2020			*
-*	Klasse die die Coin-Prameter mit dem  MAGIC Wert verwaltet,	der das Netzwerk repräsentiert.				*
+*														*
+*	V1.4 	Autor: Mr. Maxwell		Bip44 und Bech32 hinzugefügt		vom 15.02.2020		*
+*	Klasse die die Coin-Prameter mit dem  MAGIC Wert verwaltet,	der das Netzwerk repräsentiert.		*
 *	Alle MAGIC-Werte gibt es hier: 	https://github.com/dan-da/CoinParameter/blob/master/coinnetworking.md	*
-*	Diese Classe Gehört zur BTClib3001 und muss algemein und kompatibel gehalten werden!					*
-*	Achtung, alle Methodenaufrufe sind sehr resourcenfressend, 												*
-*	weil die ganze Liste aller Coins durchsucht wird. nicht in Schleifen verwenden!							*
-* 	Beispiel: 		CoinParameter c = CoinParameter.getFromSymbol("BTC"); 									*
-*					String str = c.name;																	*
+*	Diese Classe Gehört zur BTClib3001 und muss algemein und kompatibel gehalten werden!			*
+*	Achtung, alle Methodenaufrufe sind sehr resourcenfressend, 						*
+*	weil die ganze Liste aller Coins durchsucht wird. nicht in Schleifen verwenden!				*
+* 	Beispiel: 		CoinParameter c = CoinParameter.getFromSymbol("BTC"); 				*
+*					String str = c.name;							*
 ************************************************************************************************************/
 
 
@@ -37,18 +37,18 @@ public class CoinParameter
 // Konstruktor
 private CoinParameter(String symbol, String name, String p2pPort, String rpcPort, String dnsSeed, String magic, String genesisBlockHash, String pref_PrivKey, String pref_PubKey, String pref_P2SH, String bip44, String bech32)
 {
-											this.symbol           =	 symbol;
-											this.name             =	 name;
-	if(p2pPort.equals("")==false)			this.p2pPort          =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(p2pPort)));
-	if(rpcPort.equals("")==false)			this.rpcPort          =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(rpcPort)));
-	if(dnsSeed.equals("")==false)			this.dnsSeed          =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(dnsSeed)));
-	if(magic.equals("")==false)				this.magic            =	 Convert.hexStringToByteArray(magic);
+						this.symbol           =	 symbol;
+						this.name             =	 name;
+	if(p2pPort.equals("")==false)		this.p2pPort          =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(p2pPort)));
+	if(rpcPort.equals("")==false)		this.rpcPort          =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(rpcPort)));
+	if(dnsSeed.equals("")==false)		this.dnsSeed          =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(dnsSeed)));
+	if(magic.equals("")==false)		this.magic            =	 Convert.hexStringToByteArray(magic);
 	if(genesisBlockHash.equals("")==false)	this.genesisBlockHash =	 Convert.hexStringToByteArray(genesisBlockHash);
-	if(pref_PrivKey.equals("")==false)		this.pref_PrivKey     =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(pref_PrivKey)));
-	if(pref_PubKey.equals("")==false)		this.pref_PubKey      =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(pref_PubKey)));
-	if(pref_P2SH.equals("")==false)			this.pref_P2SH        =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(pref_P2SH)));	
-	if(bip44.equals("")==false)				this.bip44        	  =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(bip44)));
-											this.bech32        	  =	 bech32;	
+	if(pref_PrivKey.equals("")==false)	this.pref_PrivKey     =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(pref_PrivKey)));
+	if(pref_PubKey.equals("")==false)	this.pref_PubKey      =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(pref_PubKey)));
+	if(pref_P2SH.equals("")==false)		this.pref_P2SH        =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(pref_P2SH)));	
+	if(bip44.equals("")==false)		this.bip44            =	 Convert.hexStringToByteArray_oddLength(Integer.toHexString(Integer.valueOf(bip44)));
+						this.bech32           =	 bech32;	
 }
 	
 	
@@ -89,7 +89,7 @@ public static CoinParameter getFromName(String name)
 public static CoinParameter getFromMagic(byte[] magic) 
 {
 	set();
-	if(magic==null) 	{throw new IllegalArgumentException("MAGIC Bytes Error! NULL was entered!");}
+	if(magic==null)     {throw new IllegalArgumentException("MAGIC Bytes Error! NULL was entered!");}
 	if(magic.length!=4) {throw new IllegalArgumentException("MAGIC Bytes Error! MAGIC value does not contain exactly 4 bytes!");}	
 	for(int i=0; i<coinParameter.length; i++)
 	{
