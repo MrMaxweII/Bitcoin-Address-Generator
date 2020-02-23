@@ -9,9 +9,9 @@ import org.json.JSONObject;
 
 
 /***********************************************************************************
-*	Version 0.1    			Autor: Mr. Maxwell					vom 18.02.2020 		*
-*	Kommunikation mit Webseiten														*
-*	Statische Klasse mit verschiedenen Methoden  									*
+*	Version 0.1    		Autor: Mr. Maxwell		vom 18.02.2020 		*
+*	Kommunikation mit Webseiten							*
+*	Statische Klasse mit verschiedenen Methoden  					*
 ************************************************************************************/
 
 
@@ -43,9 +43,9 @@ public static String getLink(String coinAddress, String coinParameterSymbol)
 
 
 /**	Gibt das Guthaben einer Coin-Adresse aus dem Web zurück
-@param coinAddress  Die Coin-Adresse als String
-@param coinParameterSymbol Es wird das Symbol aus der CoinParameter-Klasse übergeben um den jeweiligen Coin auszuwählen (z.B. "BTC" für Bitcoin)
-@return Gibt den aktuellen Betrag des entsprechenden Coin als double zurück.  **/
+	@param coinAddress  Die Coin-Adresse als String
+	@param coinParameterSymbol Es wird das Symbol aus der CoinParameter-Klasse übergeben um den jeweiligen Coin auszuwählen (z.B. "BTC" für Bitcoin)
+	@return Gibt den aktuellen Betrag des entsprechenden Coin als double zurück.  **/
 public static double getValue(String coinAddress, String coinParameterSymbol) 
 {
 	try
@@ -53,7 +53,7 @@ public static double getValue(String coinAddress, String coinParameterSymbol)
 		switch(coinParameterSymbol) 
 	      { 
 	          case "BTC"  : {return getJSON("https://api.blockchair.com/bitcoin/dashboards/address/"+ coinAddress)		.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");} 
-	          case "BTC-T": {return getJSON("https://api.blockchair.com/bitcoin/testnet/dashboards/address/"+coinAddress).getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
+	          case "BTC-T": {return getJSON("https://api.blockchair.com/bitcoin/testnet/dashboards/address/"+coinAddress)	.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
 	          case "BCH"  : {return getJSON("https://api.blockchair.com/bitcoin-cash/dashboards/address/"+coinAddress)	.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
 	          case "LTC"  : {return getJSON("https://api.blockchair.com/litecoin/dashboards/address/"+coinAddress)		.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
 	          case "BSV"  : {return getJSON("https://api.blockchair.com/bitcoin-sv/dashboards/address/"+coinAddress)	.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");} 
