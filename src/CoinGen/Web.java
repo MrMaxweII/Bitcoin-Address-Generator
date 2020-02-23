@@ -28,8 +28,8 @@ public static String getLink(String coinAddress, String coinParameterSymbol)
 {
       switch(coinParameterSymbol) 
       { 
-          case "BTC"   	: return "https://www.blockchain.com/btc/address/" 			+ coinAddress;  
-          case "BTC-T" 	: return "https://live.blockcypher.com/btc-testnet/address/"+ coinAddress;
+          case "BTC"   	: return "https://www.blockchain.com/btc/address/" 		+ coinAddress;  
+          case "BTC-T" 	: return "https://live.blockcypher.com/btc-testnet/address/"	+ coinAddress;
           case "BCH" 	: return "https://blockchair.com/bitcoin-cash/address/" 	+ coinAddress;
           case "BCH-T" 	: return "https://explorer.bitcoin.com/tbch/address/" 		+ coinAddress;
           case "LTC" 	: return "https://blockchair.com/litecoin/address/" 		+ coinAddress;
