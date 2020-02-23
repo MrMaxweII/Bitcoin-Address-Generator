@@ -63,10 +63,10 @@ public static void go()
 private static void calcFromPrivKey(String priv) throws Exception
 {
 	CoinParameter cp = CoinParameter.getFromSymbol((String) GUI.comboBox_coin.getSelectedItem());
-	PrvKey p 		= new PrvKey(priv,cp.pref_PrivKey);
+	PrvKey p 	= new PrvKey(priv,cp.pref_PrivKey);
 	String prvHex 	= Convert.byteArrayToHexString(p.getHexPrivKey());
 	String prvWIF 	= p.getBase58PrivKey(GUI.unCompressed.isSelected()==false);
-	String pub 		= Calc.getPublicKey(prvHex, GUI.unCompressed.isSelected()==false);
+	String pub 	= Calc.getPublicKey(prvHex, GUI.unCompressed.isSelected()==false);
 	String h160 	= Calc.getHashRIPEMD160_from_HexString(Calc.getHashSHA256_from_HexString(pub));
 	String addr;
 	if(GUI.bech32.isSelected())
@@ -77,7 +77,7 @@ private static void calcFromPrivKey(String priv) throws Exception
 	{
 		BitcoinAddr address = new BitcoinAddr(Convert.hexStringToByteArray(h160) , cp.pref_PubKey);		
 		if(GUI.p2sh.isSelected()) 	addr = address.getP2SHAddress(cp.pref_P2SH);
-		else 						addr = address.getBase58Address();		
+		else 				addr = address.getBase58Address();		
 	}	
 	String link = Web.getLinkHTML(addr,cp.symbol);
 	Double	final_balance 	=  Web.getValue(addr, cp.symbol);			
