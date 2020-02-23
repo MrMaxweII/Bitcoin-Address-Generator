@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 
 /***************************************************************************************************  
- *   Läd und speichert die ConfigAddressGen.json Datei.												*
+ *   Läd und speichert die ConfigAddressGen.json Datei.							*
  *   Wenn die Datei nicht vorhanden ist, wird sie beim Programmende automatisch gespeichert.		*
  *   Diese Datei beinhaltet alles Einstellungen und Zustände im Programm, außer die Eingabe Felder!	*
  ***************************************************************************************************/
@@ -23,8 +23,8 @@ import org.json.JSONObject;
 public class Config 
 {
 	
-final static String fileName = "ConfigAddressGen.json";												// Name der Configurations Datei für diese. Programm
-final static String dateiID  = "ecab3c3cd7470bd5c43566a59b793fdeb820e73aa426b3e86cebe56020488349";  // Die dateiID dient zur Identifizierung dieser json Datei.
+final static String fileName = "ConfigAddressGen.json";							// Name der Configurations Datei für diese. Programm
+final static String dateiID  = "ecab3c3cd7470bd5c43566a59b793fdeb820e73aa426b3e86cebe56020488349";  	// Die dateiID dient zur Identifizierung dieser json Datei.
 	
 
 
