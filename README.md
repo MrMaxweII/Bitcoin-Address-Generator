@@ -11,16 +11,15 @@ Hash SHA-256  "CoinAddressGeneratorV3.jar"   =   c79c634113ff2aefe1a9af949269009
 
 ##### ------------------------------ DEUTSCH ------------------------------
 
-Der Bitcoin Address Generator erstellt einen privat Schlüssel im Bitcoin Wallet Import Format WIF,           
-sowie die zugehörige Bitcoin-Adresse und den öffentlichen Schlüssel.            
-Eine grafische Benutzeroberfläche "GUI" wurde implementiert.                         
+Der Coin-AddressGenerator erstellt einen privat Schlüssel im Bitcoin Wallet Import Format WIF,           
+sowie die zugehörige Coin-Adresse und den öffentlichen Schlüssel.                                     
 Es kann eine Paper-Wallet mit QR-Code erstellt und ausgedruckt werden.  
     
 #### Dies ist eine Java Anwendung, sie müssen also Java installieren!
 https://java.com/de/download/
 
 #### Programm Starten
-Im Ordner "release" befindet sich die "Bitcoin_Address_GeneratorV2_4.jar" Datei.                        
+Im Ordner "release" befindet sich die "Coin_Address_Generator.jar" Datei.                        
 Diese können sie, wenn Java installiert ist einfach per Doppelklick Starten.
 
 
@@ -34,10 +33,10 @@ Alle benötigten Bibliotheken, sind bereits im Projekt enthalten (im lib Ordner)
 
 
 
-#### Multilanguage 
-Derzeit sind 5 Sprachen implementiert:
-Englisch, Deutsch,  Französisch, Russisch, Chinesisch.      
-Erweiterung von weiteren Sprachen sind leicht möglich.
+#### Multicoin 
+Es steht eine große Liste an Coins zur Auswahl die importiert werden können.
+Möglicherweise funktionieren aber einige Coins nicht ordnungsgemäß, da die Coin-Parameter-Liste schnell veraltet ist und nicht aktuell gehalten werden kann.
+Es liegt in der eigenen Verantwortung eines jeden Benutzers, die Korrektheit der erstellten Keys zu prüfen! Die Benutzung dieser Software geschieht auf eigene Verantwortung!
 
 
 
@@ -60,16 +59,16 @@ Checksumme Prüfung ist implementiert.
 
 
 #### Ausgabe
-- Die Ausgabe des Private Key´s erfolgt in allen üblichen Formaten: Hexa, Base58, Base58 compressed, Base64
-- der öffentliche Schlüssel wird in Hexa ausgegeben. (X und Y Koordinate)
-- Die Bitcoin Adresse wird in Base58 ausgegeben
-- Der QR-Code der Bitcoin Adresse wird angezeigt
+- Das Format der erzeugten Keys und Adressen kann unter "Settings" eingestellt werden
+- der öffentliche Schlüssel wird in Hexa ausgegeben 
+- Die Coin Adresse kann in WIF-uncompressed, WIF-compressed, P2SH und Bech32 ausgegeben werden
+- Der QR-Code des Private Keys und der Coin-Adresse wird angezeigt
 
 
 
-#### Ausgabe des Bitcoin Betrages
-- Bei aktiver Internetverbindung wird der Bitcoin Betrag der zu dem Key gehört angezeigt
-- Dazu wird der Betrag auf der Internetseite www.blockchain.com abgefragt
+#### Ausgabe des Coin Betrages
+- Bei aktiver Internetverbindung wird der Coin Betrag der zu dem Key gehört angezeigt
+- Dazu wird der Betrag auf einer geeigneten Internetseite abgefragt
 - Ist keine Internetverbindung verfügbar, wird nichts angezeigt.
 
 
@@ -83,22 +82,7 @@ Damit wird verhindert, dass ein falscher QR-Code angezeigt werden könnte.
 
 #### Paper Wallet erstellen.
 Die Oberfläche des Programms kann als Bild ausgedruckt oder gespeichert werden. 
-Es gibt auch die Möglichkeit den Private-Key zu verdecken. 
-Aber Achtung! Wird der Private Key verdeckt und das Bild ausgedruckt oder gespeichert, 
-kann daraus später der Private Key nie wieder herstellt werden. 
-Sie müssen den Private Key in dem Fall dann gesondert speichern.
-Wenn sie nicht sicher sind, verdecken sie den Private Key lieber nicht!
 
-
-
-#### Dieses Programm ist keine Desktop Wallet!
-Das Speichern der Wallet mit samt Private Key ist aus Sicherheitsgründen nicht vorgesehen.
-Sie können nur die Oberfläche mit allen Key´s als Bild abspeichern oder ausdrucken.
-Wenn sie das Programm schließen, ohne vorher das Bild ausgedruckt oder gespeichert zu haben, 
-sind alle eingegebenen Key´s unwiderruflich verloren!
-
-Unter der Registerkarte „Stil“ können sie alle möglichen Farbeinstellungen vornehmen.
-Alle Einstellungen des Programms, wie Sprachen, Stil, etc. werden in der Datei: BAGenSettings.cfg gespeichert.
 
 
 #### Kontakt
@@ -110,8 +94,6 @@ freue ich mich über jede Mail: Maxwell-KSP@gmx.de
 Wenn Ihnen der Bitcoin Adress Generator gefällt, würde ich mich über eine Spende sehr freuen: 
 #### 12zeCvN7zbAi3JDQhC8tU3DBm35kDEUNiB 
    
-
-
 
 
 #### Haftungsausschluss
@@ -126,9 +108,6 @@ ABER NICHT BESCHRÄNKT AUF, BESCHAFFUNG VON ERSATZGÜTERN ODER DIENSTLEISTUNGEN;
 VERLUST VON VERWENDUNG, DATEN ODER GEWINNEN; ODER GESCHÄFTSUNTERBRECHUNG) JEDOCH AUFGRUND DER HAFTUNGSFREISTELLUNG, 
 AUCH IM VERTRAG, AUSSCHLIESSLICHER HAFTUNG ODER TATSACHE (EINSCHLIESSLICH FAHRLÄSSIGKEIT ODER ANDERWEITIG), 
 DIE SICH AUS DER NUTZUNG DIESER SOFTWARE ERGEBEN, SELBST WENN SIE AUF DIE MÖGLICHKEIT SOLCHER SCHÄDEN BERATEN WIRD.
-
-
-
 
 
 
