@@ -58,7 +58,7 @@ public static double getValue(String coinAddress, String coinParameterSymbol)
 	          case "LTC"  : {return getJSON("https://api.blockchair.com/litecoin/dashboards/address/"+coinAddress)		.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");}
 	          case "BSV"  : {return getJSON("https://api.blockchair.com/bitcoin-sv/dashboards/address/"+coinAddress)	.getJSONObject("data").getJSONObject(coinAddress).getJSONObject("address").getDouble("balance");} 
 	      } 
-		}
+	}
 	catch(Exception e) {}
 	return -1;
 }
