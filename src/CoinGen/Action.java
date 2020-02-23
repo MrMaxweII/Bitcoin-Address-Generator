@@ -10,9 +10,9 @@ import javax.swing.SwingConstants;
 
 
 /***********************************************************************************
-*	Hauptprogramm des CoinAddressGenerators	V3      		Autor: Mr. Maxwell   	*
-*	Hier wird die Berechnung aller Ausgaben durchgeführt,							* 
-*	sobalt es eine Änderung der Eingabe gegeben hat,								*
+*	Hauptprogramm des CoinAddressGenerators	V3      	Autor: Mr. Maxwell   	*
+*	Hier wird die Berechnung aller Ausgaben durchgeführt,				* 
+*	sobalt es eine Änderung der Eingabe gegeben hat,				*
 ************************************************************************************/
 
 
