@@ -6,9 +6,9 @@ import java.util.Objects;
 
 
 /*******************************************************************************************************
-* 	Diese statische Klasse Codiert eine Hash160-Adresse zu einer Bech32-Adresse mit "bc" beginnent  	*
-* 	Achtung: Der Hash160 muss aus einem comprimierten Public-Key stammen! (2 oder 3 am Anfang)			*
-* 	Zum Testen:		https://slowli.github.io/bech32-buffer/												*
+* 	Diese statische Klasse Codiert eine Hash160-Adresse zu einer Bech32-Adresse mit "bc" beginnent  *
+* 	Achtung: Der Hash160 muss aus einem comprimierten Public-Key stammen! (2 oder 3 am Anfang)	*
+* 	Zum Testen:		https://slowli.github.io/bech32-buffer/					*
 *******************************************************************************************************/
 
 
@@ -30,7 +30,7 @@ public static String segwitToBech32(String bech32Prefix, int version, byte[] has
 {
 	Objects.requireNonNull(bech32Prefix);
 	Objects.requireNonNull(hash160);
-	if(version < 0 || version > 16) 				throw new IllegalArgumentException("Invalid witness version");
+	if(version < 0 || version > 16) 		throw new IllegalArgumentException("Invalid witness version");
 	if(hash160.length < 2 || hash160.length > 40)	throw new IllegalArgumentException("Invalid witness data length");
 	ByteArrayOutputStream data = new ByteArrayOutputStream();  
 	assert(version >>> 5) == 0;
@@ -73,7 +73,7 @@ private static String bitGroupsToBech32(String bech32Prefix, byte[] data)
 	char[] human = bech32Prefix.toCharArray();
 	checkHumanReadablePart(human);
 	for(byte b : data) {if ((b >>> 5) != 0)		throw new IllegalArgumentException("Expected 5-bit groups");}
-	if(human.length + 1 + data.length + 6 > 90) throw new IllegalArgumentException("Output too long");	
+	if(human.length + 1 + data.length + 6 > 90) 	throw new IllegalArgumentException("Output too long");	
 	int checksum;
 	try 
 	{
@@ -98,10 +98,10 @@ private static String bitGroupsToBech32(String bech32Prefix, byte[] data)
 private static void checkHumanReadablePart(char[] s) 
 {
 	int n = s.length;
-	if(n<1 || n>83) 			throw new IllegalArgumentException("Invalid length of human-readable part string");
+	if(n<1 || n>83) 		throw new IllegalArgumentException("Invalid length of human-readable part string");
 	for(char c : s) 
 	{ 
-		if(c<33 || c>126) 		throw new IllegalArgumentException("Invalid character in human-readable part string");
+		if(c<33 || c>126) 	throw new IllegalArgumentException("Invalid character in human-readable part string");
 		if('A'<=c && c<='Z')	throw new IllegalArgumentException("Human-readable part string must be lowercase");
 	}
 }
