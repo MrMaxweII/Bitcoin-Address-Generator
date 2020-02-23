@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 
 
 /***********************************************************************************
-*	Diese Klasse ist Teil der GUI des CoinAddressGenerators							*
+*	Diese Klasse ist Teil der GUI des CoinAddressGenerators				*
 *	Erzeugt das List-Fenster, in dem Coins hinzugefügt oder entfernt werden können.	*
 ***********************************************************************************/
 
@@ -37,7 +37,7 @@ class GUI_CoinList extends JFrame
 		{
 			int size = GUI.comboBox_coin.getItemCount();
 			strList = new String[size];				
-			for (int i = 0; i < size; i++)  strList[i] = (String) GUI.comboBox_coin.getItemAt(i);				
+			for (int i = 0; i < size; i++)  strList[i] = (String) GUI.comboBox_coin.getItemAt(i);
 		}
 		else
 		{
