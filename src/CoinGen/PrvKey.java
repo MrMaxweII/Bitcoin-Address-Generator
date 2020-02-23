@@ -148,12 +148,12 @@ private byte[] txtToHexPrivKey(String str) throws IllegalArgumentException
 	int format = getFormat(str);	
 	switch(format)
 	{
-		case-1: 	throw new IllegalArgumentException("Error in \"PrvKey\": false format");	//-1 = Fehler kein richtiges Format erkannt
-		case 0:     throw new IllegalArgumentException("Error in \"PrvKey\": Null-String");		// 0 = Null String
-		case 16:  	return Convert.hexStringToByteArray(str);  					// 16 = Hexa
-		case 58:  	return base58_PrivateKey_to_HexPrivateKey(str);					// 58 = Base58
-		case 6:     return Convert.hexStringToByteArray(base6_PrivateKey_to_HexPrivateKey(str));  	// 6 = Base6 
-		default:	break;
+		case-1:  throw new IllegalArgumentException("Error in \"PrvKey\": false format");	//-1 = Fehler kein richtiges Format erkannt
+		case 0:  throw new IllegalArgumentException("Error in \"PrvKey\": Null-String");	// 0 = Null String
+		case 16: return Convert.hexStringToByteArray(str);  					// 16 = Hexa
+		case 58: return base58_PrivateKey_to_HexPrivateKey(str);				// 58 = Base58
+		case 6:  return Convert.hexStringToByteArray(base6_PrivateKey_to_HexPrivateKey(str));  	// 6 = Base6 
+		default: break;
 	}
 	return null;
 }
