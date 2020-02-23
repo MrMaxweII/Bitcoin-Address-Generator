@@ -2,7 +2,7 @@
 
 https://github.com/MrMaxweII/Bitcoin-Address-Generator/raw/master/release/CoinAddressGeneratorV3.jar
 
-Hash SHA-256  "Bitcoin_Address_GeneratorV2_7.jar"   =   3d36a12fad01fc84e850456adf707e31d9e881220ba23351c2e438a4de173105
+Hash SHA-256  "Bitcoin_Address_GeneratorV2_7.jar"   =   c79c634113ff2aefe1a9af94926900949b0e430c7ea225e10ef0fa0ccfda17ec
 
 
 
