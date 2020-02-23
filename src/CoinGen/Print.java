@@ -52,13 +52,12 @@ class PrintObject implements Printable
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int seiten) throws PrinterException 
 	{
-		if (seiten > 0) return NO_SUCH_PAGE;													
+		if (seiten > 0) return NO_SUCH_PAGE;
 		try 
 		{
-			BufferedImage img = paintComponent(Print.print);									
-			Graphics2D g2 = (Graphics2D) graphics;												
+			BufferedImage img = paintComponent(Print.print);
+			Graphics2D g2 = (Graphics2D) graphics;	
 			g2.drawImage(img, Print.x, Print.y,Print.width,Print.height, null);
-			//g2.drawImage(img, 120, 160,Print.gui.getWidth()-400,Print.gui.getHeight()-470, null);
 		}
 		catch (Exception e) {return NO_SUCH_PAGE;}
 		return PAGE_EXISTS;
@@ -67,8 +66,8 @@ class PrintObject implements Printable
 	private static BufferedImage paintComponent(Component c)
 	{
 		BufferedImage img = new BufferedImage(c.getWidth(), c.getHeight(), BufferedImage.TYPE_INT_RGB); 
-		Graphics2D g = img.createGraphics();															
-		c.paintAll(g);																					
+		Graphics2D g = img.createGraphics();
+		c.paintAll(g);
 		g.dispose();
 		return img;
 	}	
