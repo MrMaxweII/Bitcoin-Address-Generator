@@ -20,7 +20,8 @@ https://java.com/de/download/
 
 #### Programm Starten
 Im Ordner "release" befindet sich die "Coin_Address_Generator.jar" Datei.                        
-Diese können sie, wenn Java installiert ist einfach per Doppelklick Starten.
+Diese können sie unter Windows, wenn Java installiert ist einfach per Doppelklick Starten.
+Unter Linux geben sie in die Konsole ein: java -jar CoinAddressGeneratorV3.1.0.jar
 
 
 
