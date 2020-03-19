@@ -84,7 +84,7 @@ Damit wird verhindert, dass ein falscher QR-Code angezeigt werden könnte.
 #### Wallet speichern und öffnen
 
 Es kann eine verschlüsselte Wallet mit beliebig vielen Schlüsseln gespeichert werden.
-Dazu muss ein starkes Password eingegeben werden.
+Dazu muss ein starkes Passwort eingegeben werden.
 Zur erhöhen Sicherheit wird mit AES und mit Twofish hintereinander verschlüsselt.
 Zusätzlich enthält die Verschlüsselung einen gewissen Bruteforce Schutz, der die Laufzeit mit Hilfe eines Scrypt-Hash verlängert.
 
