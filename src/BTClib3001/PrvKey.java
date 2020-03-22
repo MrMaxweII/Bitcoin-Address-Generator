@@ -7,13 +7,13 @@ import java.util.Base64;
 
 
 /*******************************************************************************************************
-*	Version 2.3    						Autor: Mr. Maxwell   						vom 13.02.2020		*
-*	Nicht statische Klasse die ein Private-Key Object erstellt.	Für verschiedene Cois ausgelegt.		*
-*	Es sind mehrere Konstrukor´s implementiert die den Private Key aus diversen Formaten erkennen.		*
-*	Dem Konstruktor müssen zusätzlich die CoinParameter des jeweiligen Coin´s übergeben werden.			*
-*	Siehe CoinParameter Class																			*
-*	Hier werden keine Bitcoin Adressen etc. generiert!													*
-*	Info: https://en.bitcoin.it/wiki/Address															*
+*	Version 2.3    		Autor: Mr. Maxwell   				vom 13.02.2020		*
+*	Nicht statische Klasse die ein Private-Key Object erstellt.	Für verschiedene Cois ausgelegt.*
+*	Es sind mehrere Konstrukor´s implementiert die den Private Key aus diversen Formaten erkennen.	*
+*	Dem Konstruktor müssen zusätzlich die CoinParameter des jeweiligen Coin´s übergeben werden.	*
+*	Siehe CoinParameter Class									*
+*	Hier werden keine Bitcoin Adressen etc. generiert!						*
+*	Info: https://en.bitcoin.it/wiki/Address							*
 ********************************************************************************************************/
 
 
@@ -21,9 +21,9 @@ import java.util.Base64;
 public class PrvKey 
 {
 		
-	private byte[] 	prvKey;					// Der Priv.Key als 32Byte-Array 								
-	private byte[] 	pref_PrivKey;			// Das Prefix Private-Key aus den Coin-Parametern zur Identifizierung des jeweiligen Coin Private-Key´s. Siehe CoinParameter Klasse
-	private int 	compressed = 0;			// gibt an, ob der Private-Key in "compressed" Format übergeben wurde:   0 = ohne Format Angabe,  1 = compressed,   2 = uncompressed 
+	private byte[] 	prvKey;			// Der Priv.Key als 32Byte-Array 								
+	private byte[] 	pref_PrivKey;		// Das Prefix Private-Key aus den Coin-Parametern zur Identifizierung des jeweiligen Coin Private-Key´s. Siehe CoinParameter Klasse
+	private int 	compressed = 0;		// gibt an, ob der Private-Key in "compressed" Format übergeben wurde:   0 = ohne Format Angabe,  1 = compressed,   2 = uncompressed 
 	
 	
 	
@@ -112,7 +112,7 @@ public String getBase58PrivKey(boolean compressed)
 	String str = Convert.byteArrayToHexString(prvKey);
 	String privKey = prefix + str + com;	
 	String hash = Calc.getHashSHA256_from_HexString(Calc.getHashSHA256_from_HexString(privKey));
- 	hash = hash.substring(0,8);																					
+ 	hash = hash.substring(0,8);							
 	return Convert.hexStringToBase58(privKey + hash); 
 }
 
@@ -131,7 +131,7 @@ private void checkHexPrivKey(byte[] prv) throws IllegalArgumentException
 	if(prv == null)						throw new IllegalArgumentException("Error in \"PrvKey\": Private Key is NULL!");
 	if(prv.equals(null)) 				throw new IllegalArgumentException("Error in \"PrvKey\": Private Key is NULL!");	
 	if(prv.length!=32) 					throw new IllegalArgumentException("Error in \"PrvKey\": False size!");	
-	BigInteger min = new BigInteger("0",16);																
+	BigInteger min = new BigInteger("0",16);					
 	BigInteger max = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140",16);	
 	BigInteger key = new BigInteger(1,prv);
 	if(key.compareTo(min) <= 0) 		throw new IllegalArgumentException("Error in \"PrvKey\": Private Key is <= 0!");
@@ -148,11 +148,11 @@ private byte[] txtToHexPrivKey(String str) throws IllegalArgumentException
 	int format = getFormat(str);	
 	switch(format)
 	{
-		case-1: 	throw new IllegalArgumentException("Error in \"PrvKey\": false format");			//-1 = Fehler kein richtiges Format erkannt
-		case 0:     throw new IllegalArgumentException("Error in \"PrvKey\": Null-String");				// 0 = Null String
-		case 16:  	return Convert.hexStringToByteArray(str);  											// 16 = Hexa       
-		case 58:  	return base58_PrivateKey_to_HexPrivateKey(str);										// 58 = Base58
-		case 6:     return Convert.hexStringToByteArray(base6_PrivateKey_to_HexPrivateKey(str));  		// 6 = Base6 
+		case-1: 	throw new IllegalArgumentException("Error in \"PrvKey\": false format");	//-1 = Fehler kein richtiges Format erkannt
+		case 0:     throw new IllegalArgumentException("Error in \"PrvKey\": Null-String");		// 0 = Null String
+		case 16:  	return Convert.hexStringToByteArray(str);  					// 16 = Hexa       
+		case 58:  	return base58_PrivateKey_to_HexPrivateKey(str);					// 58 = Base58
+		case 6:     return Convert.hexStringToByteArray(base6_PrivateKey_to_HexPrivateKey(str));  	// 6 = Base6 
 		default:	break;
 	}
 	return null;
@@ -168,10 +168,10 @@ private byte[] txtToHexPrivKey(String str) throws IllegalArgumentException
 // 6 = Base6
 private int getFormat(String str)
 {
-	if(str.equals(""))   																					return 0;	// prüfen ob leer String
-	if(str.length()==64 && 	str.matches("[0-9a-fA-F]+")) 													return 16;	// prüfen auf Hexa
+	if(str.equals(""))   														return 0;	// prüfen ob leer String
+	if(str.length()==64 && 	str.matches("[0-9a-fA-F]+")) 										return 16;	// prüfen auf Hexa
 	if(						str.matches("[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+")) 	return 58;	// prüfen auf Base58
-	if(str.length()==109 && str.matches("[123456-]+")) 														return 6;	// prüfen auf Base6
+	if(str.length()==109 && str.matches("[123456-]+")) 										return 6;	// prüfen auf Base6
 	return -1;
 }
 
@@ -191,11 +191,11 @@ private byte[] base58_PrivateKey_to_HexPrivateKey(String str) throws IllegalArgu
 	byte[] h32 = Calc.getHashSHA256(Calc.getHashSHA256(Arrays.copyOfRange(prv, 0, prv.length-4)));
 	byte[] h4  = Arrays.copyOfRange(h32,0,4);	
 	byte[] hash = Arrays.copyOfRange(prv, prv.length-4, prv.length);	
-	if(Arrays.equals(hash, h4)==false)   								throw new IllegalArgumentException("Error in \"PrvKey\": Private key hash incorrect!");
+	if(Arrays.equals(hash, h4)==false)   						throw new IllegalArgumentException("Error in \"PrvKey\": Private key hash incorrect!");
 	prv = Arrays.copyOfRange(prv, pref_PrivKey.length, prv.length-4);	
-	if(prv.length>33 || prv.length<32)									throw new IllegalArgumentException("Error in \"PrvKey\": Private key size incorrect!");
-	if(prv.length==32)													{compressed = 2; return prv;}						
-	if(prv.length==33 && prv[32]==0x01)									{compressed = 1; return Arrays.copyOfRange(prv, 0, 32);}
+	if(prv.length>33 || prv.length<32)						throw new IllegalArgumentException("Error in \"PrvKey\": Private key size incorrect!");
+	if(prv.length==32)								{compressed = 2; return prv;}						
+	if(prv.length==33 && prv[32]==0x01)						{compressed = 1; return Arrays.copyOfRange(prv, 0, 32);}
 	throw new IllegalArgumentException("Error in \"PrvKey\": Private key incorrect Format!");	
 }	  
 
