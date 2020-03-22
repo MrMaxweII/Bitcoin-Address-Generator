@@ -6,7 +6,6 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 import BTClib3001.Bech32Address;
 import BTClib3001.BitcoinAddr;
 import BTClib3001.Calc;
@@ -17,21 +16,18 @@ import GUI.GUI;
 
 
 
-/***********************************************************************************
-*	Hauptprogramm des CoinAddressGenerators	V3      		Autor: Mr. Maxwell   	*
-*	Hier wird die Berechnung aller Ausgaben durchgeführt,							* 
-*	sobalt es eine Änderung der Eingabe gegeben hat,								*
-************************************************************************************/
+/************************************************************************************************
+*	Hauptprogramm des CoinAddressGenerators	V3      	Autor: Mr. Maxwell   		*
+*	Hier wird die Berechnung aller Ausgaben durchgeführt,					* 
+*	sobalt es eine Änderung der Eingabe gegeben hat.					*
+*************************************************************************************************/
+
 
 
 public class Action 
 {
 	public static String prvWIF;
 	public static String addr;
-	
-	
-	
-	
 	
 	
 	
@@ -82,10 +78,10 @@ public static void go()
 private static void calcFromPrivKey(String priv) throws Exception
 {
 	CoinParameter cp = CoinParameter.getFromSymbol((String) GUI.comboBox_coin.getSelectedItem());
-	PrvKey p 		= new PrvKey(priv,cp.pref_PrivKey);
+	PrvKey p 	= new PrvKey(priv,cp.pref_PrivKey);
 	String prvHex 	= Convert.byteArrayToHexString(p.getHexPrivKey());
-		   prvWIF 	= p.getBase58PrivKey(GUI.unCompressed.isSelected()==false);
-	String pub 		= Calc.getPublicKey(prvHex, GUI.unCompressed.isSelected()==false);
+	       prvWIF 	= p.getBase58PrivKey(GUI.unCompressed.isSelected()==false);
+	String pub 	= Calc.getPublicKey(prvHex, GUI.unCompressed.isSelected()==false);
 	String h160 	= Calc.getHashRIPEMD160_from_HexString(Calc.getHashSHA256_from_HexString(pub));
 	if(GUI.bech32.isSelected())
 	{
