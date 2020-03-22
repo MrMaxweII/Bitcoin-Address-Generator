@@ -8,14 +8,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import CoinGen.Action;
 import Wallet.Wallet;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Color;
@@ -27,10 +24,10 @@ import javax.swing.JLabel;
 
 
 
-/************************************************************************************************
-*	Diese Klasse ist Teil der GUI des CoinAddressGenerators										*
+/********************************************************************************************************
+*	Diese Klasse ist Teil der GUI des CoinAddressGenerators						*
 *	Hier wird das Wallet-Fenster erstellt, welches beim Öffnen oder Speichern angezeigt wird.	*
-************************************************************************************************/
+*********************************************************************************************************/
 
 
 
@@ -39,9 +36,9 @@ public class GUI_Wallet extends JFrame
 
 	
 	
-	public DefaultTableModel dtm;						// Die Tabelle der Wallet
+	public DefaultTableModel dtm;					// Die Tabelle der Wallet
 	private JLabel 			lbl_error = new JLabel();	// Meldungsfenster
-	private JSONObject 		wallet;						// Die entschlüsselte Wallet-JSON-Datei
+	private JSONObject 		wallet;				// Die entschlüsselte Wallet-JSON-Datei
 	
 	
 	
@@ -53,8 +50,8 @@ public class GUI_Wallet extends JFrame
 	@param profil legt fest wie das Fenster gestaltet wird. Auswahlmöglichkeiten: "open", "save", "edit".  **/
 public GUI_Wallet(int x, int y, String profil) throws Exception
 {
-	JPanel 		contentPane = new JPanel();
-	JScrollPane scrollPane 	= new JScrollPane();
+	JPanel 		contentPane 	= new JPanel();
+	JScrollPane 	scrollPane 	= new JScrollPane();
 	JTable 		table 		= new JTable();
 	JPanel 		panel 		= new JPanel();
 	JButton 	btn_delete 	= new JButton("Delete");
