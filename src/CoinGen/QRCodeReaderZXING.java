@@ -18,10 +18,10 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 
 
-/***************************************************************************
-*	Erzeugt einen QR-Code oder liest ein CR-Code von einem Image ein.		*
-*	Benötigt zxing.rar Bibliothek											*
-****************************************************************************/
+/********************************************************************************
+*	Erzeugt einen QR-Code oder liest ein CR-Code von einem Image ein.	*
+*	Benötigt zxing.rar Bibliothek						*
+*********************************************************************************/
 
 
 
