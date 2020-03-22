@@ -6,10 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import BTClib3001.Calc;
 import BTClib3001.Convert;
 import javax.swing.JButton;
@@ -34,19 +32,19 @@ import java.awt.event.KeyEvent;
 
 
 /***************************************************************************************************************************
-*	Ver/End-Schlüsselung mit Dialogfeld (GUI) zu Eingabe von Passwörtern.													*
-*	Die beiden Hauptmethoden paranoidEncrypt() und paranoidDecrypt() 														*
-*	integrieren den kompletten Verschlüsselungsprozess Siehe Blockdiagramm "ParanoidCrypt.png".								*
-*	Beim Aufruf öffnet sich dieses Dialogfeld welches zur Eingabe des Verschlüsselungs-Passwortes auffordert.				*
-*	Dieser Konstruktor CryptDialog() erstellt das Dialogfeld zur eingabe des Passwortes.									*
+*	Ver/End-Schlüsselung mit Dialogfeld (GUI) zu Eingabe von Passwörtern.							*
+*	Die beiden Hauptmethoden paranoidEncrypt() und paranoidDecrypt() 							*
+*	integrieren den kompletten Verschlüsselungsprozess Siehe Blockdiagramm "ParanoidCrypt.png".				*
+*	Beim Aufruf öffnet sich dieses Dialogfeld welches zur Eingabe des Verschlüsselungs-Passwortes auffordert.		*
+*	Dieser Konstruktor CryptDialog() erstellt das Dialogfeld zur eingabe des Passwortes.					*
 *	Diese Klasse ist zwar für den CoinAddressGenerator programmiert, ist aber allgemein kompatibel mit folgener Ausnahme:	*
-*	Die Klartext-Daten müssen ein JSONObject sein welches den Datensetzt "pwHash" enthällt!									*
-*	Dieser PwHash ist ein 32Byte SHA256² Hex-String der den doppelten PasswortHash, des voherigen Paswortes enthällt. 		*
-*	(Doppel, weil dadurch der einfache SHA256 Hash der zum verschlüsseln benutz wird nicht aufgedeckt werden kann.)			*
-*	Dies ist notwendig um zu verhindern, das versehentlich mit einem falschen Passort neu verschlüsselt wird.				*
-*	Bei der Verschlüsselung kann so, das alte Passwort geprüft werden bevor neu verschlüsselt wird.							*
-*	Bei der erstmaligen Verschlüsselung ist pwHash = "" (Leerstring);														*
-*	Die Methode paranoidEncrypt() prüft so das alte Passort!																*
+*	Die Klartext-Daten müssen ein JSONObject sein welches den Datensetzt "pwHash" enthällt!					*
+*	Dieser PwHash ist ein 32Byte SHA256² Hex-String der den doppelten PasswortHash, des voherigen Paswortes enthällt. 	*
+*	(Doppel, weil dadurch der einfache SHA256 Hash der zum verschlüsseln benutz wird nicht aufgedeckt werden kann.)		*
+*	Dies ist notwendig um zu verhindern, das versehentlich mit einem falschen Passwort neu verschlüsselt wird.		*
+*	Bei der Verschlüsselung kann so, das alte Passwort geprüft werden bevor neu verschlüsselt wird.				*
+*	Bei der erstmaligen Verschlüsselung ist pwHash = "" (Leerstring);							*
+*	Die Methode paranoidEncrypt() prüft so das alte Passort!								*
 ****************************************************************************************************************************/
 
 
@@ -56,12 +54,12 @@ public class CryptDialog extends JDialog
 
 
 
-	private static CryptDialog 	dialog; 							// Das Dialogfeld von Typ: JDialog
-	private byte[] 				dataOut;							// Rückgabe Daten, Chiffre oder Klartext.
+	private static CryptDialog 	dialog; 				// Das Dialogfeld von Typ: JDialog
+	private byte[] 			dataOut;				// Rückgabe Daten, Chiffre oder Klartext.
 	private JPasswordField 		txt_pw1 = new JPasswordField();		
 	private JPasswordField 		txt_pw2 = new JPasswordField();
 	private JPasswordField 		txt_pw3 = new JPasswordField();	
-	private boolean 			threadRun = false;					
+	private boolean 		threadRun = false;					
 	private JProgressBar 		spinner= new JProgressBar();
 	
 	
@@ -111,26 +109,25 @@ public static String paranoidDecrypt(int x, int y, byte[] chiffre) throws Except
 	
 /**	Konstruktor der GUI des Passowrt-Dialog-Feldes
 	@param profil Das Dialog-Profil. Es gibt: "encrypt" oder "decrypt" 
-	@param pwHash SHA256² das alte Password wird nur zur Überprüfung bei der Verschlüsselung genutzt.
- * @throws JSONException **/	
+	@param pwHash SHA256² das alte Password wird nur zur Überprüfung bei der Verschlüsselung genutzt. **/	
 private CryptDialog(int x, int y, String profil, JSONObject klarText, byte[] chiffre) throws JSONException 
 {
 	setModal(true);
 	setBounds(x, y, 500, 340);
 	setTitle("Password");
 	
-	JPanel contentPanel = new JPanel();
+	JPanel contentPanel 	= new JPanel();
 	JPanel panel_haupt 	= new JPanel();
 	JPanel panel_unten 	= new JPanel();	
 	JTextArea info 		= new JTextArea("    Attention! Password cannot be recovered! \n    If the password is forgotten, coins will be lost forever!");
 	JLabel lbl_pw1 		= new JLabel("Enter Password");
 	JLabel lbl_pw2 		= new JLabel("New Password");
 	JLabel lbl_pw3 		= new JLabel("Confirm Password");
-	JCheckBox checkbox_1= new JCheckBox("Show Password");
-	JCheckBox checkbox_2= new JCheckBox("Change Password");
-	JTextArea txt_error = new JTextArea();
+	JCheckBox checkbox_1	= new JCheckBox("Show Password");
+	JCheckBox checkbox_2	= new JCheckBox("Change Password");
+	JTextArea txt_error 	= new JTextArea();
 	JButton btn_ok 		= new JButton("OK");
-	JButton btn_abbruch = new JButton("Cancel");
+	JButton btn_abbruch 	= new JButton("Cancel");
 	
 	Component strut1 = Box.createHorizontalStrut(20);
 	Component strut2 = Box.createHorizontalStrut(20);
@@ -149,19 +146,19 @@ private CryptDialog(int x, int y, String profil, JSONObject klarText, byte[] chi
 	checkbox_1.	setPreferredSize(new Dimension(2000, 18));	
 	checkbox_2.	setPreferredSize(new Dimension(2000, 18));
 	btn_ok.		setPreferredSize(new Dimension(70, 23));
-	btn_abbruch.setPreferredSize(new Dimension(70, 23));
+	btn_abbruch.	setPreferredSize(new Dimension(70, 23));
 	spinner.	setPreferredSize(new Dimension(440, 5));
 
-	contentPanel.setLayout(new BorderLayout());
-	panel_haupt	.setLayout(new FlowLayout( 0, 1, 1));
-	panel_unten	.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	contentPanel.	setLayout(new BorderLayout());
+	panel_haupt.	setLayout(new FlowLayout( 0, 1, 1));
+	panel_unten.	setLayout(new FlowLayout(FlowLayout.RIGHT));
 	info.		setFont(new Font("Arial", Font.PLAIN, 13));
 	txt_error.	setFont(new Font("Tahoma", Font.PLAIN, 13));
 	checkbox_2.	setFont(new Font("Tahoma", Font.PLAIN, 10));
 	checkbox_1.	setFont(new Font("Tahoma", Font.PLAIN, 10));
 	info.		setBorder(new LineBorder(new Color(255, 180, 180), 4));
-	info		.setEditable(false);
-	info.setVisible(false);
+	info.		setEditable(false);
+	info.		setVisible(false);
 	txt_error.	setSize(new Dimension(440, 30));
 	txt_error.	setWrapStyleWord(true);
 	txt_error.	setLineWrap(true);
@@ -169,7 +166,7 @@ private CryptDialog(int x, int y, String profil, JSONObject klarText, byte[] chi
 	txt_error.	setBackground(new Color(240, 240, 240));
 	txt_error.	setForeground(new Color(165, 42, 42));	
 	txt_error.	setEditable(false);
-	btn_abbruch.setMargin(new Insets(0, 0, 0, 0));
+	btn_abbruch.	setMargin(new Insets(0, 0, 0, 0));
 	spinner.	setIndeterminate(true);
 	spinner.	setBorderPainted(false);
 	spinner.	setVisible(false);
@@ -258,7 +255,7 @@ btn_ok.addActionListener(new ActionListener()
 						String pwh = Calc.getHashSHA256_from_HexString(Calc.getHashSHA256(pw));						
 						if(pwh.equals(klarText.getString("pwHash")))				// Wenn das eingegebene PW dem voherigem PW entspricht.
 						{
-							if(checkbox_2.isSelected())								// Wenn das PW geändert wird.
+							if(checkbox_2.isSelected())					// Wenn das PW geändert wird.
 							{
 								char[] pw2 = txt_pw2.getPassword();
 								char[] pw3 = txt_pw3.getPassword();	
@@ -272,7 +269,7 @@ btn_ok.addActionListener(new ActionListener()
 								}
 								else throw new Exception("new Passwords are not the same!");
 							}
-							else 													// Verschlüsselung mit altem Passort
+							else 											// Verschlüsselung mit altem Passort
 							{
 								dataOut = Crypt.paranoidEncrypt(klarText.toString().getBytes(), Convert.hexStringToByteArray(Calc.getHashSHA256(pw)));
 								dispose();
@@ -280,7 +277,7 @@ btn_ok.addActionListener(new ActionListener()
 						}
 						else
 						{
-							if("".equals(klarText.getString("pwHash")))   			// Wenn PasswortHash leer ist, wird erstmalig ein neues Passwort angelegt
+							if("".equals(klarText.getString("pwHash")))   	// Wenn PasswortHash leer ist, wird erstmalig ein neues Passwort angelegt
 							{
 								char[] pw2 = txt_pw2.getPassword();
 								char[] pw3 = txt_pw3.getPassword();	
@@ -321,7 +318,7 @@ btn_ok.addActionListener(new ActionListener()
 						byte[] b = Crypt.paranoidDecrypt(chiffre, Convert.hexStringToByteArray(Calc.getHashSHA256(pw)));
 						byte[][] dec = Crypt.removeAndCheckSHA256Checksum(b);
 						if(dec[2][0]==1) {dataOut = dec[1]; dispose();}
-						else throw new Exception("Error decrypt, Password incorrect!");																							
+						else throw new Exception("Error decrypt, Password incorrect!");	
 					} 
 					catch(Exception ex) {txt_error.setText(ex.getMessage());}
 					spinner.setVisible(false);
@@ -397,17 +394,16 @@ checkbox_2.addItemListener(new ItemListener()
 			txt_pw2.setVisible(true);
 			txt_pw3.setVisible(true);
 			info.setVisible(true);
-        } 
+        	} 
 		else 
-        {
+        	{
 			lbl_pw2.setVisible(false);
 			lbl_pw3.setVisible(false);
 			txt_pw2.setVisible(false);	
 			txt_pw3.setVisible(false);
 			lbl_pw1.setText("Enter Password");
 			info.setVisible(false);
-
-        }
+        	}
 	}
 });
 
@@ -418,7 +414,7 @@ btn_abbruch.addActionListener(new ActionListener()
 	public void actionPerformed(ActionEvent e) 
 	{
 	 	dataOut = null;
-    	dispose();
+    		dispose();
 	}
 });
 
