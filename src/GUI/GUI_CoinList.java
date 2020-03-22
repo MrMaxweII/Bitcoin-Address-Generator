@@ -5,20 +5,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import BTClib3001.CoinParameter;
 
 
 
-/***********************************************************************************
-*	Diese Klasse ist Teil der GUI des CoinAddressGenerators							*
+/****************************************************************************************
+*	Diese Klasse ist Teil der GUI des CoinAddressGenerators				*
 *	Erzeugt das List-Fenster, in dem Coins hinzugefügt oder entfernt werden können.	*
-***********************************************************************************/
+*****************************************************************************************/
 
 
 
@@ -39,7 +37,7 @@ class GUI_CoinList extends JFrame
 		{
 			int size = GUI.comboBox_coin.getItemCount();
 			strList = new String[size];				
-			for (int i = 0; i < size; i++)  strList[i] = (String) GUI.comboBox_coin.getItemAt(i);				
+			for (int i = 0; i < size; i++)  strList[i] = (String) GUI.comboBox_coin.getItemAt(i);
 		}
 		else
 		{
