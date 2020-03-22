@@ -14,9 +14,9 @@ import GUI.GUI;
 
 
 /***********************************************************************************
-*	Autor: Mr. Maxwell																*
-*	Speichert und öffnet die CAGWallet.dat für den Coin-Address-Generator			*	
-*																					*
+*	Autor: Mr. Maxwell								*
+*	Speichert und öffnet die CAGWallet.dat für den Coin-Address-Generator		*	
+*											*
 *	Aufbau der CAGWallet.dat: entschlüsselt im JSON-Format
 * {
 * "dateiID"  : "c6fcf3b9bc7c855f46a43e70450d2dca444b527ec5fb30ada91d9bbd90fcef7a",
