@@ -5,11 +5,10 @@ import java.util.Arrays;
 
 
 
-/************************************************************************************************************
-*	Version 1.5    Autor: Mr. Maxwell   	vom 09.01.2020		decodeMAGIC() wurde hinzugefügt				*
-*	Hier werden verschiedene Konvertierungen vorgenommen.													*
-*																											*
-************************************************************************************************************/
+/********************************************************************************************************
+*	Version 1.5    Autor: Mr. Maxwell   	vom 09.01.2020		decodeMAGIC() wurde hinzugefügt	*
+*	Hier werden verschiedene Konvertierungen vorgenommen.						*
+********************************************************************************************************/
 
 
 
@@ -140,7 +139,7 @@ public static int int_convert_int(int in)
 
 
 
-/** Wandelt ein Base58 Text-String in Hex-String um. 
+/** 	Wandelt ein Base58 Text-String in Hex-String um. 
 	In "laenge" wird die Anzahl der Ausgabe-Zeichen übergeben. */
 public static String Base58ToHexString(String str, int laenge)
 {
