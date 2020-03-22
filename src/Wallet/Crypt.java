@@ -11,11 +11,11 @@ import BTClib3001.Calc;
 
 
 /***************************************************************************************************************
-*	Version 1.0    						Autor: Mr. Maxwell   						vom 11.03.2020				*
-*	Statische Klasse die verschiedene Methoden zum Verschlüsseln von Daten zur verfügung stellt.				*
-*	Hauptmethoden sind paranoidEncrypt() und paranoidDecrypt() die zur verschlüsselung verwendet werden.		*
-*	Siehe Blockdiagramm "ParanoidCrypt.png"																		*
-*	Wird verwendet um die CAGWallet.dat	vom CoinAddressGernerator mit maximaler Sichereit zu verschlüsseln		*
+*	Version 1.0    			Autor: Mr. Maxwell   				vom 11.03.2020		*
+*	Statische Klasse die verschiedene Methoden zum Verschlüsseln von Daten zur verfügung stellt.		*
+*	Hauptmethoden sind paranoidEncrypt() und paranoidDecrypt() die zur verschlüsselung verwendet werden.	*
+*	Siehe Blockdiagramm "ParanoidCrypt.png"									*
+*	Wird verwendet um die CAGWallet.dat vom CoinAddressGernerator mit maximaler Sichereit zu verschlüsseln	*
 ****************************************************************************************************************/
 
 
@@ -128,8 +128,8 @@ public static byte[] decrypt(byte[] chiffre, byte[] key, String name) throws Exc
 	@return Gibt den Scrypt-Hash als Byte-Array zurück.  **/
 private static byte[] getScryptHash(byte[] data)
 {
-	final int p			= 1;		// Parallelisierungsparameter. ist immer 1 
-	final byte[] salt 	= {0x00};   // Salz wird hier nicht benötigt.
+	final int p		= 1;		// Parallelisierungsparameter. ist immer 1 
+	final byte[] salt 	= {0x00};   	// Salz wird hier nicht benötigt.
 	final int memory 	= 524288;	// (N) CPU/Speicherkostenparameter in Byte. Muss größer als 1 sein und eine Potenz von 2 und kleiner als 2^(128*r/8)  Standart = 2^14
 	final int r 		= 16;		// Die Blockgröße muss >= 1 sein. Hier wird 16 verwendet;
 	final int outLen 	= 32;		// Die Länge des Ausgabe Hash.
@@ -170,7 +170,7 @@ public static byte[][] removeAndCheckSHA256Checksum(byte[] data)
 	System.arraycopy(data, 32, out[1], 0, data.length-32);
 	byte[] hash = Calc.getHashSHA256(out[1]);
 	if(Arrays.areEqual(out[0], hash)) out[2][0] = 1;
-	else 							  out[2][0] = 0;	
+	else 	out[2][0] = 0;	
 	return out;
 }
 
