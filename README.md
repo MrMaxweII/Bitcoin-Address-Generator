@@ -1,8 +1,8 @@
 # Coin-Address-Generator
 
-https://github.com/MrMaxweII/Bitcoin-Address-Generator/releases/download/V3.1.0/CoinAddressGeneratorV3.1.0.jar
+https://github.com/MrMaxweII/Bitcoin-Address-Generator/releases/download/V3.1.1/CoinAddressGeneratorV3.1.1.jar
 
-Hash SHA-256  "CoinAddressGeneratorV3.1.0.jar"   =   5f5fa204b1d5505c3056a6432f39ad2628aff47ffcbc73494e566757bce08e60
+Hash SHA-256  "CoinAddressGeneratorV3.1.1.jar"   =   8513aea9c3826bdd73fff6efd6d7c11bf2f6b48a6064c03a0cfbca39ae41e3fa
 
 
 
