@@ -49,7 +49,7 @@ import java.awt.event.ItemEvent;
 public class GUI extends JFrame 
 {
 	public static final String		progName	= "Coin Address Generator";
-	public static final String		version 	= "V3.1.0";
+	public static final String		version 	= "V3.1.1";
 	public static final String		autor 		= "Mr. Maxwell";
 	public static final String		eMail		= "Maxwell-KSP@gmx.de";
 	public static final String		myBitcoinAddr 	= "12zeCvN7zbAi3JDQhC8tU3DBm35kDEUNiB";	
