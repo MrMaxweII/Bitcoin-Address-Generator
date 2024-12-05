@@ -7,8 +7,10 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -44,7 +46,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
@@ -58,6 +62,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -80,11 +85,11 @@ import BTClib3001.TxSigniererLegancy;
 import BTClib3001.TxSigniererWitness;
 import CoinGen.Action;
 import CoinGen.Config;
+import CoinGen.MyFont;
 import CoinGen.Print;
 import CoinGen.QRCodeZXING;
 import CoinGen.QrCapture;
 import seedExtractor.SeedExtractor;
-import javax.swing.border.MatteBorder;
 
 
 
@@ -93,7 +98,7 @@ public class GUI extends JFrame
 
 	
 	public static final String			progName		= "Coin Address Generator";
-	public static final String			version 		= "V3.4.3";
+	public static final String			version 		= "V3.4.4";
 	public static final String			autor 			= "Mr. Maxwell";
 	public static final String			eMail			= "Maxwell-KSP@gmx.de";
 	public static final String			myBitcoinAddr 	= "12zeCvN7zbAi3JDQhC8tU3DBm35kDEUNiB";	
@@ -120,10 +125,11 @@ public class GUI extends JFrame
 	public static int					posY			= 50;								// Y-Position des Programmes
 	public static JTextField 			txt_seed		= new JTextField(); 				// SeedExtractor Eingabe verschlüsselter Seed
 	public static JTextField			txt_cvc 		= new JTextField();					// SeedExtractor Eingabe Prüfziffer
-	public static JTextField 			txt_pw			= new JTextField();					// SeedExtractor Eingabe Passwort
+	public static JPasswordField 		txt_pw			= new JPasswordField();				// SeedExtractor Eingabe Passwort
 	public static JTextField 			txt_max 		= new JTextField();					// SeedExtractor Maximale Anzahl der Private-Keys bei der Ausgabe
 	public static JSpinner 				txt_nr			= new JSpinner();					// SeedExtractor Die aktuelle Nummer des Priv-Keys	
 	public static JButton 				btn_go 			= new JButton("Seed entschlüsseln");// SeedExtractor Go-button der die die entschlüsselung startet
+	public static JButton				btn_newCVC		= new JButton("Neue Prüfziffer");	// Generiert eine neue Prüfziffer.
 	public static JProgressBar 			progressBar 	= new JProgressBar();				// SeedExtractor Warte-Balken
 	public static Color 				color1 			= new Color(255,244,230);			// Hintergrundfarbe des Programmes
 	public static Color 				color4 			= new Color(247,147,26); 			// Farbe Linien (Offizielle BTC-Farbe)
@@ -139,6 +145,8 @@ public class GUI extends JFrame
 			{
 				try 
 				{				
+					GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();			// Font Ubuntu Mono wird intalliert
+					ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, MyFont.getUbuntuMonoTTF()));	// Font Ubuntu Mono wird geladen
 					frame = new GUI();
 					comboBox_coin.setSelectedIndex(0);
 					Config.load();
@@ -203,7 +211,8 @@ public GUI() throws ParseException
 	Font 		font1 			= new Font("SansSerif", Font.PLAIN, 12); 			// Font für Label-Beschriftungen
 	Font 		font2 			= new Font("SansSerif", Font.PLAIN, 11); 			// Font für Rahmenbeschriftung
 	Font 		font3 			= new Font("SansSerif", Font.PLAIN, 10); 			// Font für Rahmenbeschriftung der Prüfziffer
-	
+	Font		font4			= new Font("Ubuntu Mono",Font.PLAIN,14); 			// Font für Textfelder (Ubuntu Font, selbst geladen)
+
 
 	
 	setTitle(progName+"     "+version);	
@@ -212,8 +221,6 @@ public GUI() throws ParseException
 	setContentPane(contentPane);	
 	setBounds(posX, posY, 1000, 550);
 	UIManager.put("TitledBorder.border", new LineBorder(color4, 1));
-
-	
 	txt_ausgabe		.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
 	
 	lbl_coinName	.setForeground(Color.GRAY);		
@@ -303,6 +310,7 @@ public GUI() throws ParseException
 	txt_seed		.setBounds(10, 24, 614, 36);
 	txt_pw			.setBounds(10, 71, 614, 39);
 	btn_go			.setBounds(10, 118, 161, 36);
+	btn_newCVC		.setBounds(705, 31, 90, 25);
 	lbl_Achtung		.setBounds(10, 3, 656, 20);
 	txt_nr			.setBounds(181, 119, 77, 39);
 	txt_cvc			.setBounds(632, 24, 64, 36);
@@ -352,8 +360,13 @@ public GUI() throws ParseException
 	txt_usigTx		.setFont(new Font("Consolas", Font.PLAIN, 11));
 	lbl_Achtung		.setFont(font1);
 	btn_go			.setFont(font1);
+	btn_newCVC		.setFont(font3);
 	btn_exportAdr	.setFont(font1);
 	txt_nr			.setFont(font1);
+	txt_seed		.setFont(font4);
+	txt_pw			.setFont(font4);
+	txt_cvc			.setFont(font4);
+	txt_max			.setFont(font4);
 
 	contentPane		.setLayout(new BorderLayout(0, 0));
 	panel_ausgabe	.setLayout(new BorderLayout(0, 0));
@@ -382,6 +395,7 @@ public GUI() throws ParseException
 	btn_save_Tx		.setMargin(new Insets(0, 0, 0, 0));
 	btn_qrOut		.setMargin(new Insets(0, 0, 0, 0));
 	btn_go			.setMargin(new Insets(0, 0, 0, 0));
+	btn_newCVC		.setMargin(new Insets(0, 0, 0, 0));
 	btn_exportAdr	.setMargin(new Insets(0, 0, 0, 0));
 	btn_showUsigTx	.setMargin(new Insets(0, 0, 0, 0));
 	btn_sig_seed	.setMargin(new Insets(0, 0, 0, 0));	
@@ -503,6 +517,7 @@ public GUI() throws ParseException
 	panel_input4	.add(txt_seed);
 	panel_input4	.add(txt_pw);	
 	panel_input4	.add(btn_go);
+	panel_input4	.add(btn_newCVC);
 	panel_input4	.add(txt_nr);
 	panel_input4	.add(txt_cvc);
 	panel_input4	.add(progressBar);
@@ -926,7 +941,7 @@ public GUI() throws ParseException
 		{
 			GUI.txt_ausgabe.setText("");
 			JDialog dialog = new JDialog();		// Kleines Dialog-Fenster zur Eingabe der Priv-Keys öffnet sich
-			dialog.setBounds(frame.getX()+160, frame.getY()+65, 480, 350);
+			dialog.setBounds(frame.getX()+160, frame.getY()+65, 580, 350);
 			dialog.getContentPane().setLayout(new BorderLayout());
 			dialog.setTitle("Sign Transaction");
 			JTextPane lbl = new JTextPane();
@@ -935,7 +950,7 @@ public GUI() throws ParseException
 			lbl.setBackground(color1);
 			lbl.setEditable(false);
 			lbl.setText("Signure with a list of private keys that you can enter here.\r\nPrivate keys must be formatted in Hexa Decimal format!\r\nThe order of the private keys doesn't matter. All private keys required for signing must only be present!\r\nThe private keys must separated with a comma:\r\nExample:");	
-			txt_privKeys.setFont(new Font("Consolas", Font.PLAIN, 11));
+			txt_privKeys.setFont(font4);
 			scrollPane.setViewportView(txt_privKeys);
 			okButton.setActionCommand("OK");
 			dialog.getContentPane().add(lbl, BorderLayout.NORTH);
@@ -1058,10 +1073,31 @@ public GUI() throws ParseException
 	
 	
 	
+		
 	
 // ----------------------------------------------------------------------------- Seed-Extractor ----------------------------------------------------------------------------------//
 	
-
+		
+	// Erstellt eine neue 3 Stellige Prüfziffer
+	// Die Prüfziffer ist der einfache SHA256 Hash des Seed´s.
+	btn_newCVC.addActionListener(new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			int i = JOptionPane.showConfirmDialog(frame, "Die 3-stellige Prüfziffer sollte sich bei dem Seed befinden.\nSie ist nützlich um Eingabefehler zu erkennen.\nDie Prüfziffer wird normalerweise nur beim erstmaligen Erstellen des Seeds genieriert und dann notiert.\nWird die Prüfziffer neu erstellt, kann nicht erkannt werden, ob der Seed Fehler enthällt.\nSoll die Prüfziffer aus dem Seed neu berechnet werden?", "Prüfziffer erstellen", 2);
+			if(i==0)
+			{
+				if(txt_seed.getText().length()!=64) {Toolkit.getDefaultToolkit().beep();  JOptionPane.showMessageDialog(frame, "Zum Erstellen der Prüfziffer muss ein 64Hexa-Zeichen Seed eingegeben sein!", "Seed hat falsches Format oder ist nicht vorhanden", JOptionPane.ERROR_MESSAGE);}
+				else
+				{
+					String cvc = Calc.getHashSHA256_from_HexString(txt_seed.getText()).substring(61);
+					txt_cvc.setText(cvc);
+				}
+			}		
+		}	
+	});	
+		
+			
 	
 	// Seed wird entschlüsselt
 	// Muss in einem eigenem Thread gestartet werden, da die Zeitverzögerung (Scrypt) den Thread blockiert.
@@ -1078,13 +1114,14 @@ public GUI() throws ParseException
 					{
 						progressBar.setVisible(true);
 						btn_go.setEnabled(false);
+						btn_newCVC.setEnabled(false);
 						txt_nr.setEnabled(false);
 						txt_max.setEnabled(false);
 						btn_exportAdr.setEnabled(false);
 						try 
 						{
 							checkCVC(txt_seed.getText(), txt_cvc.getText());
-							SeedExtractor.encodeSeed(txt_seed.getText(), txt_pw.getText());
+							SeedExtractor.encodeSeed(txt_seed.getText(), new String(txt_pw.getPassword()));
 							txt_nr		.setVisible(true);
 							btn_exportAdr.setVisible(true);
 						} 
@@ -1096,6 +1133,7 @@ public GUI() throws ParseException
 						}			
 						progressBar.setVisible(false);
 						btn_go.setEnabled(true);
+						btn_newCVC.setEnabled(true);
 						txt_nr.setEnabled(true);
 						txt_max.setEnabled(true);
 						btn_exportAdr.setEnabled(true);
