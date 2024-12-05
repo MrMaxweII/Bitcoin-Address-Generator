@@ -6,7 +6,7 @@ Hash SHA-256  "CoinAddressGeneratorV3.1.1.jar"   =   8513aea9c3826bdd73fff6efd6d
 
 
 
-![CoinAddressGenV3](https://user-images.githubusercontent.com/34688939/75117189-a18dba00-566f-11ea-9ff1-2c1db29ded1a.png)
+![CoinAddressGenV3](https://raw.githubusercontent.com/MrMaxweII/Bitcoin-Address-Generator/refs/heads/master/CoinAddressGen.png)
 
 
 
