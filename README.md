@@ -35,13 +35,6 @@ All required libraries are already included in the project (in the lib folder). 
 
 
 
-#### Multicoin 
-There is a large list of coins to choose from that can be imported.
-However, some coins may not work properly because the coin parameter list is quickly out of date and cannot be kept up to date.
-It is the responsibility of each user to check that the keys created are correct! Use of this software is at your own risk!
-
-
-
 #### Input:
 There are three ways to create the private key:
 
