@@ -34,19 +34,14 @@ import java.awt.event.KeyEvent;
 
 
 /***************************************************************************************************************************
-*	Ver/End-Schlüsselung mit Dialogfeld (GUI) zu Eingabe von Passwörtern.													*
-*	Die beiden Hauptmethoden paranoidEncrypt() und paranoidDecrypt() 														*
-*	integrieren den kompletten Verschlüsselungsprozess Siehe Blockdiagramm "ParanoidCrypt.png".								*
-*	Beim Aufruf öffnet sich dieses Dialogfeld welches zur Eingabe des Verschlüsselungs-Passwortes auffordert.				*
-*	Dieser Konstruktor CryptDialog() erstellt das Dialogfeld zur eingabe des Passwortes.									*
-*	Diese Klasse ist zwar für den CoinAddressGenerator programmiert, ist aber allgemein kompatibel mit folgener Ausnahme:	*
-*	Die Klartext-Daten müssen ein JSONObject sein welches den Datensetzt "pwHash" enthällt!									*
-*	Dieser PwHash ist ein 32Byte SHA256² Hex-String der den doppelten PasswortHash, des voherigen Paswortes enthällt. 		*
-*	(Doppel, weil dadurch der einfache SHA256 Hash der zum verschlüsseln benutz wird nicht aufgedeckt werden kann.)			*
-*	Dies ist notwendig um zu verhindern, das versehentlich mit einem falschen Passort neu verschlüsselt wird.				*
-*	Bei der Verschlüsselung kann so, das alte Passwort geprüft werden bevor neu verschlüsselt wird.							*
-*	Bei der erstmaligen Verschlüsselung ist pwHash = "" (Leerstring);														*
-*	Die Methode paranoidEncrypt() prüft so das alte Passort!																*
+* Encryption/Decryption dialog (GUI) for entering passwords.                                                               *
+* The two main methods paranoidEncrypt() and paranoidDecrypt() integrate the full process (see ParanoidCrypt.png).         *
+* On invocation, a dialog opens to enter the encryption password.                                                          *
+* This constructor creates the dialog for entering the password.                                                           *
+* Although tailored for the Coin Address Generator, it is generally compatible with one exception:                         *
+* The plaintext must be a JSONObject containing "pwHash" which is the double SHA256 hash of the previous password.        *
+* This prevents accidental re-encryption with a wrong password by verifying the old password before encrypting.            *
+* For first-time encryption, pwHash = "".                                                                                 *
 ****************************************************************************************************************************/
 
 
@@ -67,18 +62,8 @@ public class CryptDialog extends JDialog
 	
 	
 	
-/**	Hauptmethode zur Verschlüsselung. 
-	- Öffnet das Dialogfeld zur Eingabe des Passwortes zur Verschlüsselung
-	- Es kann entweder das alte Passwort verwendet werden oder es kann ein neues Passwort erstellt werden.
-	- Das Passwort wird geprüft mit einem im Klartext enthaltenem JSON-Datensatz "pwHash" der den doppelten SHA256² Hash des voherigen Passwortes enthällt.
-	  Bei der erstmaligen Verschlüsselung muss dieser Datensatz auch vorhanden und ein Leerstring sein!
-	- Verschlüsselt die Daten mit dem eingegebenem Passwort
-	- Vor der Verschlüsselung wird an die Daten ein checksum SAH256 Hash vorrangestellt
-	- Gibt Meldungen oder Fehler im Dialogfeld aus
-	@param x & y  Position des Dialogfensters
-	@param klarText Die Daten die mit ParanoidCrypt verschlüsselt werden sollen als JSONObject.
-	@return Nach erfolgreicher verschlüsselung wird die Chiffre als ByteArray zurück gegeben und das Dialogfeld geschlossen.
-	Bei Fehlern oder durch Abbruch des Benutzers wird "null" zurück gegeben. **/
+/** Main method for encryption.
+ Opens the dialog, allows reusing or changing the password, verifies with pwHash, encrypts data, returns ciphertext. **/
 public static byte[] paranoidEncrypt(int x, int y, JSONObject klarText) throws Exception
 {	
 	dialog = new CryptDialog(x,y,"encrypt", klarText,null); 
@@ -89,15 +74,8 @@ public static byte[] paranoidEncrypt(int x, int y, JSONObject klarText) throws E
 	
 
 	
-/**	Hauptmethode zur Endschlüsselung. 
-	- Öffnet das Dialogfeld zur Eingabe des Passwortes zur Endschlüsselung
-	- Entschlüsselt die Daten mit dem eingegebenem Passwort
-	- Mit dem an den Klartext vorrangestellten SHA256 wird geprüft, ob die entschlüsselung erfolgreich war.
-	- Gibt Meldungen oder Fehler im Dialogfeld aus
-	@param x & y  Position des Dialogfensters
-	@param chiffre Die Daten die mit ParanoidCrypt entschlüsselt werden sollen
-	@return Nach erfolgreicher entschlüsselung werden die Daten im Klartext zurück gegeben und das Dialogfeld geschlossen.
-	Bei Fehlern oder durch Abbruch des Benutzers wird "null" zurück gegeben. **/
+/** Main method for decryption.
+ Opens the dialog, decrypts, verifies checksum, returns plaintext as String or null on error/cancel. **/
 public static String paranoidDecrypt(int x, int y, byte[] chiffre) throws Exception
 {	
 	dialog = new CryptDialog(x,y,"decrypt",null,chiffre); 
@@ -109,10 +87,8 @@ public static String paranoidDecrypt(int x, int y, byte[] chiffre) throws Except
 	
 
 	
-/**	Konstruktor der GUI des Passowrt-Dialog-Feldes
-	@param profil Das Dialog-Profil. Es gibt: "encrypt" oder "decrypt" 
-	@param pwHash SHA256² das alte Password wird nur zur Überprüfung bei der Verschlüsselung genutzt.
- * @throws JSONException **/	
+/** Constructor of the password dialog GUI.
+ @param profil "encrypt" or "decrypt" **/
 private CryptDialog(int x, int y, String profil, JSONObject klarText, byte[] chiffre) throws JSONException 
 {
 	setModal(true);
@@ -235,7 +211,7 @@ private CryptDialog(int x, int y, String profil, JSONObject klarText, byte[] chi
 	
 	
 	
-// ---------------------------------------- Actoin Listeners ------------------------------------//
+// ---------------------------------------- Action Listeners ------------------------------------//
 
 
 btn_ok.addActionListener(new ActionListener() 
