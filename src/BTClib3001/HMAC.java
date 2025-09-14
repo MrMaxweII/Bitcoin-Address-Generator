@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 
 /****************************************************************************************************************
-*	Version 1.0    						Autor: Mr. Maxwell   						vom 22.02.2023				*
+*	Version 1.0    						Autor: Mr. Nickolas-Antoine B.   						vom 22.02.2023				*
 *	HMAC SHA256																									*
-*	Es wird ein HMAC mit SHA256 berechnet: "https://de.wikipedia.org/wiki/HMAC"									*	
-*	Statische Klasse die nur eine statische Methode hat.	 													*
-*	Es gibt nur eine Abhängigkeit zur SHA256 Hash Klasse														*
-*	Getestet durch Referenzimplementierung von "javax.crypto.Mac;" mit 10000000 rand. Vektoren, rand. Längen.	*
+*	Calculates an HMAC using SHA256: "https://de.wikipedia.org/wiki/HMAC"									*	
+*	A static class that has only one static method.	 													*
+*	There is only one dependency on the SHA256 hash class														*
+*	Tested against the reference implementation of "javax.crypto.Mac;" with 10000000 random. vectors, random. lengths.	*
 ****************************************************************************************************************/
 
 
@@ -20,7 +20,7 @@ public class HMAC
 
 
 
-	/**	HMAC Funktion die SHA256 verwendet **/
+	/**	HMAC function that uses SHA256 **/
 	public static byte[] getHMAC_SHA256(byte[] data, byte[] key) throws Exception
 	{	
 		byte[] k;
@@ -39,7 +39,7 @@ public class HMAC
 	
 // ------------------------------------------------- private Methoden -------------------------------------------
 	
-	// verbindet die beiden Arrays hintereinander
+	// connects the two arrays behind each other
 	private static byte[] add(byte[] a, byte[] b) 
 	{
 		byte[] out = new byte[a.length + b.length];
@@ -49,7 +49,7 @@ public class HMAC
 	}
 	
 	
-	// XOR von a und b. a unb b müssen gleich lang sein!
+	// XOR of a and b. a unb b must be the same length!
 	private static byte[] xor(byte[] a, byte[] b) throws Exception
 	{
 		if(a.length != b.length) throw new Exception("a and b are not the same length");

@@ -16,7 +16,7 @@ package BTClib3001;
 public class ByteArrayList 
 {
 
-	private byte[] data;		// Das Byte-Array als Datentyp dieser Klasse
+	private byte[] data;		// The byte array as data type of this class
 	
 	
 	
@@ -24,7 +24,7 @@ public class ByteArrayList
 // ----------------------------- Konstruktor ----------------------------//
 	
 	
-/**	Dem Konstruktor wird das Byte-Array übergeben. **/	
+/**	The constructor receives the byte array. **/	
 public ByteArrayList(byte[] data)
 {
 	this.data = data;
@@ -38,7 +38,7 @@ public ByteArrayList(byte[] data)
 
 
 
-/**	@param b Hängt das angegebene Byte hinten an die Liste an.	**/
+/**	@param b Appends the given byte to the end of the list.	**/
 public void add(byte b)
 {
 	byte[] out = new byte[data.length+1];
@@ -49,7 +49,7 @@ public void add(byte b)
 
 
 
-/**	@param b Hängt das angegebene Byte-Array hinten an die Liste an.	**/
+/**	@param b Appends the given byte array to the end of the list.	**/
 public void add(byte[] b)
 {
 	int len = b.length;
@@ -61,10 +61,10 @@ public void add(byte[] b)
 
 
 
-/**	Entfernt einen ausgewählten Bereich, zwischen from und to.
-	Nachfolgende Bytes füllen die Lücke auf, in dem sie nach vorne geschoben werden.
-	@param from Start-Position ab der Bytes entfernt werden sollen.
-	@param to End-Position bis an diese Stelle werden Bytes entfernt.	**/
+/**	Removes a selected range, between from and to.
+	Subsequent bytes fill the gap by being moved forward.
+	@param from Start position from which bytes should be removed.
+	@param to End position up to which bytes should be removed.	**/
 public void remove(int from, int to)
 {
 	int len = to-from;
@@ -76,36 +76,36 @@ public void remove(int from, int to)
 
 
 
-/**	Fügt ein neues Byte-Array in die angegebene Position ein und verschiebt die restlichen Elemente nach hinten.
-	@param b Das Byte-Array welches eingefügt werden soll.
-	@param pos Position der Stelle an dem das neue Byte-Array eingefügt werden soll.  **/
+/**	Inserts a new byte array at the specified position and shifts the remaining elements backwards.
+	@param b The byte array to be inserted.
+	@param pos Position where the new byte array should be inserted.  **/
 public void insert(byte[] b, int pos)
 {
-	int len = b.length;											// Länge des einzufügenden Arrays.
-	byte[] out = new byte[data.length + len];					// neues Array
-	System.arraycopy(data, 0, out, 0, pos);						// Vorderteil wird kopiert
-	System.arraycopy(b, 0, out, pos, len);						// Mittelteil wird kopiert
-	System.arraycopy(data, pos, out, pos+len, data.length-pos);	// End-Teil wird kopiert
+	int len = b.length;											// Length of the array to be inserted.
+	byte[] out = new byte[data.length + len];					// new array
+	System.arraycopy(data, 0, out, 0, pos);						// Front part is copied
+	System.arraycopy(b, 0, out, pos, len);						// Middle part is copied
+	System.arraycopy(data, pos, out, pos+len, data.length-pos);	// End part is copied
 	data = out;
 }
 
 
 
-/**	Fügt ein einzelnes Byte in die angegebene Position ein und verschiebt die restlichen Elemente nach hinten.
-@param b Das Byte welches eingefügt werden soll.
-@param pos Position der Stelle an dem das neue Byte eingefügt werden soll.  **/
+/**	Inserts a single byte at the specified position and shifts the remaining elements backwards.
+@param b The byte to be inserted.
+@param pos Position where the new byte should be inserted.  **/
 public void insert(byte b, int pos)
 {
-	byte[] out = new byte[data.length + 1];						// neues Array
-	System.arraycopy(data, 0, out, 0, pos);						// Vorderteil wird kopiert
-	out[pos] = b;												// Das Byte wird kopiert
-	System.arraycopy(data, pos, out, pos+1, data.length-pos);	// End-Teil wird kopiert
+	byte[] out = new byte[data.length + 1];						// new array
+	System.arraycopy(data, 0, out, 0, pos);						// Front part is copied
+	out[pos] = b;												// The byte is copied
+	System.arraycopy(data, pos, out, pos+1, data.length-pos);	// End part is copied
 	data = out;
 }
 
 
 
-/** @return Gibt das Element an der angegebenen Position in dieser Liste zurück. **/
+/** @return Returns the element at the specified position in this list. **/
 public byte get(int index)
 {
 	return data[index];
@@ -113,7 +113,7 @@ public byte get(int index)
 
 
 
-/**	Gibt ein Byte-Array in dem angegebenem Bereich zurück. **/
+/**	Returns a byte array in the specified range. **/
 public byte[] getArray(int from, int to)
 {
 	byte[] out = new byte[to-from];
@@ -123,7 +123,7 @@ public byte[] getArray(int from, int to)
 
 
 
-/** @return gibt das komplette Byte-Array zurück.	**/
+/** @return returns the complete byte array.	**/
 public byte[] getArrayAll()
 {
 	return data;
@@ -131,7 +131,7 @@ public byte[] getArrayAll()
 
 
 
-/**	@return Gibt die Anzahl der Elemente in dieser Liste zurück. **/
+/**	@return Returns the number of elements in this list. **/
 public int size()
 {
 	return data.length;

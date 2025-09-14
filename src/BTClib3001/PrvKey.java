@@ -3,20 +3,25 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Base64;
-
-
-
+/*
+ * This class creates a Private-Key object for various coins.
+ * Several constructors are implemented that recognize the private key from different formats.
+ * The constructor must also be given the CoinParameter of the respective coin.
+ * See CoinParameter class.
+ * The Bitcoin address is only generated as hash160 and should then be processed by the BitcoinAddr class.
+ * Info: https://en.bitcoin.it/wiki/Address
+ */
 /***********************************************************************************************************************
-*		Version 2.5    						Autor: Mr. Maxwell   						vom 23.12.2023					*
-*																														*
-*		Letzte Änderung: getHash160_RedeemScript_P2SH() hinzugefügt														*
-*		BTClib3001 Klasse																								*
-*		Nicht statische Klasse die ein Private-Key Object erstellt.	Für verschiedene Cois ausgelegt.					*
-*		Es sind mehrere Konstrukor´s implementiert die den Private Key aus diversen Formaten erkennen.					*
-*		Dem Konstruktor müssen zusätzlich die CoinParameter des jeweiligen Coin´s übergeben werden.						*
-*		Siehe CoinParameter Class																						*
-*		Die Bitcoin Adresse wird nur als hash160 erzeugt und sollte dann von der BitcoinAddr-Kasse verarbeitet werden.	*
-*		Info: https://en.bitcoin.it/wiki/Address																		*
+*       Version 2.5                             Author: Mr. Nickolas-Antoine B.                            from 23.12.2023         *
+*                                                                                                                      *
+*       Last change: Added getHash160_RedeemScript_P2SH()                                                              *
+*       BTClib3001 class                                                                                                *
+*       Non-static class that creates a Private-Key object. Designed for various coins.                                 *
+*       Several constructors are implemented that recognize the private key from various formats.                       *
+*       The constructor must also be given the CoinParameter of the respective coin.                                    *
+*       See CoinParameter class                                                                                         *
+*       The Bitcoin address is only generated as hash160 and should then be processed by the BitcoinAddr class.         *
+*       Info: https://en.bitcoin.it/wiki/Address                                                                        *
 *************************************************************************************************************************/
 
 
@@ -24,9 +29,9 @@ import java.util.Base64;
 public class PrvKey
 {
 
-	private byte[] 	prvKey;					// Der Priv.Key als 32Byte-Array
-	private byte[] 	pref_PrivKey;			// Das Prefix Private-Key aus den Coin-Parametern zur Identifizierung des jeweiligen Coin Private-Key´s. Siehe CoinParameter Klasse
-	private int 	compressed = 0;			// gibt an, ob der Private-Key in "compressed" Format übergeben wurde:   0 = ohne Format Angabe,  1 = compressed,   2 = uncompressed
+	private byte[] 	prvKey;					// The Priv.Key as 32Byte array
+	private byte[] 	pref_PrivKey;			// The Prefix Private-Key from the Coin-Parameters for identification of the respective Coin Private-Key. See CoinParameter Class
+	private int 	compressed = 0;			// indicates whether the Private-Key was passed in "compressed" format:   0 = without format specification,  1 = compressed,   2 = uncompressed
 
 
 
@@ -36,8 +41,8 @@ public class PrvKey
 
 // ---------------------------------------------------- Konstruktoren -------------------------------------------------------------
 
-/**	@param privKey Dem Konstruktor wird der Priv.Key als 32Byte Array im rohen Hexa-Format übergeben.
-	@param pref_PrivKey Die CoinParameter müssen übergeben werden, zur Identifizierung des jeweiligen Coin. Siehe CoinParameter Class
+/**	@param privKey The Priv.Key is passed to the constructor as a 32Byte array in raw Hexa format.
+	@param pref_PrivKey The CoinParameters must be passed for identification of the respective Coin. See CoinParameter Class
 	Bitcoin-MainNet=0x80, Bitcoin-TestNet=0xEF   **/
 public PrvKey(byte[] privKey, byte[] pref_PrivKey) throws IllegalArgumentException
 {
@@ -48,9 +53,9 @@ public PrvKey(byte[] privKey, byte[] pref_PrivKey) throws IllegalArgumentExcepti
 
 
 
-/**	@param privKey Dem Konstruktor wird ein beliebiger Text-String übergeben, der Priv.Key entsteht dann durch den Hash von 1xSHA256
-	@param coinParameter Die CoinParameter müssen übergeben werden, zur Identifizierung des jeweiligen Coin. Siehe CoinParameter Class. Bitcoin-MainNet=0x80, Bitcoin-TestNet=0xEF,
-	@param TRUE Das dritte Argument wird nicht benutzt, und kann true oder false sein.	 **/
+/**	@param privKey The constructor is given an arbitrary text string, the Priv.Key is then generated by the hash of 1xSHA256
+	@param coinParameter The CoinParameters must be passed for identification of the respective Coin. See CoinParameter Class. Bitcoin-MainNet=0x80, Bitcoin-TestNet=0xEF,
+	@param TRUE The third argument is not used, and can be true or false.	 **/
 public PrvKey(String privKey, byte[] pref_PrivKey, boolean TRUE) throws UnsupportedEncodingException
 {
 	this.pref_PrivKey = pref_PrivKey;
@@ -60,9 +65,9 @@ public PrvKey(String privKey, byte[] pref_PrivKey, boolean TRUE) throws Unsuppor
 
 
 
-/**	@param privKey Dem Konstruktor wird der Priv.Key als String übergeben, das richtige Format wird selbst erkannt.
+/**	@param privKey The Priv.Key is passed to the constructor as a string, the correct format is automatically detected.
 	Es sind folgende Formate möglich: Hex, Base58, Base58-Compressed, Base64, Base6.
-	@param coinParameter Die CoinParameter müssen übergeben werden, zur Identifizierung des jeweiligen Coin. Siehe CoinParameter Class. Bitcoin-MainNet=0x80, Bitcoin-TestNet=0xEF   **/
+	@param coinParameter The CoinParameters must be passed for identification of the respective Coin. See CoinParameter Class. Bitcoin-MainNet=0x80, Bitcoin-TestNet=0xEF   **/
 public PrvKey(String privKey, byte[] pref_PrivKey) throws IllegalArgumentException
 {
 	this.pref_PrivKey = pref_PrivKey;
@@ -151,7 +156,7 @@ public byte[] getHash160BitcoinAddress(boolean compressed)
 
 
 /**	Hash160 (RedeemScripot) für P2SH-Adressen.
-Achtung! Dieser Hash160 unterscheidet sich vom legancy-Hash160 und ist nur bei P2SH gültig. 
+Achtung! Dieser Hash160 unterscheidet sich vom legency-Hash160 und ist nur bei P2SH gültig. 
 Es handelt sich hierbei um das RedeemScript und eigentlich nicht um einen Hash160. 
 Wird die Bitcoin-Adresse aus diesem Has160 gebildet, handelt es sich um eine Adresse mit "3" am Anfang **/
 public byte[] getHash160_RedeemScript_P2SH()

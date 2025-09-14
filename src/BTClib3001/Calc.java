@@ -11,7 +11,7 @@ import ECDSA.Secp256k1;
 
 
 /********************************************************************************************************************
-*	Version 1.8    	 					Autor: Mr. Maxwell											vom 03.01.2024 	*
+*	Version 1.8    	 					Autor: Mr. Nickolas-Antoine B.											vom 03.01.2024 	*
 *	Letzte Änderung: getDoubleHashSHA256() hinzugefügt. (Doppelter SHA256)											*
 *	Hier werden gundlegende Crypt-Berechnungen durchgefürt.															*
 *********************************************************************************************************************/
@@ -42,7 +42,7 @@ public static String getPublicKey(String str, boolean compressed)
 
 
 
-/** Berechnet den PublicKey aus einem Private-Key.
+/** Berechnet denPublicKey aus einem Private-Key.
 @param privateKey Übergeben wird der Private-Key als Byte-Array (32Byte)
 @param compressed wenn "true" dann wird der Pub-Key komprimiert (nur X-Koordinate)
 @return Gibt den Public Key als Byte-Array zurück.

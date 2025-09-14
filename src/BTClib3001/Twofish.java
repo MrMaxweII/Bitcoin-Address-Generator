@@ -4,23 +4,22 @@ import java.util.Arrays;
 
 
 /****************************************************************************************************************************************************
- * Version 1.0   						 Autor: Mr. Maxwell 				  	vom 20.02.2023														*
- * 																																					*
- * Ver- und Endschlüsselung mit Twofish 																											*
- * - CBC Mode; nur der CBC Modus ist hier implementiert																								*
- * - Kein Padding! Die Anwendung muss das Padding (das Auffüllen mit Bytes auf Blockgröße (128Bit) selbst implementieren!							*
- * - Diese Klasse benötigt keine externen Abhängigkeiten und läuft vollständig alleine in dieser Klasse.											*
- * - Diese Implementierung ist variabel und allgemein einsetzbar.																					*
- * - Diese Twofish Klasse verschlüsselt komform nach dem Twofish Protokoll von Bcruce Schneier (dem Erfinder von Twofish)							*
- * - Die Schiffren entsprechen denen, die von Bruce Schneier veröffentlicht sind: https://www.schneier.com/wp-content/uploads/2015/12/ecb_ival.txt	*
- * - Der Code wurde ausgiebig im Vergleich mit BouncyCastle getestet. Alle Schiffren sind stets gleich.												*
- * 																																					*
- * Anwendung: Es gibt zwei Hauptmethoden zur Ver- und Enschlüsselung:																				*
- * 		public static byte[] encrypt(byte[] txt, byte[] key, byte[] iv);																			*
- *  	public static byte[] decrypt(byte[] chiper, byte[] key, byte[] iv);																			*
- * Alle Ein- und Ausgaben dieser Methoden sind in Byte-Array zu erfolgen. 																			*
- * Achtung der iv-Vektor muss ein Zufallsvektor sein! Die Anwendung muss den 128Bit Zufallsvektor "iv" selbst erstellen.							*
- * Da kein Padding implementiert ist, muss der text oder die chiffre durch 16Byte ohne Rest teilbar sein. Also 16, 32, 48 ... Bytes lang!			*
+ * Version 1.0                          Author: Mr. Nickolas-Antoine B.                     20.02.2023                      *
+ *                                                                                                              *
+ * Twofish encryption/decryption                                                                                 *
+ * - CBC mode; only CBC is implemented                                                                          *
+ * - No padding! The application must implement padding to 16-byte blocks                                        *
+ * - No external dependencies; self-contained implementation                                                     *
+ * - General-purpose implementation                                                                              *
+ * - Conforms to Twofish spec by Bruce Schneier                                                                  *
+ * - Ciphers match those published by Bruce Schneier: https://www.schneier.com/wp-content/uploads/2015/12/ecb_ival.txt *
+ * - Extensively tested against BouncyCastle; results match                                                      *
+ *                                                                                                              *
+ * Usage: two main methods:                                                                                      *
+ *     public static byte[] encrypt(byte[] txt, byte[] key, byte[] iv);                                         *
+ *     public static byte[] decrypt(byte[] chiper, byte[] key, byte[] iv);                                      *
+ * All inputs/outputs are byte arrays. IV must be random 128-bit.                                                *
+ * Text/cipher length must be a multiple of 16 bytes.                                                            *
  ****************************************************************************************************************************************************/
 
 
@@ -30,11 +29,11 @@ public class Twofish
 
 	
     
-    /** Verschlüsselt im CBC-Mode no Padding
-		@param txt Klartex als Byte-Array. Muss durch 16Byte ohne Rest teilbar sein!
-		@param key Schlüssel, muss 16 oder 32 Byte lang sein
-		@param iv Zufallsvektor, muss 16Byte lang sein
-		@return Verschlüsselte Schiffre als byte-Array **/
+    /** Encrypt CBC mode, no padding
+        @param txt plaintext; length must be multiple of 16
+        @param key key: 16 or 32 bytes
+        @param iv IV: 16 bytes
+        @return ciphertext **/
     public static byte[] encrypt(byte[] txt, byte[] key, byte[] iv) throws Exception 
     {
         if (txt.length % 16 != 0) throw new Exception("InputError! txt size not correct");
@@ -57,11 +56,11 @@ public class Twofish
     
     
     
-    /** Endschlüsselt im CBC-Mode no Padding
-		@param chiper Schiffre als Byte-Array. Muss durch 16Byte ohne Rest teilbar sein!
-		@param key Schlüssel, muss 16 oder 32 Byte lang sein
-		@param iv Zufallsvektor, muss 16Byte lang sein
-		@return Entschlüsselter Kartext als byte-Array **/
+    /** Decrypt CBC mode, no padding
+        @param chiper ciphertext; length must be multiple of 16
+        @param key key: 16 or 32 bytes
+        @param iv IV: 16 bytes
+        @return plaintext **/
     public static byte[] decrypt(byte[] chiper, byte[] key, byte[] iv) throws Exception 
     {
     	if (chiper.length % 16 != 0) 	throw new Exception("InputError! cipher size not correct");
@@ -85,12 +84,12 @@ public class Twofish
 
     
     
-    // -------------------------------------------------------- private Methoden ---------------------------------------------------------- 
+    // -------------------------------------------------------- private methods ---------------------------------------------------------- 
     
   
 
     
-    // Verschlüsselt einen Block
+    // Encrypt one block
     private static byte[] blockEncrypt(int[] txt, byte[] key) throws Exception 
     { 	
     	int[] data = swapBytes(txt);
@@ -133,7 +132,7 @@ public class Twofish
     
     
  
-	// Entschlüsselt einen Block
+	// Decrypt one block
     private static byte[] blockDecrypt(int[] chiffre, byte[] key) throws Exception 
     {   
     	int[] data = swapBytes(chiffre);
@@ -182,10 +181,10 @@ public class Twofish
  // -------------------------------------------------------------- Key Expand ---------------------------------------------------------------    
 
     
-    private static int[] sBox = new int[1024];   // Die S-Box
+    private static int[] sBox = new int[1024];   // The S-box
 
     
-    // Erstellt 30 Teilschlüssel und die sBox	
+    // Create 40 subkeys and the S-box
     private static int[] keyExpand(byte[] key)throws Exception 
     {
         int len = key.length;
@@ -254,11 +253,11 @@ public class Twofish
     
     
     
- // ---------------------------------------------------------  Hilfs Methoden ------------------------------------------------------------------- 
+ // ---------------------------------------------------------  Helper methods ------------------------------------------------------------------- 
     
     
     
-	// 16Byte Array wird in 4 Integer-Zahlen aufgeteilt
+	// Split 16-byte array into 4 integers
 	private static int[] split(byte[] key)
 	{
 		int[] out = new int[4];
@@ -271,7 +270,7 @@ public class Twofish
 	}
     
 	
-	// Wandelt 4 Integer (Int-Array mit genau 4 Integer) nach Byte-Array.
+	// Convert 4 ints to 16-byte array
 	private static byte[] fourIntToByteArray(int[] in)
 	{
 		byte[] out = new byte[16];
@@ -308,8 +307,8 @@ public class Twofish
 	}
 		
 	
-	// Additions Methode, z.B: iv wird mit data addiert (XOR)
-	// Alle In/Out daten sind 4 Integer Zahlen in einem Array
+	// XOR addition (e.g., IV with data)
+	// All In/Out data are 4 integer numbers in an array
 	private static int[] add(int[] in, int[] data)
 	{
 		int[] out = new int[4];
@@ -321,7 +320,7 @@ public class Twofish
 	}
 	
 	
-	// Dreht die Byte-Reihenfolge eines Integer-Arrays um. 
+	// Swap byte order of an int array
     private static int[] swapBytes(int[] in) 
     {
     	int[] out = in.clone();
@@ -342,7 +341,7 @@ public class Twofish
     }
 	
     
-    // h-Funktion 
+    // h-function 
     private static int h(int keyLen, int in, int[] ii) 
     {
         int b0 = in & 0xFF;
@@ -377,7 +376,7 @@ public class Twofish
     }
  
     
-    // Reed-Solomon Encode
+    // Reed-Solomon encode
     private static int reedSolomonEncode(int n, int r) 
     {
         for (int i = 0; i < 4; i++) r = reedSol(r);
@@ -387,7 +386,7 @@ public class Twofish
     }
 
    
-    // Reed-Solomon code 
+    // Reed-Solomon code step
     private static int reedSol(int x) 
     {
         int a = (x >>> 24) & 0xFF;
@@ -413,7 +412,7 @@ public class Twofish
     }
 
     
-    // Multiplikation mit S-Box
+    // Multiply with S-box
     private static int sBoxMul(int[] sBox, int x, int R) 
     {
         return sBox[2 * bits(x, R)] ^ sBox[2 * bits(x, R + 1) + 1] ^ sBox[0x200 + 2 * bits(x, R + 2)] ^ sBox[0x200 + 2 * bits(x, R + 3) + 1];

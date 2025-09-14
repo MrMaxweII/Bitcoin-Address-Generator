@@ -5,20 +5,20 @@ import java.util.Arrays;
 
 
 /*******************************************************************************************************************************************
-*		V1.7.1    Autor: Mr. Maxwell   		Signieren von Tx wurde ausgelagert											vom 18.01.2024		*
+*		V1.7.1    Author: Mr. Nickolas-Antoine B.   		Signing of Tx has been outsourced											as of 18.01.2024		*
 *																																			*
-*		Letzte Änderung: 																													*
-*		Die Methode getSigHash(), wird von hier aus zwar aufgerufen, leitet aber die Berechnung an die entsprechende Signatur-Klasse weiter.*
-*		Alle Methoden zur Signierung, oder Transaktions-Erstellung werden entfernt / Ausgelagert!											*
-*		Diese Klasse ist nur zum Parsen von Transaktionen zu verwenden!!!																	*
+*		Last change: 																													*
+*		The method getSigHash(), is called from here, but delegates the calculation to the corresponding signature class.*
+*		All methods for signing or transaction creation are removed / outsourced!											*
+*		This class is only to be used for parsing transactions!!!																	*
 *		BTClib3001	Klasse																													*
-*		Nicht statische Klasse die einen Transaktionscode parst und viele Methoden zur Verfügung stellt.									*
-*		Vorgehensweise:																														*
-*		Es wird mit dem Konstruktor ein "new Transaktion(tx,pos0)" Object erstellt.															*
-*		Dem Konstruktor wird ein Byte-Array (beliebiger Länge) mit mindestens einer enthaltenen Transaktion und einem "pos0" Wert übergeben.*
-*		Im Byte-Array "data" dürfen mehrere Transaktionen enthalten sein. Es wird aber nur eine hier geparst.								*
-*		Der Pos0-Wert stellt den Startpunkt dieser Transaktion dar, die dann in dieser Klasse behandelt wird.								*		
-*		Die übergebene tx-Byte-Array darf durch die Klasse nicht verändert werden!															*
+*		Non-static class that parses a transaction code and provides many methods.									*
+*		Procedure:																														*
+*		A "new Transaktion(tx,pos0)" object is created with the constructor.															*
+*		A byte array (of arbitrary length) containing at least one transaction and a "pos0" value is passed to the constructor.*
+*		The byte array "data" may contain multiple transactions. However, only one is parsed here.								*
+*		The pos0 value represents the starting point of the transaction, which is then processed in this class.								*		
+*		The passed tx byte array must not be modified by the class!															*
 ********************************************************************************************************************************************/
 
 
@@ -26,76 +26,76 @@ import java.util.Arrays;
 public class Transaktion 
 {
 														
-	private byte[] 	data;				// Der Daten Stream mit zusammenhängenden Transaktionen Darf nicht verändert werden! 
-	private int		pos0;				// Die Startposition der Transaktion deren Länge ermittelt werden soll.
-	private int		version_pos;		// Start der Versions Bytes. (immer 4 Byte)
-	public  boolean	isWitness;			// Ist true, wenn es sich um eine Witness-Transaktion handelt.	
-	private int 	txIn_count;			// Die Anzahl der Eingangs-Transaktionen
-	private int[] 	prev_Hash_pos;		// Die Startpunkte der Tx-In vorherigen Hashes. (immer 32Byte)
-	private int[]	txIndex_pos;		// Die Nummer der Tx der vorherigen Tx. (immer 4 Byte)
-	private int[] 	sigScript_len;		// int-Array mit der Script-Länge der Eingangs-Transaktionen. (Mehrere Tx.In daher auch mehrerer Längen)
-	private int[]	sigScript_pos;		// Die Startposition des Signatur Scripts.
-	private int[]	sequence_pos;		// Startposition der Sequence (immer 4Bytes)	
-	private int 	txOut_count;		// Die Anzahl der Ausgangs-Transaktionen
-	public  int[]	value_pos;			// Der Betrag, (Immer 8Byte)
-	private int[] 	pkScript_len;		// int-Array mit der Script-Länge der Ausgangs-Transaktionen. (Mehrere Tx.Out daher auch mehrerer Längen)
-	private int[] 	pkScript_pos;		// Startpositionen aller PK.Scripte;
-	public int		witness_len;		// Wenn Witness vorhanden ist, ist die Länge nicht 0
-	public  int		witness_pos;		// Startposition der Witness-Daten, falls vorhanden.
-	public  int 	lockTime_pos;		// Die Start Position des der LockTime bzw. Witness ganz am Ende. (immer 4Byte)	
-	private int		tx_size;			// Die endgültige Länge der gesamten Transaktion.
-	private int		end_pos;			// Zeigt auf das nächste Byte nach der Transaktion. Wird benötigt, Falls mehrere Tx geparst werden sollen.
+	private byte[] 	data;				// The data stream with contiguous transactions must not be modified! 
+	private int		pos0;				// The starting position of the transaction whose length is to be determined.
+	private int		version_pos;		// Start of the version bytes. (always 4 bytes)
+	public  boolean	isWitness;			// Is true if it is a witness transaction.	
+	private int 	txIn_count;			// The number of input transactions
+	private int[] 	prev_Hash_pos;		// The starting points of the Tx-In previous hashes. (always 32Byte)
+	private int[]	txIndex_pos;		// The number of the Tx of the previous Tx. (always 4 bytes)
+	private int[] 	sigScript_len;		// int-array with the script length of the input transactions. (multiple Tx.In therefore also multiple lengths)
+	private int[]	sigScript_pos;		// The starting position of the signature script.
+	private int[]	sequence_pos;		// Starting position of the sequence (always 4Bytes)	
+	private int 	txOut_count;		// The number of output transactions
+	public  int[]	value_pos;			// The amount, (always 8Byte)
+	private int[] 	pkScript_len;		// int-array with the script length of the output transactions. (multiple Tx.Out therefore also multiple lengths)
+	private int[] 	pkScript_pos;		// Starting positions of all PK scripts;
+	public int		witness_len;		// If witness is present, the length is not 0
+	public  int		witness_pos;		// Starting position of the witness data, if present.
+	public  int 	lockTime_pos;		// The starting position of the locktime or witness at the very end. (always 4Byte)	
+	private int		tx_size;			// The final length of the entire transaction.
+	private int		end_pos;			// Points to the next byte after the transaction. Needed if multiple Tx are to be parsed.
 	
 	
 	
 	
 	
 	
-// ---------------------------------------------------------------- Konstruktor ---------------------------------------------------------------//
+// ---------------------------------------------------------------- Constructor ---------------------------------------------------------------//
 
-// Der Konstruktor parst die gesamte Transaktion einmal und legt dabei die obigen Positions und Längen Zeiger an.	
-/**	Dem Konstruktor wird ein Byte-Array (beliebiger Länge) mit mindestens einer enthaltenen Raw-Transaktion und einem "pos0" Wert übergeben.
-	Im Byte-Array "data" dürfen mehrere Transaktionen enthalten sein. Es wird aber nur eine hier geparst.	
-	Der Pos0-Wert stellt den Startpunkt dieser Transaktion dar, die dann in dieser Klasse behandelt wird.
-	@param data ByteArray beliebiger Länge mit mindestens einer Transaktion 
- 	@param pos0 Startposition der Transaktion die hier verwendet werden soll.  **/
+// The constructor parses the entire transaction once and thereby sets up the above position and length pointers.	
+/**	The constructor is passed a byte array (of arbitrary length) containing at least one raw transaction and a "pos0" value.
+	The byte array "data" may contain multiple transactions. However, only one is parsed here.	
+	The pos0 value represents the starting point of this transaction, which is then processed in this class.
+	@param data ByteArray of arbitrary length with at least one transaction 
+ 	@param pos0 Starting position of the transaction to be used here.  **/
 public Transaktion(byte[] data, int pos0)
 {	
-	int pos = pos0;									// Position an der sich der Parser gerade befindet.	
+	int pos = pos0;									// Position at which the parser is currently located.	
 	this.data = data;
 	this.pos0 = pos0;	
-	version_pos = pos;	pos=pos+4;					// Die ersten 4 Bytes "version";
-	if(isWitness()) 	pos=pos+2;					// Die Verschiebung nach hinten durch witness wird gesetzt.	
-	int[] cs = Calc.decodeCompactSize(data, pos);	// Parst die Tx-In-Count
+	version_pos = pos;	pos=pos+4;					// The first 4 bytes "version";
+	if(isWitness()) 	pos=pos+2;					// The shift backwards due to witness is set.	
+	int[] cs = Calc.decodeCompactSize(data, pos);	// Parses the Tx-In-Count
 	pos =	 cs[0];  txIn_count = cs[1];
 	prev_Hash_pos 	= new int[txIn_count];
 	txIndex_pos		= new int[txIn_count];
 	sigScript_len	= new int[txIn_count];
 	sigScript_pos	= new int[txIn_count];
 	sequence_pos	= new int[txIn_count];	
-	for(int i=0;i<txIn_count;i++)					// Parst alle Tx-In
+	for(int i=0;i<txIn_count;i++)					// Parses all Tx-In
 	{
 		prev_Hash_pos[i] = pos;  pos=pos+32;
 		txIndex_pos[i]   = pos;  pos=pos+4;
-		cs = Calc.decodeCompactSize(data, pos);		// Parst die Sig.Script Länge
+		cs = Calc.decodeCompactSize(data, pos);		// Parses the sig.script length
 		sigScript_pos[i] = cs[0];  sigScript_len[i] = cs[1];	
 		pos = sigScript_pos[i] + sigScript_len[i];
 		sequence_pos[i] = pos;  pos=pos+4;
 	}
-	cs = Calc.decodeCompactSize(data, pos);			// Parst die Tx-Out-Count
+	cs = Calc.decodeCompactSize(data, pos);			// Parses the Tx-Out-Count
 	pos =	 cs[0];  txOut_count = cs[1];
 			
 	value_pos 	 = new int[txOut_count];		
 	pkScript_len = new int[txOut_count];	
 	pkScript_pos = new int[txOut_count];		
-	for(int i=0;i<txOut_count;i++)					// Parst alle Tx-Out
+	for(int i=0;i<txOut_count;i++)					// Parses all Tx-Out
 	{
 		value_pos[i] = pos;  pos=pos+8;
-		cs = Calc.decodeCompactSize(data, pos);		// Parst die Pk.Script Länge
+		cs = Calc.decodeCompactSize(data, pos);		// Parses the Pk.Script length
 		pkScript_pos[i] = cs[0];  pkScript_len[i] = cs[1];
 		pos = pkScript_pos[i] + pkScript_len[i];
 	}
-	if(isWitness) 									// Parst Witness, falls vorhanden 
+	if(isWitness) 									// Parses witness, if present 
 	{  
 		witness_pos = pos;;
 		
@@ -112,7 +112,7 @@ public Transaktion(byte[] data, int pos0)
 		}	
 		witness_len = pos - witness_pos;		
 	}
-	lockTime_pos = pos;  pos=pos+4;					// Parst die Lock-Time
+	lockTime_pos = pos;  pos=pos+4;					// Parses the lock-time
 	end_pos = pos;
 	tx_size = pos - pos0;
 }
@@ -120,8 +120,8 @@ public Transaktion(byte[] data, int pos0)
 
 
 
-/**	Gibt die Länge (Anzahl Byte) der Transaktion zurück die im Konstruktor mit pos0 markiert wurde. 
- 	Achtung, es handelt sich nicht um die Byte-Länge des übergebenen Byte-Arrays im Konstruktor!**/
+/**	Gives the length (number of bytes) of the transaction back that was marked with pos0 in the constructor. 
+ 	Attention, this is not the byte length of the passed byte array in the constructor!**/
 public int size()
 {
 	return tx_size;
@@ -130,11 +130,11 @@ public int size()
 
 
 
-//----------------------------------------------------- Public Getter Methoden ---------------------------------------------------------//
+//----------------------------------------------------- Public Getter Methods ---------------------------------------------------------//
 
 
 
-/** Gibt die erste Raw-Transaktion als Byte-Array zurück, die im Data-Stream enthalten ist. **/
+/** Returns the first raw transaction as a byte array contained in the data stream. **/
 public byte[] getRawTx()
 {
 	byte[] out = new byte[tx_size];
@@ -143,17 +143,17 @@ public byte[] getRawTx()
 }
 
 
-/**	Zeigt auf das nächste Byte, nach dieser eingelesenen Transaktion. Wird benötigt, Falls mehrere Tx geparst werden sollen. 
-	Achtung: Wurde dem Konstruktor nur eine Tx übergeben, zeigt diese "end-pos" auf ein Element, welches im Array nicht enthalten ist. **/
+/**	Points to the next byte after this read transaction. Needed if multiple Tx are to be parsed. 
+	Attention: If only one Tx was passed to the constructor, this "end-pos" points to an element that is not contained in the array. **/
 public int end() 
 {
 	return end_pos;
 }
 
 
-/**	Gibt die Versions Nr. Der Transaktion als Integer zurück (ersten 4 Byte in gedrehter Reihenfolge)	
-	ByteSwab wird durchgeführt!
-	Beispiel: 01000000  ->   1*/
+/**	Gives the version number of the transaction as an integer (first 4 bytes in reversed order)	
+	ByteSwab is performed!
+	Example: 01000000  ->   1*/
 public int getVersion()
 {
 	byte[] b = Convert.swapBytesCopy(getVersion_byte());					
@@ -161,7 +161,7 @@ public int getVersion()
 }		
 	
 
-/**	Gibt die Versions Nr. Der Transaktion als ByteArray in Originalform zurück **/
+/**	Gives the version number of the transaction back as a byte array in original form **/
 public byte[] getVersion_byte()
 {
 	byte[] out = new byte[4];
@@ -170,17 +170,17 @@ public byte[] getVersion_byte()
 }	
 
 
-/** Gibt die Anzahl der Transaktions Eingänge zurück. **/
+/** Returns the number of transaction inputs. **/
 public int getTxInCount()
 {
 	return txIn_count;
 }
 
 
-/**	Gibt ein 2Dim Array mit den Transaktions-Hash´s zurück die von den vorherigen Transaktionen stammen.
-	2Dim Array, weil es mehrere Tx-Hashes sein können! 
-	Rückgabe ist ein Array mit 32Bytes langen Bytes-Arrays (ByteArray[?][32])
-	Die Tx-Hash´s werden in der allgemeinen Form zurück gegeben. (ByteSwap wird hier durchgeführt)	**/
+/**	Gives a 2D array with the transaction hashes back that come from the previous transactions.
+	2D array, because there can be multiple Tx-hashes! 
+	Return is an array with 32Bytes long byte-arrays (ByteArray[?][32])
+	The Tx-hashes are returned in the general form. (ByteSwap is performed here)	**/
 public byte[][] getTxPrevHash()
 {
 	byte[][] out = new byte[txIn_count][32];
@@ -194,10 +194,10 @@ public byte[][] getTxPrevHash()
 
 
 
-/**	Gibt ein 2Dim Array mit den Transaktions-Hash´s zurück die von den vorherigen Transaktionen stammen.
-	2Dim Array, weil es mehrere Tx-Hashes sein können! 
-	Rückgabe ist ein Array mit 32Bytes langen Bytes-Arrays (ByteArray[?][32])
-	Die Tx-Hash´s werden in Ursprungs-Form zurück gegeben. Nicht geswapt	**/
+/**	Gives a 2D array with the transaction hashes back that come from the previous transactions.
+	2D array, because there can be multiple Tx-hashes! 
+	Return is an array with 32Bytes long byte-arrays (ByteArray[?][32])
+	The Tx-hashes are returned in their original form. Not swapped	**/
 public byte[][] getTxPrevHashNoSwap()
 {
 	byte[][] out = new byte[txIn_count][32];
@@ -210,10 +210,9 @@ public byte[][] getTxPrevHashNoSwap()
 
 
 
-/**	Gibt ein Int-Array mit dem Transaktions-Index zurück die von den vorherigen Transaktionen stammen (4Bytes)
-	Transaktions-Index ist die Nummer der Transaktion der Vorherigen Transaktion. 
-	(Wenn die Vorherige Transaktion die auf diese Transaktion verweist, mehrere Ausgangs-Transaktionen hatte, 
-	dann ist diese Nummer die Position (Index) der Transaktion die auf diese verweist. 0 ist die erste, 1 die zweite, 2 die dritte usw. )	**/
+/** Returns an int array with the transaction indices from previous transactions (4 bytes).
+Transaction index is the output index of the previous transaction referenced.
+(If the previous transaction had multiple outputs, this index is the position of the output being spent. 0 = first, 1 = second, etc.) **/
 public int[] getTxPrevIndex()
 {
 	byte[] b = new byte[4];
@@ -229,10 +228,8 @@ public int[] getTxPrevIndex()
 
 
 
-/**	Gibt ein 2d Byte-Array mit dem Transaktions-Index zurück die von den vorherigen Transaktionen stammen (4Bytes)
-Transaktions-Index ist die Nummer der Transaktion der Vorherigen Transaktion. 
-(Wenn die Vorherige Transaktion die auf diese Transaktion verweist, mehrere Ausgangs-Transaktionen hatte, 
-dann ist diese Nummer die Position (Index) der Transaktion die auf diese verweist. 0 ist die erste, 1 die zweite, 2 die dritte usw. )	**/
+/** Returns a 2D byte array with the transaction indices from previous transactions (4 bytes each).
+Same meaning as getTxPrevIndex(). **/
 public byte[][] getTxPrevIndexByte()
 {
 	byte[][] out = new byte[txIn_count][4];
@@ -245,8 +242,8 @@ public byte[][] getTxPrevIndexByte()
 
 
 
-/**	2Dim Byte-Array mit dem SigScrips aller Tx-Eingänge.
-	Kein ByteSwap, das Script wird so zurück gegeben wie es im Raw Format vorliegt  */
+/** 2D byte array with the signature scripts of all inputs.
+ No byte swap; scripts are returned as in raw format. */
 public byte[][] getSigScript()
 {
 	byte[][] out = new byte[txIn_count][];
@@ -271,8 +268,8 @@ public int[] getSigScript_pos()
 
 
 
-/**	2Dim Byte-Array mit der Sequence aller Tx-Eingänge.
-	Kein ByteSwap, die Sequence wird so zurück gegeben wie sie im Raw Format vorliegt  */
+/** 2D byte array with the sequences of all inputs.
+ No byte swap; sequences are returned as in raw format. */
 public byte[][] getSequence()
 {
 	byte[][] out = new byte[txIn_count][4];
@@ -284,16 +281,16 @@ public byte[][] getSequence()
 }
 
 
-/** Gibt die Anzahl der Transaktions Ausgänge zurück. **/
+/** Gives the number of transaction outputs. **/
 public int getTxOutCount()
 {
 	return txOut_count;
 }
 
 
-/**	Gibt ein long-Array mit den Beträgen der Transaktion zurück (8Bytes).
-	Der Betrag ist mit dem Faktor 100.000.000 codiert!
-	Zur korrekten Ausgabe z.B. in Double konvertieren:  (double)value()/100000000)	*/
+/**	Gives a long array with the amounts of the transaction outputs (8Bytes).
+	The amount is encoded with the factor 100,000,000!
+	For correct output, e.g. convert to Double:  (double)value()/100000000)	*/
 public long[] getValue()
 {
 	long[] out = new long[txOut_count];
@@ -309,8 +306,8 @@ public long[] getValue()
 
 
 
-/**	Gibt ein 2D Byte-Array mit den Raw-Beträgen der Transaktion zurück (8Bytes).
-	Die Beträge werden im raw-Hexa Format zurück gegeben, so wie sie in der Tx stehen.	*/
+/** Returns a 2D byte array with raw amounts of the outputs (8 bytes each).
+ Values are returned in raw hex as in the transaction. */
 public byte[][] getValueRaw()
 {
 	byte[][] out = new byte[txOut_count][8];
@@ -323,8 +320,8 @@ public byte[][] getValueRaw()
 
 
 
-/**	2Dim Byte-Array mit dem PK-Scripts aller Tx-Ausgänge.
-	Kein ByteSwap, das Script wird so zurück gegeben wie es im Raw Format vorliegt.  */
+/** 2D byte array with the PK scripts of all outputs.
+ No byte swap; scripts are returned as in raw format. */
 public byte[][] getPkScript()
 {
 	byte[][] out = new byte[txOut_count][];
@@ -337,11 +334,8 @@ public byte[][] getPkScript()
 }
 
 
-/**	Gibt ein Array mit Hash160 "Adressen" zurück (je 20bytes).
-	No ByteSwap! Die Hash´s-160 sind in der Raw-TX nicht verdreht! So dass sie direkt so in der Datenbank verwendet werden. 
-	Das PK-Script welches den Hash160 normalerweise enthält, beinhaltet nicht immer Hash160 Adressen, sondern können auch nur Daten enthalten die der Absender erstellt hat.
-	In diesem Fall kann dann natürlich kein Hash160 Adresse decodiert werden. (Blockchain.info zeigt in diesem Fall die Meldung der nicht decodierbaren Adresse an.)  
-	@throws Exception Wenn das Script nicht decodiert werden kann, wird "Unbekanntes PK.Script Exception!" ausgelöst.  **/ 
+/** Returns an array with Hash160 addresses (20 bytes each) where possible.
+ No byte swap. If the script cannot be decoded, null is returned for that entry. */
 public byte[][] getHash160()
 {	
 	byte[][] pk_b = getPkScript();
@@ -356,8 +350,8 @@ public byte[][] getHash160()
 }
 
 
-/**	Gibt die Witness Raw-Daten zurück wenn sie vorhanden sind. Kein ByteSwap. 
-	Achtung, ist Witness nicht enthalten wird ein Array der Länge null zurückgegeben! */ 
+/** Returns witness raw data if present. No byte swap.
+ If no witness, returns zero-length array. */ 
 public byte[] getWitness()															
 {
 	byte[] out = new byte[0];	

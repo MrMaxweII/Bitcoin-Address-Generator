@@ -8,12 +8,12 @@ import ECDSA.Secp256k1;
 
 
 /*******************************************************************************************************************************************
-*		V1.3.0   									Autor: Mr. Maxwell   												vom 08.01.2024		*
-*																																			*
-*		BTClib3001	Klasse																													*
-*		Dieser Transaktions-Singnierer signiert unsignierte Legancy Transaktionen.  (Keine Witness Tx Verwenden)							*
-*		static Klasse ohne Konstruktor																										*
-*		Klasse getestet! Funktioniert für alle Legancy-Transaktionen (mit mehreren Inputs und Outputs) fehlerfrei ab Version V1.2.0!		*
+* V1.3.0                                        Author: Mr. Nickolas-Antoine B.                                              08.01.2024               *
+*                                                                                                                                           *
+* BTClib3001 class                                                                                                                          *
+* This transaction signer signs unsigned Legacy transactions (no Witness here).                                                              *
+* Static class without constructor.                                                                                                          *
+* Tested to work for all Legacy transactions (multiple inputs/outputs) since V1.2.0.                                                         *
 ********************************************************************************************************************************************/
 
 
@@ -32,15 +32,13 @@ public class TxSigniererLegancy
 	
 	
 	
-/**	Signiert eine unsignierte Legancy Transaktion mit mehreren Tx-In und Ausgängen.  Keine Witness Transaktionen verwenden!
- 	Der Hash-Code am ende der Tx "01000000" wird hier eingefügt!  (Tx wird ohne Hash-Code übergeben)
-	Da jeder Tx-Eingang separat signiert werden muss, werden die Attribute als Array angefordert. Die Länge der Arrays ergibt sich aus der Tx-In Anzahl.
-	Beispiel: Wenn die TX 27 Eingänge enthält, müssen natürlich auch 27 Private-Keys, 27 Zufallszahlen, und 27 Compressed-Flags übergeben werden.
-	@param usigTx Unsignierte Transaktion, die signiert werden soll. (Ohne Hash-Code am Ende)  
-	@param privKey Ein Array mit der Anzahl an Private-Keys von Tx-In Eingängen.
-	@param k Ein Array mit der Anzahl an Zufallszahlen von Tx-In Eingängen
-	@param compressed Boolean-Array, Für jede Tx-In muss die Angabe über das Compressed Flag erfolgen.
-	@return Signierte Raw-Transaktion als Byte-Array in Protokoll-Format die so gesendet werde kann. **/
+/** Signs an unsigned Legacy transaction with multiple inputs/outputs. Do not use for Witness transactions!
+ Appends hash type 01000000 at the end internally. Attributes are arrays per input.
+ @param usigTx unsigned transaction (without hash type at end)
+ @param privKey array of private keys per input
+ @param k array of random numbers per input
+ @param compressed boolean array per input indicating compressed pubkey
+ @return signed raw transaction as protocol byte array **/
 public static byte[] sigTx(byte[] usigTx, byte[][] privKey, byte[][] k, boolean[] compressed) 
 {
 	byte[] uTx = Arrays.copyOfRange(usigTx, 0, usigTx.length+4);									// Hash-Code wird angehängt
@@ -63,14 +61,14 @@ public static byte[] sigTx(byte[] usigTx, byte[][] privKey, byte[][] k, boolean[
 
 	
 	
-/**	Hier wird ein Signatur-Skript (sigScript) für eine einzelne Eingabe erzeugt/signiert.
-	Dazu werden alle anderen Signatur-Scripte entfernt und nur das zu signierende gelassen und dann der Sig-Hash generiert.
-	@param index der zu signierenden Tx-Eingabe. 0 = die erste Eingabe usw.
-	@param usigTx Unsignierte Transaktion, aus der ein SigScript signiert werden soll
-	@param privKey der Private-Key mit dem diese Eingabe signiert werden soll
-	@param k Zufalls-Zahl
-	@param compressed Wenn true, wird der Pub-Key komprimiert. 
-	@return Das SigScript für diesen Tx-Eingang **/
+/** Here a signature script (sigScript) for a single input is created/signed.
+ Removes all other signature scripts and only the one to be signed is left, then the Sig-Hash is generated.
+ @param index the input index to sign. 0 = first input, etc.
+ @param usigTx unsigned transaction from which a SigScript is to be signed
+ @param privKey the private key with which this input is to be signed
+ @param k random number
+ @param compressed If true, the pubkey will be compressed. 
+ @return The SigScript for this Tx input **/
 public static byte[] sigScript(byte[] usigTx, byte[] privKey, byte[] k, boolean compressed, int index) 
 {
 	byte[] b1 = removeSigScript(usigTx, index);														// Löscht alle SigScripts bis auf eine (index) aus der Tx	
@@ -105,20 +103,20 @@ public static byte[] sigScript(byte[] usigTx, byte[] privKey, byte[] k, boolean 
 
 
 // Test: Mit 3 Inputs erfolgreich getestet! Methode funktioniert gut!
-/**	Gibt den Signature-Hash der Legancy Transaktion zurück. Es können Signiert oder Unsignierte Transaktionen verwedet werden.
-Jeder Transaktions-Eingang muss einzeln signiert werden und es gibt deswegen auch für jede Tx-In einen anderen Signature-Hash!
-Um den Signature-Hash erstellen zu können ist das PK-Script der vorherigen Transaktion notwendig.
-@param tx unsignierte oder signierte Transakion.
-@param pkScript Das Pk-Script der vorherigen Tx auf die sich dieser Signature-Hash bezieht.
-@param txIndex Der Transaktions-Index der Tx-In dessen Signature-Hash berechnet werden soll.
-@return Signature-Hash dieser Transaktion für eine bestimmte Tx-In.    
-Ist erfolgreich getestet für Standard-Transaktionen!
-1. Alle Signaturen der Transaktion werden entfernt und durch (Compact-Size) 0x00 ersetzt.
-2. Das übergebene PK-Script der vorherigen Transaktion wird an die (txIndex) gewünschte Stelle der Signature eingefügt.
-3. Hash-Code 0x01000000 wird hinten angehängt
-4. Dies entspricht dann der ursprünglichen unsignierten Transaktion und wird dann mit SHA256² gehascht. 
-Keine Witness-Tx hier verwenden! Für Witness-Tx gibt es eine eigene Klasse: "TxSigniererWitness". 
-Funktioniert auch NICHT für Legancy-Inputs die in Witness-Transaktionen eingebettet sind!  **/
+/** Returns the Legacy sighash for a transaction (signed or unsigned) for a specific input.
+ For each transaction input, a different sighash is generated!
+ The previous transaction's PK-Script is needed for sighash computation.
+ @param tx unsigned or signed transaction.
+ @param pkScript The Pk-Script of the previous Tx to which this Signature-Hash refers.
+ @param txIndex The transaction index of the Tx-In whose Signature-Hash is to be calculated.
+ @return Signature-Hash of this transaction for a specific Tx-In.    
+ Successfully tested for standard transactions!
+ 1. All transaction signatures are removed and replaced with (Compact-Size) 0x00.
+ 2. The provided PK-Script of the previous transaction is inserted at the desired Signature position.
+ 3. Hash-Code 0x01000000 is appended
+ 4. This corresponds to the original unsigned transaction and is then hashed with SHA256². 
+ Do not use for Witness-Tx! For Witness-Tx, use the "TxSigniererWitness" class. 
+ Does NOT work for Legacy inputs embedded in Witness transactions!  **/
 public static byte[] getSigHash(Transaktion tx, byte[] pkScript, int txIndex) throws Exception 
 {
 	if(tx.isWitness)	throw new Exception("Witness transaction cannot be signed in Legancy Class!");																			
@@ -148,7 +146,7 @@ public static byte[] getSigHash(Transaktion tx, byte[] pkScript, int txIndex) th
 
 
 
-// --------------------------------------------------------------------------------------------- Zusätzliche Methoden --------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- Additional methods --------------------------------------------------------------
 
 
 
@@ -173,18 +171,8 @@ private static byte[] removeSigScript(byte[] usigTx, int notRemove)
 
 
 
-/**	Sucht die richtigen Private-Keys aus der übergebenen Liste heraus und und gibt sie in der Reihenvolge zurück, wie sie zum signieren benötigt werden.
-Dabei werden alle übergebenen Private-Keys in allen möglichen Formaten getestet, ob sie für sie für einen Eingang dieser Tx gültig sind. (Brute-Forcing-Methode)
-Es können beliebig viele Priv-Test-Keys übergeben werden. Unter Beachtung der Laufzeit dieser Methode.
-Funktionsbeschreibung: Aus jedem Test-Priv-Key wird eine BTC-Adresse (Hash160) erstellt und mit dem PK-Script in der Unsignierten Tx verglichen. Bei Übereinstimmung, ist der Priv.Key richtig.
-Vorraussetztung ist, dass in der unsignierten Tx die PK-Scripte der vorherigen Tx vorhanden sind. (Temporär im Signatur-Feld)
-Da die übergebene PrivKey-Liste groß sein kann, sollte hier etwas auf die Laufzeit geachtet werden!
-@param usigTx Unsignierte Tx, aus der die Private-Keys gesucht werden sollen.
-@param privTestKeys Eine Liste von Private-Keys, beliebiger Länge, aus der die richtigen Priv.Keys gesucht werden.
-@param pref_PrivKey Die CoinParameter müssen übergeben werden, zur Identifizierung des jeweiligen Coin. Siehe CoinParameter Class. (Bitcoin-MainNet=0x80, Bitcoin-TestNet=0xEF)
-@param magic, TestNet oder MainNet (MAINNET = {(byte) 0xf9,(byte) 0xbe,(byte) 0xb4,(byte) 0xD9}; TESTNET3 = {(byte) 0x0b,(byte) 0x11,(byte) 0x09,(byte) 0x07};)
-@return Werden alle benötigten Priv-Keys gefunden, wird ein Array mit den richtigen Priv.keys, in der richtigen Reihenvolge und Länge, zum signieren zurückgegeben. 
-@throws Exception Wird nur ein benötiger Priv.Key nicht gefunden, wird eine Exceptin geworfen.		**/
+/** Selects the correct private keys from the provided list by matching against PK scripts.
+ Returns them in the order needed for signing. Throws if any needed key is not found. **/
 public static byte[][]	calcPrivKeyList(byte[] usigTx, byte[][] privTestKeys, byte[] pref_PrivKey, byte[] magic) throws Exception 
 {
 	Transaktion tx = new Transaktion(usigTx,0);

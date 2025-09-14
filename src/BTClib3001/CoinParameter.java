@@ -5,13 +5,13 @@ import java.util.Arrays;
 
 /***********************************************************************************************************
 *																											*
-*	V1.4 	Autor: Mr. Maxwell		Bip44 und Bech32 hinzugefügt					vom 15.02.2020			*
-*	Klasse die die Coin-Prameter mit dem  MAGIC Wert verwaltet,	der das Netzwerk repräsentiert.				*
-*	Alle MAGIC-Werte gibt es hier: 	https://github.com/dan-da/CoinParameter/blob/master/coinnetworking.md	*
-*	Diese Classe Gehört zur BTClib3001 und muss algemein und kompatibel gehalten werden!					*
-*	Achtung, alle Methodenaufrufe sind sehr resourcenfressend, 												*
-*	weil die ganze Liste aller Coins durchsucht wird. nicht in Schleifen verwenden!							*
-* 	Beispiel: 		CoinParameter c = CoinParameter.getFromSymbol("BTC"); 									*
+*	V1.4 	Author: Mr. Nickolas-Antoine B.		Bip44 and Bech32 added							as of 15.02.2020		*
+*	Class that manages the coin parameters with the MAGIC value, which represents the network.				*
+*	All MAGIC values can be found here: 	https://github.com/dan-da/CoinParameter/blob/master/coinnetworking.md	*
+*	This class belongs to BTClib3001 and must be kept general and compatible!								*
+*	Warning, all method calls are very resource-intensive, 												*
+*	because the entire list of all coins is searched. Do not use in loops!									*
+* 	Example: 		CoinParameter c = CoinParameter.getFromSymbol("BTC"); 									*
 *					String str = c.name;																	*
 ************************************************************************************************************/
 
@@ -53,9 +53,9 @@ private CoinParameter(String symbol, String name, String p2pPort, String rpcPort
 	
 	
 	
-/**	@param symbol Übergeben wird der Symbol-String z.B. "BTC" 
-	@return Gibt die Coin-Parameter zurück. Achtung: Das symbol ist nicht eindeutig, 
-	es kann mehrere Coins mit dem selben Symbol geben. Der erste in der Liste wird zurück gegeben.**/
+/**	@param symbol The symbol string is passed, e.g. "BTC"
+	@return Returns the coin parameters. Warning: The symbol is not unique,
+	there may be several coins with the same symbol. The first in the list is returned.**/
 public static CoinParameter getFromSymbol(String symbol) 
 {
 	set();
@@ -69,8 +69,8 @@ public static CoinParameter getFromSymbol(String symbol)
 	
 	
 
-/**	@param name Übergeben wird der Name-String z.B. "Bitcoin-Mainnet" 
-	@return Gibt die Coin-Parameter zurück. **/
+/**	@param name The name string is passed, e.g. "Bitcoin-Mainnet"
+	@return Returns the coin parameters. **/
 public static CoinParameter getFromName(String name) 
 {
 	set();
@@ -84,8 +84,8 @@ public static CoinParameter getFromName(String name)
 
 
 
-/**	@param magic Übergeben wird "MAGIC" als byte-Array 
-	@return Gibt die Coin-Parameter zurück. Achtung: Es gibt viele Coins mit dem selben MAGIC Wert, der erste in der Liste wird zurück gegeben. **/
+/**	@param magic "MAGIC" is passed as a byte array
+	@return Returns the coin parameters. Warning: There are many coins with the same MAGIC value, the first in the list is returned. **/
 public static CoinParameter getFromMagic(byte[] magic) 
 {
 	set();
@@ -100,8 +100,8 @@ public static CoinParameter getFromMagic(byte[] magic)
 
 
 
-/**	@param blockHash Übergeben wird blockHash des Genesis Blockes als byte-Array. 
-	@return Gibt die Coin-Parameter zurück. Achtung: Viele Coins haben den selben Genesis BlockHash von Bitcoin **/
+/**	@param blockHash The blockHash of the genesis block is passed as a byte array.
+	@return Returns the coin parameters. Warning: Many coins have the same genesis blockHash as Bitcoin **/
 public static CoinParameter getFromGenesisBlock(byte[] genesisBlockHash) 
 {
 	set();
@@ -115,7 +115,7 @@ public static CoinParameter getFromGenesisBlock(byte[] genesisBlockHash)
 
 
 
-/**	@return Gibt die vollständige Liste aller CoinParameter als CoinParameter-Array zurück;	**/
+/**	@return Returns the complete list of all CoinParameters as a CoinParameter array;	**/
 public static CoinParameter[] getList()
 {
 	set();
@@ -124,11 +124,11 @@ public static CoinParameter[] getList()
 
 
 
-// Setzt die CoinParameter Liste. Muss in jeder getMethode zuerst aufgerufen werden!
+// Sets the CoinParameter list. Must be called first in every get method!
 //          https://github.com/dan-da/coinparams/blob/master/coinnetworking.md
 private static void set()
 {	
-	//Achtung ArrayIndex nicht komplett sortiert!
+	//Warning: ArrayIndex not completely sorted!
 	coinParameter[0]=new  CoinParameter("$PAC",		"PACcoin-Mainnet",				"7112",		"7111",		"4",	"c8e5612c",	"00000354655ff039a51273fe61d3b493bd2897fe6c16f732dbc4ae19f04b789e",	"204",	"55",	"10"	,"",	"");
 	coinParameter[1]=new  CoinParameter("1337",		"Elite-Mainnet",				"13373",	"13372",	"4",	"5ac382d3",	"000004611c87517dfd29fe7f34bd6da2e1ad3d305ac12afe80a3229069390f68",	"176",	"48",	"28"	,"",	"");
 	coinParameter[2]=new  CoinParameter("42",		"42-coin-Mainnet",				"4242",		"2121",		"0",	"1d05140b",	"000004cf6cc5eec2d2d564fa45c26278ed72014822a601c1ff02cd84d0ef63be",	"136",	"8",	"20"	,"",	"");

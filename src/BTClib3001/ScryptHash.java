@@ -3,22 +3,22 @@ package BTClib3001;
 
 
 /********************************************************************************************************************************************************************
-*	Version 1.0    														Autor: Mr. Maxwell   										vom 21.02.2023					*
+*	Version 1.0    														Autor: Mr. Nickolas-Antoine B.   										vom 21.02.2023					*
 *																																									*
-*	ScryptHash ist ein Hash zur Laufzeitverlängerung der erhöhte CPU und Speicher Resourcen verbraucht.																*
-*	ScryptHash benötigt nur die HMAC Kasse, sonnst keine Abhängigkeiten, der ScryptHash wird vollständig in dieser Klasse berechnet.								*
-*	Es gibt nur eine statische Methode die den ScryptHash berechnet.																								*
-*	Es werden mehrere Parameter benötigt mit denen die Laufzeit und die benötigten Resourcen angepasst werden.														*
-*	Jede Änderung an den Parametern hat natürlich IMMER zur Folge, dass der ScryptHash sich ändert und damit inkompatibel zu vorherigen Berechnungen wird. 			*
-*	Diese Klasse wurde mit einer Referenzimplementierung von bouncycastle aureichendt getestet, mehrere Tausend Random Testvektoren, mit verschiedenen Parametern.	*
+*	ScryptHash is a hash for extending runtime that increases CPU and memory resource consumption.																*
+*	ScryptHash only requires the HMAC key, no other dependencies, the ScryptHash is calculated entirely within this class.								*
+*	There is only one static method that calculates the ScryptHash.																								*
+*	Several parameters are needed to adjust the runtime and the required resources.														*
+*	Any change to the parameters will ALWAYS result in a different ScryptHash, making it incompatible with previous calculations. 			*
+*	This class has been sufficiently tested with a reference implementation from bouncycastle, using several thousand random test vectors with different parameters.	*
 *																																									*
-*	Beschreibung der Parameter:																																		*
-*	- data:	Die Zeichenkette, die gehasht werden soll																												*
-*	- salt:	Eine Zeichenfolge, die den Hash zum Schutz vor Rainbow Table-Angriffen ändert																			*
-*	- n:	CPU-/Speicherkostenparameter. Muss größer als 1 sein und eine Potenz von 2 und kleiner als 2^(128*r/8)  Standart = 2^14									*
-*	- r:	Der Blockgröße-Parameter, mit dem die Größe und die Leistung des sequenziellen Speichers genau eingestellt werden. Muss größer 1 sein.					*
-*	- p:	Parallelisierungsparameter; eine positive ganze Zahl p ≤ (232− 1).																						*
-*	- outLen - Die Länge der Ausgabe in Bytes.																														*
+*	Description of the parameters:																																		*
+*	- data:	The string to be hashed																												*
+*	- salt:	A string that changes the hash to protect against rainbow table attacks																			*
+*	- n:	CPU/memory cost parameter. Must be greater than 1 and a power of 2, and less than 2^(128*r/8). Default = 2^14									*
+*	- r:	The block size parameter, which precisely adjusts the size and performance of the sequential memory. Must be greater than 1.					*
+*	- p:	Parallelization parameter; a positive integer p ≤ (232− 1).																						*
+*	- outLen - The length of the output in bytes.																														*
 *********************************************************************************************************************************************************************/
 
 
@@ -51,7 +51,7 @@ public class ScryptHash
     
     
     
-// --------------------------------------------- Private Methoden ------------------------------------------------------------
+// --------------------------------------------- Private Methods ------------------------------------------------------------
     
     
     private static void smix(byte[] b, int ir, int r, int n, byte[] c, byte[] a) 
@@ -127,7 +127,7 @@ public class ScryptHash
     }
 
 
-    // PBKDF2 Schlüsselableitungsfunktion: "https://en.wikipedia.org/wiki/PBKDF2"
+    // PBKDF2 key derivation function: "https://en.wikipedia.org/wiki/PBKDF2"
     private static byte[] pbkdf2(byte[] data, byte[] salt, byte[] c, int dkLen) throws Exception 
     {
     	int hLen = 32;  

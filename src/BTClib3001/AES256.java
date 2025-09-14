@@ -5,26 +5,26 @@ import java.util.Arrays;
 
 
 /***********************************************************************************************************************************************
- * Version 1.0   						 Autor: Mr. Maxwell 				  	vom 16.02.2023													*
+ * Version 1.0   						 Autor: Mr. Nickolas-Antoine B. 				  	vom 16.02.2023													*
  * 																																				*
  * AES256-CBC Mode																																*
- * Ver- und Endschlüsselung mit AES 256Bit, Rijndael Algorithmus 																				*
- * - AES-256,  nur die 256Bit Version ist hier fest implementiert																				*
- * - CBC Mode; nur der CBC Modus ist hier implementiert																							*
- * - Kein Padding! Die Anwendung muss das Padding (das Auffüllen mit Bytes auf Blockgröße (128Bit) selbst implementieren!						*
- * - Diese Klasse benötigt keine externen Abhängigkeiten und läuft vollständig alleine in dieser Klasse.										*
- * - Diese Implementierung ist variabel und allgemein einsetzbar.																				*
- * - Diese AES256 Klasse ist NIST-Conform. Die erzeugten Testvektoren der Schiffre entsprechen denen, die von NIST veröffentlicht sind.			*
- * - Diese Rijndael Implementierung ist einfach, kurz und nachvollziehbar entworfen. (Lehrbuch-Code) Keine komplexen Umwege.					*
- * - Seitenkanal Angriffsvektoren etc. werden in dieser Implementierung nicht berücksichtigt.													*
- * - Der Code wurde ausgiebig im Vergleich mit BouncyCastle getestet. Alle Schiffren sind stets gleich.											*
+ * Encryption and Decryption with AES 256Bit, Rijndael Algorithmus 																				*
+ * - AES-256,  only the 256Bit version is implemented here																				*
+ * - CBC Mode; only the CBC mode is implemented here																							*
+ * - No Padding! The application must implement padding (filling with bytes to block size (128Bit) by itself!						*
+ * - This class does not require external dependencies and runs completely alone in this class.										*
+ * - This implementation is variable and generally applicable.																				*
+ * - This AES256 class is NIST-compliant. The generated test vectors of the cipher correspond to those published by NIST.			*
+ * - This Rijndael implementation is designed to be simple, short, and understandable. (Textbook code) No complex detours.					*
+ * - Side-channel attack vectors, etc. are not taken into account in this implementation.													*
+ * - The code has been extensively tested against BouncyCastle. All ciphers are always equal.											*
  * 																																				*
- * Anwendung: Es gibt zwei Hauptmethoden zur Ver- und Enschlüsselung:																			*
+ * Application: There are two main methods for encryption and decryption:																			*
  * 		public static byte[] encrypt(byte[] key, byte[] iv, byte[] text);																		*
  *  	public static byte[] decrypt(byte[] key, byte[] iv, byte[] chiffre);																	*
- * Alle Ein- und Ausgaben dieser Methoden sind in Byte-Array zu erfolgen. 																		*
- * Achtung der iv-Vektor muss ein Zufallsvektor sein! Die Anwendung muss den 128Bit Zufallsvektor "iv" selbst erstellen.						*
- * Da kein Padding implementiert ist, muss der text oder die chiffre durch 16Byte ohne Rest teilbar sein. Also 16, 32, 48 ... Bytes lang!		*
+ * All inputs and outputs of these methods are to be done in byte arrays. 																		*
+ * Attention the iv vector must be a random vector! The application must create the 128Bit random vector "iv" by itself.						*
+ * Since no padding is implemented, the text or the cipher must be divisible by 16Bytes without a remainder. So 16, 32, 48 ... Bytes long!		*
  ***********************************************************************************************************************************************/
 
 
@@ -32,11 +32,11 @@ import java.util.Arrays;
 public class AES256 
 {
 
-	/**	AES-256 CBC-Mode Verschlüsselung ohne Padding.
-	@param text Entspricht den Klar-Text als Byte-Array welcher verschlüsselt werden soll. Muss ohne Rest durch 16-Byte Teilbar sein! Also 16, oder 32 oder 48 ... Bytes lang!
-	@param key Der Haupt-Schlüssel als Byte-Array muss genau 32Byte lang sein! Da es sich um eine 256Bit Verschlüsselung handelt.
-	@param iv Der Zufalls-Vektor iv als Byte-Array. Muss genau 16Bytes lang sein (128Bit Blockgröße) Achtung niemals ein feste Zahl verwenden!
-	@return Die verschlüsselte Schiffre wird als Byte-Array zurück gegeben! Da hier ohne padding, ist sie immer durch 16Byte ohne Rest teilbar.	**/
+	/**	AES-256 CBC-Mode Encryption without Padding.
+	@param text Corresponds to the plain text as a byte array which is to be encrypted. Must be divisible by 16 bytes without a remainder! So 16, or 32, or 48 ... Bytes long!
+	@param key The main key as a byte array must be exactly 32Bytes long! Since this is a 256Bit encryption.
+	@param iv The random vector iv as a byte array. Must be exactly 16Bytes long (128Bit block size) Attention never use a fixed number!
+	@return The encrypted cipher is returned as a byte array! Since there is no padding here, it is always divisible by 16Bytes without a remainder.	**/
 	public static byte[] encryptCBC(byte[] text, byte[] key, byte[] iv) throws IOException
 	{
 		if(text.length % 16 !=0) throw new IOException("text not block size (16Byte) aligned");
@@ -59,7 +59,7 @@ public class AES256
 			}
 			data = subBytesAndShiftRows(data,false);
 			data = keyAdd(Arrays.copyOfRange(subKeys, 56, 60),data); 			
-			ivi = data; // für die nächste Runde ist iv der vorherige Datensatz (CBC-Mode)				
+			ivi = data; // for the next round, iv is the previous data set (CBC-Mode)				
 			byte[] b1 = int_To_4_ByteArray(data[0]);
 			byte[] b2 = int_To_4_ByteArray(data[1]);
 			byte[] b3 = int_To_4_ByteArray(data[2]);
@@ -75,11 +75,11 @@ public class AES256
 
 	
 	
-	/**	AES-256 CBC-Mode Endschlüsselung ohne Padding.
-	@param chiffre Die Schiffre als Byte-Array welcher entschlüsselt werden soll. Muss ohne Rest durch 16-Byte Teilbar sein! Also 16, oder 32 oder 48 ... Bytes lang!
-	@param key Der Haupt-Schlüssel als Byte-Array muss genau 32Byte lang sein! Da es sich um eine 256Bit Verschlüsselung handelt.
-	@param iv Der Zufalls-Vektor iv als Byte-Array. Muss genau 16Bytes lang sein (128Bit Blockgröße) Achtung niemals ein feste Zahl verwenden!
-	@return Der entschlüsselte Klartext wird als Byte-Array zurück gegeben! Da hier ohne padding, ist er immer durch 16Byte ohne Rest teilbar.	**/
+	/**	AES-256 CBC-Mode Decryption without Padding.
+	@param chiffre The cipher as a byte array which is to be decrypted. Must be divisible by 16 bytes without a remainder! So 16, or 32, or 48 ... Bytes long!
+	@param key The main key as a byte array must be exactly 32Bytes long! Since this is a 256Bit encryption.
+	@param iv The random vector iv as a byte array. Must be exactly 16Bytes long (128Bit block size) Attention never use a fixed number!
+	@return The decrypted plain text is returned as a byte array! Since there is no padding here, it is always divisible by 16Bytes without a remainder.	**/
 	public static byte[] decryptCBC(byte[] chiffre, byte[] key, byte[] iv) throws IOException
 	{
 		if(chiffre.length % 16 !=0) throw new IOException("cipher not block size (16Byte) aligned");
@@ -441,3 +441,4 @@ private static int getSBox(int in, boolean inv)
 		return out;
 	}	
 }
+// Please note: All comments and documentation in this file have been translated from German to English.

@@ -26,20 +26,18 @@ import javax.swing.SwingConstants;
 
 
 /*******************************************************************************************************************************************
-*		V1.4	   												 Autor: Mr. Maxwell  									vom 08.01.2024		*
-*																																			*
-*		Letzte Änderung: Locktime wird jetzt direkt in Hexa angezeigt.																		*
-*		BTClib3001	Klasse																													*
-*		Dieser Transaktions-Printer zeigt Transaktionen ausführlich in einer GUI an.														*
-*		Es öffnen sich ein oder mehrere JFrames (oder JDialog) in denen die TX angezeigt wird.												*
-*		Diese Klasse kann von JFrame oder JDialog nach Wunsch abgeleitet werden! 															*
-*		Anwendung: 																															*
-*		Dies Klasse ist eine Erweiterung von JFrame (oder JDialog) und muss so behandlet werden.											*
-*		1. Konstruktor Aufruf und JFrame Object erzeugen, am besten in einem eigenem Thread!												*
-*		 (JFrame frame = new TxPrinter(MAINNET,tx,500,200);)																				*
-*		2. frame.setVisible(true);																											*
-*		Die Konstruktor-Parameter sind beim Konstruktor beschrieben.																		*
-*		Es gibt mehrere Konstruktoren die verschiedene Input-Formate akzeptieren.															*
+* V1.4                                                    Author: Mr. Nickolas-Antoine B.                                   08.01.2024               *
+*                                                                                                                                           *
+* Last change: Locktime is now shown directly in hex.                                                                                       *
+* BTClib3001 class                                                                                                                          *
+* This transaction printer shows transactions in detail in a GUI.                                                                           *
+* One or more JFrames (or JDialogs) open to display the TX.                                                                                 *
+* This class can derive from JFrame or JDialog as needed.                                                                                    *
+* Usage:                                                                                                                                     *
+* 1. Create with constructor (preferably in its own thread):                                                                                *
+*    JFrame frame = new TxPrinter(MAINNET, tx, 500, 200);                                                                                   *
+* 2. frame.setVisible(true);                                                                                                                *
+* Multiple constructors accept different input formats.                                                                                      *
 ********************************************************************************************************************************************/
 
 
@@ -54,11 +52,11 @@ public class TxPrinter extends JDialog
 
 	
 	
-/**	Konstruktor der das JFrame Fenster öffnet. (Besser in einem neuem Thread öffnen)
-	@param magic Magic für MainNet: f9beb4d9, TestNet: 0b110907
-	@param tx	 Transaktion aus der Transaktion-Klasse
-	@param x	 X-Position des JFrames
-	@param y	 Y-Position des JFrames   **/
+/** Constructor opens the JFrame (better open in a new thread)
+ @param magic Magic for MainNet: f9beb4d9, TestNet: 0b110907
+ @param tx Transaction from Transaktion class
+ @param x X position
+ @param y Y position **/
 	public TxPrinter(byte[] magic, Transaktion tx, int x, int y) 
 	{
 		setTitle("TxPrinter");
@@ -68,18 +66,18 @@ public class TxPrinter extends JDialog
 		
 		JPanel contentPane = new JPanel();
 		setContentPane(contentPane);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);  				// Die Klasse als Einzelne Anwendung gestartet wird, dann hier aktivieren!
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);               // If used standalone, enable here
 		
 		JPanel 			pnl_oben 		= new JPanel();
-		JPanel 			pnl_hide 		= new JPanel();				// Das Panel zum Aus- Einblenden der Einzelnen Spalten
-		JTextArea 		txt_meldungen 	= new JTextArea();			// Für Fehlermeldungen etc.		
-		JTextField 		txt_txHash		= new JTextField();
-		JTextField 		txt_version		= new JTextField();
+		JPanel         pnl_hide       = new JPanel();             // Panel to show/hide individual columns
+		JTextArea      txt_meldungen  = new JTextArea();          // For error messages etc.
+		JTextField     txt_txHash     = new JTextField();
+		JTextField     txt_version		= new JTextField();
 		JTextField		txt_isWitness	= new JTextField();
-		JTextField 		txt_size		= new JTextField();
-		JTextField 		txt_lockTime	= new JTextField();
-		JTextField 		txt_totalValue	= new JTextField();  		// Die Gebühr ist generell nicht in Transaktionen enthalten und muss daher übergeben werden!
-		JTextField		txt_signed		= new JTextField();			// Gibt an, ob es sich um eine Unsignierte Tx oder eine Signierte Tx handelt.
+		JTextField     txt_size		= new JTextField();
+		JTextField     txt_lockTime	= new JTextField();
+		JTextField     txt_totalValue	= new JTextField();  		// The fee is generally not included in transactions and must be passed here!
+		JTextField		txt_signed		= new JTextField();			// Indicates whether the transaction is unsigned or signed.
 		Button 			btn_rawTx 		= new Button("raw Tx");
 		Checkbox 		hide_prevHash 	= new Checkbox("prev Hash");
 		Checkbox 		hide_prevIndex 	= new Checkbox("prev Index");
@@ -239,7 +237,7 @@ public class TxPrinter extends JDialog
 		Witness ws = null;
 		if(tx.getWitness().length!=0) ws = new Witness(tx.getWitness(),0,txInCount); // Witness-Object wird nur erstellt, wenn Witness-Daten vorhanden sind.
 		JPanel pnl_txIn = new JPanel();
-		JScrollPane 	scrollPaneL 		= new JScrollPane(); 							
+		JScrollPane        scrollPaneL         = new JScrollPane();                             
 		scrollPaneL		.setViewportView(pnl_txIn);
 		pnl_txIn.setBorder(new TitledBorder(null, "Input "+txInCount, 	TitledBorder.CENTER, TitledBorder.TOP, font3, Color.gray));
 		splitPane.setLeftComponent(scrollPaneL);
@@ -355,7 +353,7 @@ public class TxPrinter extends JDialog
 		long totalValue = 0;
 		int txOutCount = tx.getTxOutCount();
 		JPanel pnl_txOut = new JPanel();
-		JScrollPane 	scrollPaneR 		= new JScrollPane(); 							
+		JScrollPane        scrollPaneR         = new JScrollPane();                             
 		scrollPaneR		.setViewportView(pnl_txOut);
 		pnl_txOut.setBorder(new TitledBorder(null, "Output "+txOutCount, 	TitledBorder.CENTER, TitledBorder.TOP, font3, Color.gray));
 		splitPane.setRightComponent(scrollPaneR);
@@ -429,7 +427,7 @@ public class TxPrinter extends JDialog
 	
 // ------------------------------------------------------------------ Action Listeners ---------------------------------------------------------------------------------	
 	
-		// Zeigt die Raw-Tx in einem eigenem Dialog an.
+		// Shows the raw Tx in a separate dialog
 		btn_rawTx.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -449,7 +447,7 @@ public class TxPrinter extends JDialog
 		
 	
 	
-		// Blendet gewählte Spalent Ein-Aus
+		// Toggles selected columns on/off
 		ItemListener ml = new ItemListener()
 		{
 			@Override

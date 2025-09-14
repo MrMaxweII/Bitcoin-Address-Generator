@@ -7,27 +7,27 @@ import org.json.JSONObject;
 
 
 /*******************************************************************************************************************************
-*	Version 1.2     								Mr. Maxwell												20.01.2024			*
-*	Letzte Änderung: Bug im Konstruktor behoben. Leeres WitnessFeld kann nun geparst werden.									*
-*	BTClib3001 Klasse																											*
-*	Decodiert die Witness Daten aus einer Transaktion. Doku: https://bitcoincore.org/en/segwit_wallet_dev/						*
-*	Zuerst muss mit dem Konstruktor ein Witness-Object erzeugt werden.															*
-*	Nicht statische Klasse, es dürfen keine static-Methoden angelegt werden!													*
-*	Anleitung: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki													*
+* Version 1.2                                 Mr. Nickolas-Antoine B.                                           20.01.2024                *
+* Last change: Fixed constructor bug. Empty witness fields can now be parsed.                                                  *
+* BTClib3001 class                                                                                                            *
+* Decodes witness data from a transaction. Docs: https://bitcoincore.org/en/segwit_wallet_dev/                                *
+* First create a Witness object with the constructor.                                                                          *
+* Non-static class; do not add static methods!                                                                                 *
+* Guide: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki                                                        *
 *******************************************************************************************************************************/
 
 
 
 public class Witness 
 {
-	private byte[] 	data;								// Haupt Daten-Array. Achtung darf nicht verändert werden!
-	private	int 	posStart;							// Die Position an der die Witness-Daten beginnen
-	private	int 	txInCount;							// Die Anzahl der Transaktions-Eingänge
-	private int[]	posField;							// Position des Witness-Feld
-	private int[]	lenField;							// Länge des Witness-Feld
-	private	int[][]	posBlock;							// Startposition aller Blöcke
-	private	int[][]	lenBlock;							// Länge aller Blöcke
-	private	int 	finalLen;							// Gesamtlänge der Witness Daten.
+	private byte[] 	data;								// Main data array. Warning: must not be modified!
+	private	int 	posStart;							// The position where the witness data starts
+	private	int 	txInCount;							// The number of transaction inputs
+	private int[]	posField;							// Position of the witness field
+	private int[]	lenField;							// Length of the witness field
+	private	int[][]	posBlock;							// Start position of all blocks
+	private	int[][]	lenBlock;							// Length of all blocks
+	private	int 	finalLen;							// Total length of the witness data.
 
 	
 	
@@ -36,10 +36,10 @@ public class Witness
 // ------------------------------------------------------- 	Konstruktor -----------------------------------------------------------------//
 	
 	
-/**	Dem Konstruktor wird ein byte-Array übergeben "data" welches Witness Daten enthält.
-	@param data beliebiges Byte-Array welches Witness Daten enthält.
-	@param pos Position an der die Witness Daten beginnen.   
-	@param txInCount Die Anzahl der Transaktions-Eingänge muss hier übergeben werden weil sie nicht in den Witnessdaten enthalten sind. **/
+/** Constructor: pass a byte array containing witness data.
+ @param data byte array containing witness data
+ @param pos start position of witness data
+ @param txInCount number of transaction inputs (not contained in witness data) **/
 public Witness(byte[] data, int pos, int txInCount)
 {
 	this.data = data;
@@ -77,7 +77,7 @@ public Witness(byte[] data, int pos, int txInCount)
 //---------------------------------------------------------- Get Methoden -----------------------------------------------------//
 
 
-/** @return Gibt die Byte-Länge der gesamten Witness Daten zurück.  **/
+/** @return Returns byte length of the entire witness data. **/
 public int getLength()
 {
 	return finalLen;
@@ -85,7 +85,7 @@ public int getLength()
 
 
 
-/** @return Gibt die Witness-Daten als Byte-Array zurück. **/
+/** @return Returns witness data as byte array. **/
 public byte[] getByteArray()
 {
 	byte[] d = new byte[finalLen];
@@ -95,9 +95,7 @@ public byte[] getByteArray()
 
 
 
-/**	@return Gibt die Witness-Daten getrennt in den einzelnen Feldern zurück.
- 	Entspricht dann dem gewöhnlichem Signature-Script und kann so der Klasse SigScript übergeben werden.
-	Die Anzahl der Felder entspricht der Anzahl der Tx-Eingänge.**/
+/** @return Returns witness data split by inputs, like a signature script per input. **/
 public byte[][] getWitnessSignature()
 {
 	byte[][] out = new byte[txInCount][];
@@ -115,35 +113,7 @@ public byte[][] getWitnessSignature()
 
 
 
-/** @return Gibt die Witness Daten im JSON Format als String zurück.  Alt, muss noch auf neue Serialisierung angepasst werden.**/
-public String getJSON() throws JSONException
-{
-	JSONObject jo = new JSONObject();	
-	int pos = this.posStart;
-	int len; 
-	for(int j=0;j<txInCount;j++)
-	{	
-		JSONArray ja = new JSONArray();		
-		int c = data[pos]&0xff;
-		pos++;
-		for(int i=0;i<c;i++)
-		{
-			len = data[pos]&0xff;
-			pos++;
-			byte[] witBlock = new byte[len];
-			System.arraycopy(data, pos, witBlock, 0, len);	
-			ja.put(Convert.byteArrayToHexString(witBlock));
-			pos = pos + len;
-		}
-		String key = "0"+(j+1);
-		jo.put(key, ja);
-	}	
-	return jo.toString(4);
-}
-
-
-
-/** @return Gibt die Witness-Daten als Hex-String zurück. **/
+/** @return Returns witness data as hex string. **/
 public String toString()
 {
 	byte[] d = new byte[finalLen];

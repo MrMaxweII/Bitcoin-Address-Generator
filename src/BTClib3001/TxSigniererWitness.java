@@ -6,42 +6,25 @@ import ECDSA.Secp256k1;
 
 
 /*******************************************************************************************************************************************
-*		V1.1										    Autor: Mr. Maxwell   											vom 20.01.2024		*
-*		BTClib3001	Klasse																													*
-*		Dieser Transaktions-Singnierer signiert unsignierte Witness-Transaktionen.  (Nur Witness-Tx, keine Legancy-Tx hier verwenden!)		*
-*		- Signatur-Hash wird hier berechnet																									*
-*		- Signaturen von Witnes-Tx können hier geprüft werden																				*
-*		static Klasse ohne Konstruktor																										*
-*		Transaktionen mit mehreren Ein- oder Ausgängen können signiert werden																*
-*		Folgende Witness-Transaktions-Typen sind hier implementiert:																		*
-*		- P2SH Als Multisignaturadressen mit 3 Am Anfang (oder im Testnet mit 2 am Anfang). Nur jeweils eine Signatur enthalten!			*
-*		- P2WPKH Bech32 Adressen																											*
-*		- Legancy Inputs in Witness-Transaktionen (Mindestens ein SegWit-Input muss vorhanden sein!)										*
+* V1.1                                            Author: Mr. Nickolas-Antoine B.                                             20.01.2024              *
+* BTClib3001 class                                                                                                                          *
+* Signs unsigned Witness transactions (only Witness here, no Legacy).                                                                        *
+* - Computes sighash                                                                                                                         *
+* - Can verify signatures for Witness transactions                                                                                           *
+* Static class without constructor                                                                                                           *
+* Supports multiple inputs/outputs                                                                                                           *
+* Implemented Witness types:                                                                                                                 *
+* - P2SH multisig addresses (start with 3; 2 in testnet). Single signature only.                                                             *
+* - P2WPKH Bech32 addresses                                                                                                                  *
+* - Legacy inputs embedded in Witness transactions (requires at least one SegWit input)                                                      *
 ********************************************************************************************************************************************/
-
-
-/************************************************************************************************************************************************************
-*		Witness-UsigTx-Protokoll: Version 1.0																												*
-*																																							*
-* 		Unsignierte Witness-Transaktionen sind kein Bestandteil des Bitcoin-Protokolls und dahier nicht einheitlich spezifitiert!							*
-*		Sie existieren nur innerhalb von Wallets als individueller Code ohne einheitliche Beschreibung.														*
-*		Die Witness-Transktionen werden für diese Wallet spezifisch versendet/transportiert und müssen daher ein definiertes Format aufweisen!				*
-*		Dies ist eine Prtokoll-Dokumentation des Formates von Unsignierten-Witness-Transaktionen für diese Software!										*
-*																																							*
-*		4-Byte					Version				Unverändert (Wie bei Legany)																			*
-*		2-Byte					Witness-Flag		0001																									*
-*		1-Byte (Compact-Size)	Anzahl Tx-Input		Unverändert (Wie bei Legany)																			*
-*		32-Byte					TxPrev-Hash			Unverändert (Wie bei Legany)																			*
-*		4-Byte					TxPrev-Index		Unverändert (Wie bei Legany)																			*
-*		(Compact-Size)			Pk-Script			Pk-Script der vorherigen Tx. Unverändert (Wie bei Legany Unsignierten Tx)								*
-*		4-Byte					Sequence			Unverändert (Wie bei Legany)																			*
-*		(Tx-Output)				Tx-Output			Der Tx-Output Teil bleibt Unverändert (Wie bei Legany)													*
-*		(Variable)				Witness-Datenfeld	Das Witnes-Datenfeld wird hier genutzt um die prev Tx-In Beträge zu übermitteln. (Notwendig bei SegWit)	*
-*		4-Byte					LockTime			Unverändert (Wie bei Legany)																			*
-*								(Keine Hash-Code Feld! Wird erst bei der Signaturerellung hinzugefügt.)														*
-*																																							*
-*		https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki																						*
-*************************************************************************************************************************************************************/
+/***********************************************************************************************
+* Witness-Unsigned-Tx Protocol: Version 1.0                                                                                               *
+* Unsigned Witness transactions are not part of the Bitcoin protocol and thus not uniformly specified.                                   *
+* They exist only within wallets as custom code; therefore a defined format is required.                                                  *
+* This documents the format of unsigned Witness transactions for this software.                                                           *
+* Refer to BIP-0143: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki                                                       *
+************************************************************************************************/
 
 
 
@@ -57,13 +40,8 @@ public class TxSigniererWitness
 
 	
 	
-	/**	Signiert eine unsignierte Witness Transaktion mit mehreren Tx-In und Ausgängen.  Keine Legancy Transaktionen verwenden!
-	Da jeder Tx-Eingang separat signiert werden muss, werden die Attribute als Array angefordert. Die Länge der Arrays ergibt sich aus der Tx-In Anzahl.
-	Beispiel: Wenn die TX 27 Eingänge enthält, müssen natürlich auch 27 Private-Keys, 27 Zufallszahlen, und 27 Compressed-Flags übergeben werden.
-	@param usigTx Unsignierte Witness-Transaktion, die signiert werden soll. (Ohne Hash-Code am Ende)  
-	@param privKey Ein Array mit der Anzahl an Private-Keys von Tx-In Eingängen.
-	@param k Ein Array mit der Anzahl an Zufallszahlen von Tx-In Eingängen. (Achtung, Zufalls Array muss sicher sein! Niemals doppelt verwenden!!!)
-	@return Signierte Raw-Transaktion als Byte-Array in Protokoll-Format die so gesendet werde kann.  **/
+	/** Signs an unsigned Witness transaction with multiple inputs/outputs. No Legacy transactions here!
+ Arrays per input for private keys, random k, and compressed flag where applicable. **/
 public static byte[] sigTx(byte[] usigTx, byte[][] privKey, byte[][] k, boolean[] compressed) throws Exception 
 {
 	ByteArrayList wData	= new ByteArrayList(new byte[0]);											// Witness-Daten werden hier zusammengehängt
@@ -108,14 +86,14 @@ public static byte[] sigTx(byte[] usigTx, byte[][] privKey, byte[][] k, boolean[
 
 
 
-//-------------------------------------------------------------------- Sig-Script einzeln berechnen ------------------------------------------------------------------------------------------------------
+// ------------------------ Compute individual sig-scripts ------------------------------
 
 
 
 
 
 // Methode fertig und mehrfach mit verschiedenen Inputs getestet. Auch Compressed oder Uncompressed funktioniert! 
-// Berechnet das Signature-Script für Legancy-Inputs die in einer Witness-Transaktion eingebettet sind.
+// Computes signature script for Legacy inputs embedded in a Witness transaction using Legacy sighash.
 // Für diesen Fall muss die ganze Transakion temporär in eine Legancy-Tx konviertiert werden um dort den Signature-Hash im Legancy-Format zu berechnen.
 // Dafür werden alle Witness-Felder und das Witness-Flag entfernt. Alle anderen Signature-Felder bleiben auch leer, bis auf das eigene, in das das alte Pk-Script eingefügt wird.
 // Das Signature-Script wird anschließend in der Klasse TxSigniererLegancy berechnet.
@@ -134,7 +112,7 @@ private static byte[] sigScript_Legancy(byte[] wUsigTx, byte[] privKey, byte[] k
 
 
 	// Methode fertig, wurde mehrmals mit min.4 Inputs getestet.
-	//	Hier wird ein Signatur-Skript (für P2WPKH Bech32-Adressen) für eine einzelne Eingabe erzeugt..
+	// Computes signature script for P2WPKH (Bech32) input.
 	/*	Der Input der hier signiert werden soll, muss ??? noch offen
 	@param index der zu signierenden Tx-Eingang. 0 = die erste Eingabe usw.
 	@param usigTx Unsignierte Tx. Muss als Witness-Tx vorliegen. Achtung! Der Wert dieser Unsignierten Tx, wird durch die Methode verändert! Danach ist diese Tx aber zu lang und muss mit trimTx() gekürzt werden!
@@ -191,7 +169,7 @@ private static byte[] sigScript_P2WPKH (byte[] usigTx, byte[] privKey, byte[] va
 
 	
 	// Methode fertig, wurde für 4 P2SH Inputs getestet!
-	//	Hier wird ein Signatur-Skript (für P2SH Adressen die mit 3 Beginnen) für eine einzelne Eingabe erzeugt/signiert.
+	// Computes signature script for P2SH-P2WPKH input.
 	/*	Der Input der hier signiert werden soll, muss im SigScript ein spezielles Pk-Script enthalten: (Beispiel: 160014a53c44c87003ec71ca414448492e198bb3aaa3c3)
 	@param index der zu signierenden Tx-Eingang. 0 = die erste Eingabe usw.
 	@param usigTx Unsignierte Tx. Muss als Witness-Tx vorliegen. Achtung! Der Wert dieser Unsignierten Tx, wird durch die Methode verändert!
@@ -241,20 +219,11 @@ private static byte[] sigScript_P2SH(byte[] usigTx, byte[] privKey, byte[] value
 	
 	
 
-// -------------------------------------------------------------------- Sig-Hash berechnen ------------------------------------------------------------------------------------------------------
+// ---------------------------- Compute sighash -----------------------------------------
 
 
 //Ist erfolgreich getestet. Für Compressed und Uncompresset Legancy-Transaktion!
-/**	Gibt den Signature-Hash für eingebettete Legancy-Inputs in Segwit-Transaktionen zurück. Es können Signiert oder Unsignierte Transaktionen verwedet werden.
-Jeder Transaktions-Eingang muss einzeln signiert werden und es gibt deswegen auch für jede Tx-In einen anderen Signature-Hash!
-Um den Signature-Hash erstellen zu können ist das PK-Script der vorherigen Transaktion notwendig.
-@param tx Transkation.
-@param pkScript Das Pk-Script der vorherigen Tx auf die sich dieser Signature-Hash bezieht.
-@param txIndex Der Transaktions-Index der Tx-In dessen Signature-Hash berechnet werden soll.
-@return Signature-Hash des ausgewähten Tx-Inputs.    
-1. Transaktion wird temporär in eine Legancy-Tx Konvertiert. Dazu werden alle Witness-Daten und Flags entfernt. 
-2. Der SigHash wird nun durch die Klasse "TxSigniererLegancy" berechnet.
-Funktionsweise für Witness Transaktionen: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki **/
+/** Returns sighash for Legacy inputs embedded in SegWit transactions. */
 public static byte[] getSigHash_Legancy(Transaktion tx, byte[] pkScript, int txIndex) throws Exception 
 {
 	byte[] b = witnessToLegancy(tx.getRawTx());
@@ -267,19 +236,7 @@ public static byte[] getSigHash_Legancy(Transaktion tx, byte[] pkScript, int txI
 
 
 // Ist erfolgreich getestet für Witness-Transaktionen!
-/**	Gibt den Signature-Hash der Witness Transaktion (P2WPKH)zurück. Es können Signiert oder Unsignierte Transaktionen verwedet werden.
-Jeder Transaktions-Eingang muss einzeln signiert werden und es gibt deswegen auch für jede Tx-In einen anderen Signature-Hash!
-Um den Signature-Hash erstellen zu können ist das PK-Script der vorherigen Transaktion notwendig und bei Witness-Tx auch der Transaktionsbetrag der Vorherigen Transaktion.
-@param tx Transkation.
-@param pkScript Das Pk-Script der vorherigen Tx auf die sich dieser Signature-Hash bezieht.
-@param valueRaw Der Transaktionsbetrag der Tx-In dessen Signature-Hash berechnet werden soll.
-@param txIndex Der Transaktions-Index der Tx-In dessen Signature-Hash berechnet werden soll.
-@return Signature-Hash dieser Transaktion für eine bestimmte Tx-In.    
-1. Alle Signaturen der Transaktion werden entfernt und durch (Compact-Size) 0x00 ersetzt.
-2. Das übergebene PK-Script der vorherigen Transaktion wird an die (txIndex) gewünschte Stelle der Signature eingefügt.
-3. Hash-Code 0x01000000 wird hinten angehängt
-4. Dies entspricht dann der ursprünglichen unsignierten Transaktion und wird dann mit SHA256² gehascht. 
-Funktionsweise für Witness Transaktionen: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki **/
+/** Returns sighash for P2WPKH (Bech32) input. */
 public static byte[] getSigHash_P2WPKH(Transaktion tx, byte[] pkScript, byte[] valueRaw, int txIndex) throws Exception 
 {
 	if(tx.isWitness==false)	throw new Exception("Legancy transaction cannot be signed in Witness Class!");																			
@@ -332,11 +289,7 @@ public static byte[] getSigHash_P2WPKH(Transaktion tx, byte[] pkScript, byte[] v
 
 // Methode ist fertig, wurde einmal mit 2 Inputs erfolgreich getestet.!
 // Nach Doku: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki
-/**	Es wird der Signature-Hash von P2SH_P2WPKH Transaktionen berechnet. Darf nur für P2SH_P2WPKH Transaktionen angewendet werden.
- 	@param tx P2SH_P2WPKH Transaktion
- 	@param valueRaw	Der Input-Tranaktions-Betrag des inputs der hier signiert werden soll
- 	@param txIndex Angabe über den Transaktions-Input dieser Tx der gerade signiert werden soll. (Erster Input = 0)
- 	@return Signature-Hash dieser Transktion der zum Signieren benötigt wird. **/
+/** Returns sighash for P2SH_P2WPKH input. */
 public static byte[] getSigHash_P2SH_P2WPKH(Transaktion tx, byte[] valueRaw, int txIndex) throws Exception
 {
 	if(tx.isWitness==false)	throw new Exception("Legancy transaction cannot be signed in Witness Class!");																			
@@ -403,12 +356,10 @@ public static byte[] getSigHash_P2SH_P2WPKH(Transaktion tx, byte[] valueRaw, int
 
 
 
-// ------------------------------------------------------------ Weitere und Hilfsmethoden ------------------------------------------------------------------------------------
+// ---------------------------- Other helpers -------------------------------------------
 
 
-
-
-//Tauscht das SigScript mit der nr."index" gegen ein neues Script: "newScript" aus. 
+// Swap sigScript at given index with newScript
 private static byte[] switchSigScript(byte[] tx, byte[] newScript, int index)
 {
 	Transaktion uTx = new Transaktion(tx,0);
@@ -421,7 +372,7 @@ private static byte[] switchSigScript(byte[] tx, byte[] newScript, int index)
 
 
 
-/** Konvertiert eine Legancy Transakion in eine Witness Transaktion in dem das Witness-Flag und minimale WitnesDaten eingefügt werden.  **/
+/** Converts a Legacy transaction to a Witness transaction by inserting witness flag and minimal witness data. **/
 public static byte[] legancyToWitness(byte[] txb)
 {
 	Transaktion tx = new Transaktion(txb,0);
@@ -437,7 +388,7 @@ public static byte[] legancyToWitness(byte[] txb)
 
 
 
-/** Konvertiert eine Witness Transakion in eine Legancy Transaktion in dem das Witness-Flag und WitnesDaten entfernt werden.  **/
+/** Converts a Witness transaction to a Legacy transaction by removing witness flag and witness data. **/
 public static byte[] witnessToLegancy(byte[] txb)
 {
 	Transaktion tx = new Transaktion(txb,0);
@@ -450,7 +401,7 @@ public static byte[] witnessToLegancy(byte[] txb)
 
 
 
-// Kürzt eine Transaktion auf die richtige Länge, wenn sie zu lang ist.
+// Trims a transaction to correct length if it became too long.
 // Die Methode "sigScript_P2WPKH()" verändert eine tx die als Parameter übergeben wird. Die Tx ist dann aber zu lang (geht nicht anders).  Hier wird sie dann gekürzt.
 private static byte[] trimTx(byte[] in)
 {

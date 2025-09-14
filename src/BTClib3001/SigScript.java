@@ -1,50 +1,42 @@
 package BTClib3001;
 
-
-
 /****************************************************************************************************************************
-*		V2.0    					Autor: Mr. Maxwell   							vom 04.10.2023							*
-*		Letzte Änderung: getName(); hinzugefügt und Klasse komplett neu, da sie fehlerhaft uns schlecht programmiert war. 	*
-*		Gehört zur BTClib3001																								*
-*		Nicht statische Klasse die eine Signature aus dem SigScript parst.													*
-*		Vorgehensweise:																										*
-*		Es wird mit dem Konstruktor ein "new SigScript(sig)" Object erstellt.												*
-*		Nun können die Signature-Teile aus dem SigScript über die Methoden abgerufen werden.								*
-*		Das raw SigScript in ByteArray darf durch die Klasse nicht verändert werden!										*
-*		Derzeit sind 2 Sig.Scripte implementiert: P2PK und P2PKH.															*
-*		Möglicherweise fehlen noch weitere Sig.Scripte!																		*
-*		Achtung, dieser Parser wird im Blockexplorer verwendet und durchläuft jede Transakton. Laufzeit Konstruktor bachten!*
+*       V2.0                        Author: Mr. Nickolas-Antoine B.                              from 04.10.2023                          *
+*       Last change: getName(); added and class completely new, as it was faulty and poorly programmed.                      *
+*       Part of BTClib3001                                                                                                   *
+*       Non-static class that parses a signature from the SigScript.                                                         *
+*       Procedure:                                                                                                           *
+*       An object is created with the constructor: "new SigScript(sig)".                                                    *
+*       The signature parts from the SigScript can now be accessed via the methods.                                          *
+*       The raw SigScript in ByteArray must not be changed by the class!                                                     *
+*       Currently, 2 Sig.Scripts are implemented: P2PK and P2PKH.                                                           *
+*       More Sig.Scripts may be missing!                                                                                     *
+*       Attention, this parser is used in the block explorer and processes every transaction. Note the constructor runtime!  *
 *****************************************************************************************************************************/
-
-
 
 public class SigScript
 {
 	private byte[] sig;			// Original raw Signature
-	private int lenSig;			// Die Gesamtlänge dieser Signatur (erstes Byte)
-	private int posSig;			// Die Startposition dieser Signature	
-	private int lenSigRS;		// Die Länge der Signature R+S
-	private int posSigRS;		// Die Startposition der Signature r+s
-	private int posSigR;		// Die Startposition der Signature r
-	private int posSigS;		// Die Startposition der Signature s
-	private int lenSigR;		// Die Länge der Signature r
-	private int lenSigS;		// Die Länge der Signature s
-	private int lenPub;			// Die Länge des Public Keys
-	private int posPub;			// Die Startposition des Public Keys
-	private String 	name;		// Der Name es Sig.Scriptes
-	private int		nr =-1;		// Die Nummer des identifizierten Sig.Scriptes. P2PK=1, P2PKH=2 ...  Wenn -1 wurde ein unbekanntes Sig.Script geladen.
+	private int lenSig;			// The total length of this signature (first byte)
+	private int posSig;			// The start position of this signature	
+	private int lenSigRS;		// The length of the signature R+S
+	private int posSigRS;		// The start position of the signature r+s
+	private int posSigR;		// The start position of the signature r
+	private int posSigS;		// The start position of the signature s
+	private int lenSigR;		// The length of the signature r
+	private int lenSigS;		// The length of the signature s
+	private int lenPub;			// The length of the public key
+	private int posPub;			// The start position of the public key
+	private String 	name;		// The name of the sig.script
+	private int		nr =-1;		// The number of the identified sig.script. P2PK=1, P2PKH=2 ...  If -1 an unknown sig.script was loaded.
 
-	
-	
-	
-// ------------------------------------- Konstruktor --------------------------------------------------
 
-	
-	
-/**	Der Konstruktor erstellt ein SigScript Objekt
-	@param data Das raw Sig.Script als ByteArray   
-	Es soll hier keine Excepteion ausgelöst werden, da dies in Anwendungen (z.B. Blockexplorer) Störungen auslöst die so nicht gewollt sind.
-	Bei einem unbekanntem Sig.Script soll stattdessen nur der Name "unknown..." in das Namensfeld übergeben werden und die Anwendung soll weiter laufen.  **/
+// ------------------------------------- Constructor --------------------------------------------------
+
+/** The constructor creates a SigScript object
+	@param data The raw Sig.Script as ByteArray
+	No exception should be thrown here, as this causes unwanted disruptions in applications (e.g. block explorer).
+	For an unknown Sig.Script, only the name "unknown..." should be passed to the name field and the application should continue running. **/
 	public SigScript(byte[] data)
 	{
 		this.sig = data;	
@@ -52,29 +44,23 @@ public class SigScript
 		{			
 			if(calc_P2PK())  	return;						// P2PK   Pay-to-Public-Key
 			if(calc_P2PKH()) 	return;						// P2PKH  Pay-to-Public-Key-Hash 		
-			// Weitere Scripte hier einfügen!
+			// Add more scripts here!
 			name = "unknown sig.script";
 		} 
 		catch (Exception e) {name = "unknown sig.script";}	
 	}	
-	
-	
-	
 
+// ---------------------------------------------------------------------- Public Methods ----------------------------------------------------------------
 
-// ---------------------------------------------------------------------- Public Methoden ----------------------------------------------------------------
-
-
-/**	Gibt den Namen des Signature-Scriptes zurück.
-	Derzeit sind implementiert: P2PK und P2PKH **/
+/** Returns the name of the signature script.
+	Currently implemented: P2PK and P2PKH **/
 public String getName()
 {
 	return name;
 }
 
-
-/** Gibt den r Teil der Signature zurück. 
- 	Im Fehlerfall oder wenn das Script nicht erkannt wird, wird ein Byte-Array der Länge NULL zurück gegeben. Dies führt zu keinem Fehler in Programmen.**/	
+/** Returns the r part of the signature.
+	In case of error or if the script is not recognized, a byte array of length NULL is returned. This does not cause an error in programs. **/	
 public byte[] getSigR()
 {
 	if(nr==1 || nr==2)
@@ -86,12 +72,11 @@ public byte[] getSigR()
 	return new byte[0];
 }
 
-
-/** Gibt den s Teil der Signature zurück. 
- 	Im Fehlerfall oder wenn das Script nicht erkannt wird, wird ein Byte-Array der Länge NULL zurück gegeben. Dies führt zu keinem Fehler in Programmen.**/		
+/** Returns the s part of the signature.
+	In case of error or if the script is not recognized, a byte array of length NULL is returned. This does not cause an error in programs. **/		
 public byte[] getSigS()
 {
-	if(nr==1 || nr==2) // Bei P2PK oder P2PKH 
+	if(nr==1 || nr==2) // For P2PK or P2PKH 
 	{
 		byte[] out = new byte[lenSigS];
 		System.arraycopy(sig, posSigS, out, 0, lenSigS);
@@ -100,13 +85,12 @@ public byte[] getSigS()
 	return new byte[0];
 }
 	
-
-/** Gibt den Public Key (einschließlich der 0x02, oder 0x03 oder 0x04 am Anfang) zurück.
- 	Im Fehlerfall oder wenn das Script nicht erkannt wird, wird ein Byte-Array der Länge NULL zurück gegeben. Dies führt zu keinem Fehler in Programmen.	
-	In einem P2PK Sig.Script ist kein Public-Key vorhanden! In dem Fall wird auch ein Null-Längen-ByteArray zurück gegeben. **/
+/** Returns the public key (including the 0x02, 0x03 or 0x04 at the beginning).
+	In case of error or if the script is not recognized, a byte array of length NULL is returned. This does not cause an error in programs.
+	In a P2PK Sig.Script, no public key is present! In that case, a null-length byte array is also returned. **/
 public byte[] getPubKey()
 {
-	if(nr==2) // Nur in P2PKH ist ein Public-Key in der Signatur vorhanden.
+	if(nr==2) // Only in P2PKH is a public key present in the signature.
 	{
 		byte[] out = new byte[lenPub];
 		System.arraycopy(sig, posPub, out, 0, lenPub);
@@ -115,8 +99,7 @@ public byte[] getPubKey()
 	return new byte[0];
 }
 	
-	
-/** Gibt die Signaturteile r, s, und Pub.Key in getrennter, beschrifteter Form, als String zurück. **/
+/** Returns the signature parts r, s, and pub.key in separate, labeled form as a string. **/
 public String toString()
 {
 	String r 	= "Sig. r   = " + Convert.byteArrayToHexString(getSigR());
@@ -124,17 +107,12 @@ public String toString()
 	String pub 	= "Pub. Key = " + Convert.byteArrayToHexString(getPubKey());
 	return r+"\n"+s+"\n"+pub+"\n";	
 }
-	
 
+// ---------------------------------------------------------------------- private Methods -------------------------------------------------------------
 
-	
-// ---------------------------------------------------------------------- private Methoden -------------------------------------------------------------
-
-
-
-// parst ein P2PK Sig.Script.
-// wenn es geparst werden kann wird true zurück gegeben.
-// Ein P2PK (Pay to Public-Key) Script enthält nur R und S, abe der Public Key ist hier nicht enthalten!
+// Parses a P2PK Sig.Script.
+// If it can be parsed, true is returned.
+// A P2PK (Pay to Public-Key) script contains only R and S, but the public key is not included here!
 private boolean calc_P2PK() throws Exception
 {
 	try
@@ -155,7 +133,7 @@ private boolean calc_P2PK() throws Exception
 		posSigS = cs[0];
 		lenSigS = cs[1];
 			
-		if(posSigRS+lenSigRS+1 == sig.length) // Wenn keine weiteren Daten folgen ist es wahscheinlich ein P2PK Script
+		if(posSigRS+lenSigRS+1 == sig.length) // If no further data follows, it is probably a P2PK Script
 		{
 			name = "P2PK"; 
 			nr = 1;
@@ -166,10 +144,9 @@ private boolean calc_P2PK() throws Exception
 	catch (Exception e){return false;}
 }
 	
-
-// parst ein P2PKH Sig.Script.
-// wenn es geparst werden kann wird true zurück gegeben.
-// Ein P2PKH (Pay to Public-Key Hash) Script enthält R,S und den Public Key. Es ist das häufigste und allgemeine SigScript aller Legancy BTC Transaktionen.
+// Parses a P2PKH Sig.Script.
+// If it can be parsed, true is returned.
+// A P2PKH (Pay to Public-Key Hash) script contains R, S, and the public key. It is the most common and general SigScript of all legacy BTC transactions.
 private boolean calc_P2PKH() throws Exception
 {
 	try
@@ -194,7 +171,7 @@ private boolean calc_P2PKH() throws Exception
 		posPub = cs[0];
 		lenPub = cs[1];	
 			
-		if(lenPub + lenSig + 2 == sig.length) // Wenn keine weiteren Daten folgen ist es wahscheinlich ein P2PKH Script
+		if(lenPub + lenSig + 2 == sig.length) // If no further data follows, it is probably a P2PKH Script
 		{
 			name = "P2PKH"; 
 			nr = 2;

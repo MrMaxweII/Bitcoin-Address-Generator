@@ -6,11 +6,11 @@ import java.util.Objects;
 
 
 /*******************************************************************************************************
-*	V1.0 																	vom 29.02.2020				*
-* 	Gehört zur BTClib3001																				*
-* 	Diese statische Klasse Codiert eine Hash160-Adresse zu einer Bech32-Adresse mit "bc" beginnend  	*
-* 	Achtung: Der Hash160 muss aus einem komprimierten Public-Key stammen! (2 oder 3 am Anfang)			*
-* 	Zum Testen:		https://slowli.github.io/bech32-buffer/												*
+*   V1.0                                                                   from 29.02.2020              *
+*   Part of BTClib3001                                                                                  *
+*   This static class encodes a Hash160 address to a Bech32 address starting with "bc"                  *
+*   Note: The Hash160 must come from a compressed public key! (starts with 2 or 3)                      *
+*   For testing:      https://slowli.github.io/bech32-buffer/                                           *
 *******************************************************************************************************/
 
 
@@ -23,11 +23,11 @@ public class Bech32Address
 
 
 
-/**	Codiert eine Hash160-Adresse zu einer Bech32-Adresse mit "bc" beginnend
-	@param bech32Prefix Das Präfix für die resultierende Zeichenfolge bei BTC = "bc"
-	@param version Witness Versionsnummer. Bei Bitcoin = 0;
-	@param hash160 Die rohen Zeugen-Daten, oder die Hash160 Adresse.
-	@return Gibt die fertige Bech32-Adresse als Text-String zurück. **/
+/** Encodes a Hash160 address to a Bech32 address starting with "bc"
+	@param bech32Prefix The prefix for the resulting string, for BTC = "bc"
+	@param version Witness version number. For Bitcoin = 0;
+	@param hash160 The raw witness data, or the Hash160 address.
+	@return Returns the finished Bech32 address as a text string. **/
 public static String segwitToBech32(String bech32Prefix, int version, byte[] hash160)
 {
 	Objects.requireNonNull(bech32Prefix);

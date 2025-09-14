@@ -3,9 +3,9 @@ package BTClib3001;
 
 
 /***************************************************************************************************************
-*	Version 1.3    						Autor: Mr. Maxwell   						vom 21.02.2020				*
-*	Nicht statische Klasse die eine Coin-Adresse erstellt.														*
-*	Diese Klasse ist für mehrere Coins verwendbar. Mit dem Präfix Argument wird der jeweilige Coin angegeben.	*
+*	Version 1.3    						Autor: Mr. Nickolas-Antoine B.   						vom 21.02.2020				*
+*	Non-static class that creates a coin address.														*
+*	This class can be used for multiple coins. The respective coin is specified with the prefix argument.	*
 ****************************************************************************************************************/
 
 
@@ -14,15 +14,15 @@ package BTClib3001;
 public class BitcoinAddr 
 {
 			
-	private byte[] pref_Pub; 		// Das Prefix welches den jeweiligen Coin repräsentiert
-	private byte[] hash160;			// Die Coin-Adresse als 20Byte Hash160									
+	private byte[] pref_Pub; 		// The prefix that represents the respective coin
+	private byte[] hash160;			// The coin address as 20Byte Hash160									
 	
 	
 
-// ---------------------------------------------------- Konstruktoren --------------------------------------------
+// ---------------------------------------------------- Constructors --------------------------------------------
 	
-/**	@param hash160 Dem Konstruktor wird die BitcoinAdresse als Hash160 20 Byte-Array übergeben.	
-	@param pref_pubKey Das Präfix aus den CoinParametern für die Bitcoin Adresse  **/
+/**	@param hash160 The Bitcoin address is passed to the constructor as Hash160 20 byte array.	
+	@param pref_pubKey The prefix from the coin parameters for the Bitcoin address  **/
 public BitcoinAddr(byte[] hash160, byte[] pref_pubKey) 
 {	
 	this.pref_Pub = pref_pubKey;	
@@ -32,9 +32,9 @@ public BitcoinAddr(byte[] hash160, byte[] pref_pubKey)
 
 
 
-/**	Dem Konstruktor wird die BitcoinAdresse als Base58 String übergeben.	
-	@param addr Base58 String der Bitcoin-Adresse		
-	@param pref_pubKey Das Präfix aus den CoinParametern für die Bitcoin Adresse  **/
+/**	The Bitcoin address is passed to the constructor as a Base58 string.	
+	@param addr Base58 string of the Bitcoin address		
+	@param pref_pubKey The prefix from the coin parameters for the Bitcoin address  **/
 public BitcoinAddr(String addr, byte[] pref_pubKey) throws IllegalArgumentException
 {
 	this.pref_Pub = pref_pubKey;
@@ -54,9 +54,9 @@ public BitcoinAddr(String addr, byte[] pref_pubKey) throws IllegalArgumentExcept
 
 
 
-// ----------------------------------------------------------  Bitcoin-Adress Methoden --------------------------------
+// ----------------------------------------------------------  Bitcoin-Address Methods --------------------------------
 
-/**	Gibt den Hash160 der Bitcoin-Adresse  als 20Byte-Array zurück. */
+/** Returns the Hash160 of the Bitcoin address as a 20Byte array. */
 public byte[] getHash160()
 {
 	return hash160;
@@ -64,7 +64,7 @@ public byte[] getHash160()
 
 
 
-/**	@return Gibt die Bitcoin-Adresse als Base58 String im WIF-Format zurück  (compressed wird selbst erkannt)**/
+/**	@return Returns the Bitcoin address as a Base58 string in WIF format (compressed is detected automatically)**/
 public String getBase58Address()
 {																												
 	String prefix = Convert.byteArrayToHexString(pref_Pub);
@@ -76,8 +76,8 @@ public String getBase58Address()
 
 
 
-/**	@param prefix_P2SH Es muss das P2SH-Prefix als Zahlen-String (so wie es aus den CoinParametern kommt) übergeben werden.
-	@return Gibt die Bitcoin-Adresse als Base58 String im P2SH-Witness Format (mit 3 beginnend) zurück.  **/
+/**	@param prefix_P2SH The P2SH prefix must be passed as a numeric string (as it comes from the coin parameters).
+	@return Returns the Bitcoin address as a Base58 string in P2SH witness format (starting with 3).  **/
 public String getP2SHAddress(byte[] prefix_P2SH)
 {
 	String prefix = Convert.byteArrayToHexString(prefix_P2SH);	
@@ -89,12 +89,12 @@ public String getP2SHAddress(byte[] prefix_P2SH)
 
 
 
-// Erstellt das RedeemScript für eine SegWit P2SH Adresse die mit 3 beginnt. 
-// Es wird der Hash160 übergeben so wie er üblicherweise berechnet wird. Allerdings muss er von einem komprimierten PubKey stammen!
-// Zurück gegeben wird das "RedeemScript" welches dem neuem Hash160 entspricht, der dann so in eine Base58 Adresse codert werden kann.
+// Creates the redeem script for a SegWit P2SH address starting with 3. 
+// The Hash160 is passed as usually calculated. However, it must come from a compressed pubkey!
+// The "redeemScript" is returned, corresponding to the new Hash160, which can then be encoded into a Base58 address.
 private byte[] getRedeemScript()
 {
-	final byte[] scriptPrefix = {0x00,0x14};  // Das Script Prefix 	
+	final byte[] scriptPrefix = {0x00,0x14};  // The script prefix 	
 	byte[] script = new byte[22];
 	script[0] = scriptPrefix[0];
 	script[1] = scriptPrefix[1];	

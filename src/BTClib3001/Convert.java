@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 
 /************************************************************************************************************
-*	Version 1.11   					 Autor: Mr. Maxwell  				 	vom 02.02.2024					*
+*	Version 1.11   					 Autor: Mr. Nickolas-Antoine B.  				 	vom 02.02.2024					*
 *	letzte Änderung:	valueToHex();  Fehler behoben und getestet.											*
 *	Hier werden verschiedene Konvertierungen vorgenommen.													*
 ************************************************************************************************************/
@@ -19,10 +19,10 @@ public class Convert
 
 
 	
-/**	Decodiert bekannte Magic-Werte von 4byte-Array nach String.  
-	@param MAGIC 4Byte MAGIC Wert
-	@return String, der das Netzwerk des Magic-Wertes beschreibt.
-	Unbekannte MAGIC-Werte werden mit "Unknown network" zurückgegeben. **/
+/**	Decodes known magic values from 4-byte array to string.  
+	@param MAGIC 4Byte MAGIC value
+	@return String that describes the network of the magic value.
+	Unknown MAGIC values are returned as "Unknown network". **/
 public static String decodeMAGIC(byte[] MAGIC)
 {
 	if(MAGIC==null) return "No MAGIC value was entered";
