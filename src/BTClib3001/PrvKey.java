@@ -156,7 +156,7 @@ public byte[] getHash160BitcoinAddress(boolean compressed)
 
 
 /**	Hash160 (RedeemScripot) für P2SH-Adressen.
-Achtung! Dieser Hash160 unterscheidet sich vom legency-Hash160 und ist nur bei P2SH gültig. 
+Achtung! Dieser Hash160 unterscheidet sich vom legacy-Hash160 und ist nur bei P2SH gültig. 
 Es handelt sich hierbei um das RedeemScript und eigentlich nicht um einen Hash160. 
 Wird die Bitcoin-Adresse aus diesem Has160 gebildet, handelt es sich um eine Adresse mit "3" am Anfang **/
 public byte[] getHash160_RedeemScript_P2SH()
