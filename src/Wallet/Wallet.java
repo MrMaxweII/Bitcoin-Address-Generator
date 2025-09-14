@@ -14,17 +14,25 @@ import GUI.GUI;
 
 
 /***********************************************************************************
-* Author: Mr. Nickolas-Antoine B.                                                               *
-* Saves and opens CAGWallet.dat for the Coin Address Generator                      * 
-*                                                                                   *
-* Structure of CAGWallet.dat: decrypted JSON format                                  *
-* {                                                                                 *
-*  "dateiID": "c6fcf3...",                                                        *
-*  "progName": "Coin Address Generator",                                          *
-*  "version" : "V3.0.0",                                                          *
-*  "pwHash"  : "92b1...",                                                         *
-*  "list": [ { ... } ]                                                              *
-* }                                                                                 *
+*	Autor: Mr. Maxwell																*
+*	Speichert und öffnet die CAGWallet.dat für den Coin-Address-Generator			*	
+*																					*
+*	Aufbau der CAGWallet.dat: entschlüsselt im JSON-Format
+* {
+* "dateiID"  : "c6fcf3b9bc7c855f46a43e70450d2dca444b527ec5fb30ada91d9bbd90fcef7a",
+*  "progName": "Coin Address Generator",
+*  "version" : "V3.0.0",
+*  "pwHash"  : "92b165232fbd011da355eca0b033db22b934ba9af0145a437a832d27310b89f9",
+*  "list": 
+*  [{
+*      "Coin": "BTC",
+*      "Description": "",
+*      "Format"     : "P2SH",
+*      "Address"    : "bc1qdjljwt79a7wsf0zmmfzcqk5xnzcms6mt6zcrvd",
+*      "Priv.Key"   : "L4pvfk8nAkYeoRSwCvTG2PRwVfY8kHA6nffBHxqPpjHSEUfYgKcE",
+*      "Date"       : "2020-02-26"
+*    }]
+* }
 ************************************************************************************/
 
 
@@ -39,10 +47,10 @@ public class Wallet
 	 
 	
 
-/** Called from GUI_Wallet.open().
- - Reads or creates CAGWallet.dat
- - Starts ParanoidDecrypt and opens the password dialog
- @return Decrypted wallet as JSONObject **/
+/**	Wird von der GUI_Wallet aufgerufen.
+	- Die CAGWallet.dat wird gelesen, oder ggf. neu erstellt
+	- ParanoidDecrypt wird gestartet und öffnet den Passwort-Dialog
+	@return CAGWallet.dat wird entschlüsselt und als JSONObject zurück gegeben. **/
 public static JSONObject open() throws Exception
 {	
 	File file = new File(fileName);
@@ -65,11 +73,12 @@ public static JSONObject open() throws Exception
 	
 
 
-/** Called from GUI_Wallet.save().
- @param jo Wallet JSONObject in plaintext
- - Creates backup copy
- - Starts ParanoidEncrypt and opens password dialog
- - Encrypts jo and overwrites CAGWallet.dat **/
+/**	Wird von der GUI_Wallet aufgerufen.
+	@param jo JSONObject der Wallet wird im Klartext übergeben
+	- Kopiert die CAGWallet.dat	
+	- ParanoidEcrypt wird gestartet und öffnet den Passwort-Dialog
+	- Die übergebene Wallet "jo" wird mit ParanoidEncrypt verschlüsset
+	- CAGWallet.dat wird nun mit der neuen verschlüsselten Wallet überschrieben **/
 public static void save(JSONObject jo) throws Exception
 {	
 	kopieBackup();
@@ -87,7 +96,7 @@ public static void save(JSONObject jo) throws Exception
 }
 
 
-// Copies the existing wallet file to old_CAGWallet.dat
+// Kopiert die vorhandene (alte) Wallet-Datei nach Backup_CAGWallet.dat
 private static void kopieBackup() throws IOException
 {
 	File src = new File(fileName);
