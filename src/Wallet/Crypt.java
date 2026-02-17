@@ -1,10 +1,10 @@
 package Wallet;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import BTClib3001.AES256;
-import BTClib3001.Calc;
-import BTClib3001.ScryptHash;
-import BTClib3001.Twofish;
+import lib3001.crypt.AES256;
+import lib3001.crypt.Calc;
+import lib3001.crypt.ScryptHash;
+import lib3001.crypt.Twofish;
 
 
 

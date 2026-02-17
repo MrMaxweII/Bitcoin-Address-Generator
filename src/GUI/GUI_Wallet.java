@@ -8,17 +8,21 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import CoinGen.Action;
+import CoinGen.MyIcons;
 import Wallet.Wallet;
-
+import lib3001.btc.PrvKey;
+import lib3001.crypt.Calc;
+import lib3001.crypt.Convert;
+import lib3001.network.CoinParameter;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -28,6 +32,7 @@ import javax.swing.JLabel;
 
 
 /************************************************************************************************
+*	V1.2									Mr.Maxwell							27.01.2026		*
 *	Diese Klasse ist Teil der GUI des CoinAddressGenerators										*
 *	Hier wird das Wallet-Fenster erstellt, welches beim Öffnen oder Speichern angezeigt wird.	*
 ************************************************************************************************/
@@ -39,9 +44,9 @@ public class GUI_Wallet extends JFrame
 
 	
 	
-	public DefaultTableModel dtm;						// Die Tabelle der Wallet
-	private JLabel 			lbl_error = new JLabel();	// Meldungsfenster
-	private JSONObject 		wallet;						// Die entschlüsselte Wallet-JSON-Datei
+	public DefaultTableModel 	dtm;						// Die Tabelle der Wallet
+	private JLabel 				lbl_error = new JLabel();	// Meldungsfenster
+	private JSONObject 			wallet;						// Die entschlüsselte Wallet-JSON-Datei
 	
 	
 	
@@ -57,18 +62,32 @@ public GUI_Wallet(int x, int y, String profil) throws Exception
 	JScrollPane scrollPane 	= new JScrollPane();
 	JTable 		table 		= new JTable();
 	JPanel 		panel 		= new JPanel();
-	JButton 	btn_delete 	= new JButton("Delete");
-	JButton 	btn_save 	= new JButton("Save");
-	JButton 	btn_open 	= new JButton("Open");
-	JButton 	btn_close 	= new JButton("Close");
-		
-	setBounds(x, y, 875, 370);
+	JButton 	btn_openPK 	= new JButton(GUI.t.t("Open PrivKey"));
+	JButton		btn_openSeed= new JButton(GUI.t.t("Open Seed"));
+	JButton 	btn_delete 	= new JButton(GUI.t.t("Delete"));
+	JButton 	btn_save 	= new JButton(GUI.t.t("Save"));
+	
+	setBounds(x, y, 1200, 370);
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	contentPane.setLayout(new BorderLayout(0, 0));
 	setTitle("Wallet "+profil);
+	setIconImage(MyIcons.key.getImage());
 	setContentPane(contentPane);
 	
-	dtm = new DefaultTableModel(null , new String[] {"Description", "Coin", "Address", "Priv.Key", "Format", "Date"}) 
+	btn_openPK	.setIcon(MyIcons.keySmal);
+	btn_openSeed.setIcon(MyIcons.key);
+	btn_delete	.setIcon(MyIcons.delete);
+	btn_save	.setIcon(MyIcons.save);	
+	btn_openPK	.setPreferredSize( new Dimension(180,35));
+	btn_openPK	.setMargin(new Insets(0,0,0,0));
+	
+	btn_openPK	.setToolTipText(GUI.t.t("Private Key der markierten Zeile öffnen"));
+	btn_openSeed.setToolTipText(GUI.t.t("Private Key der markierten Zeile als Seed öffnen"));
+	btn_delete	.setToolTipText(GUI.t.t("Markierte Zeile löschen"));
+	btn_save	.setToolTipText(GUI.t.t("Alle Änderungen endgültig speichern"));	
+	
+	
+	dtm = new DefaultTableModel(null , new String[] {GUI.t.t("Description"), "Coin", GUI.t.t("Address"), "Private Key", "Format", GUI.t.t("Date")}) 
 	{
 		boolean[] columnEditables = new boolean[] {true, false, false, false, false, false};
 		public boolean isCellEditable(int row, int column) {return columnEditables[column];}
@@ -76,14 +95,14 @@ public GUI_Wallet(int x, int y, String profil) throws Exception
 	
 	table.setRowHeight(20);
 	table.setGridColor(new Color(240, 240, 240));
-	table.setFont(new Font("Tahoma", Font.PLAIN, 9));
+	table.setFont(new Font("Ubuntu Mono", Font.PLAIN, 13));
 	table.setCellSelectionEnabled(true);
 	table.putClientProperty ("terminateEditOnFocusLost", Boolean.TRUE);
 	table.setModel(dtm);	
-	table.getColumnModel().getColumn(0).setPreferredWidth(80);
-	table.getColumnModel().getColumn(1).setPreferredWidth(20);
-	table.getColumnModel().getColumn(2).setPreferredWidth(170);
-	table.getColumnModel().getColumn(3).setPreferredWidth(260);
+	table.getColumnModel().getColumn(0).setPreferredWidth(220);
+	table.getColumnModel().getColumn(1).setPreferredWidth(15);
+	table.getColumnModel().getColumn(2).setPreferredWidth(180);
+	table.getColumnModel().getColumn(3).setPreferredWidth(310);
 	table.getColumnModel().getColumn(4).setPreferredWidth(20);
 	table.getColumnModel().getColumn(5).setPreferredWidth(20);
 		
@@ -95,14 +114,12 @@ public GUI_Wallet(int x, int y, String profil) throws Exception
 	contentPane	.add(scrollPane, BorderLayout.CENTER);
 	contentPane	.add(panel, BorderLayout.SOUTH);	
 	panel		.add(lbl_error);
-	panel		.add(btn_open);
+	panel		.add(btn_openPK);
+	panel		.add(btn_openSeed);
 	panel		.add(btn_delete);
 	panel		.add(btn_save);
-	panel		.add(btn_close);
 	
 	loadWallet();
-	
-	
 	
 	if(profil.equals("open"))
 	{
@@ -113,13 +130,14 @@ public GUI_Wallet(int x, int y, String profil) throws Exception
 			@Override
 			public void mousePressed(MouseEvent e) 
 			{
-				if(e.getClickCount() >= 2) btn_open.doClick(); 
+				if(e.getClickCount() >= 2) btn_openPK.doClick(); 
 			}
 		});
 	}
 	if(profil.equals("save"))
 	{
-		btn_open.setVisible(false);
+		btn_openPK.setVisible(false);
+		btn_openSeed.setVisible(false);
 		btn_delete.setVisible(false);
 		setBounds(x, y, 875, 210);
 		for(int i=0;i<dtm.getRowCount();i++)
@@ -136,8 +154,8 @@ public GUI_Wallet(int x, int y, String profil) throws Exception
 // ---------------------------------------------------------- Action Listeners ---------------------------------------------------	
 
 	
-	
-btn_open.addActionListener(new ActionListener() 
+// Öffnet den Datensatz als Private-Key	
+btn_openPK.addActionListener(new ActionListener() 
 {
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -160,6 +178,37 @@ btn_open.addActionListener(new ActionListener()
 		catch(Exception ex) {lbl_error.setText(ex.getMessage());}
 	}
 });
+
+
+
+// Öffnet und Importiert den Datensatz als Seed in den Seed-Extractor
+btn_openSeed.addActionListener(new ActionListener() 
+{
+	public void actionPerformed(ActionEvent e) 
+	{
+		try
+		{
+			int row = table.getSelectedRow();
+			if(row>=0) 
+			{				
+				if(checkComboBoxItem(GUI.comboBox_coin,(String) dtm.getValueAt(row, 1))==false) throw new Exception("Unknown Coin, first import this coin!");			
+				GUI.btn_removeSeed.doClick();			
+				GUI.comboBox_coin.setSelectedItem(dtm.getValueAt(row, 1));
+				GUI.tabbedPane.setSelectedIndex(3);
+				String str = (String) dtm.getValueAt(row, 3);
+				CoinParameter c = CoinParameter.getFromSymbol((String)GUI.comboBox_coin.getSelectedItem());
+				PrvKey pk = new PrvKey(str, c.pref_PrivKey);
+				GUI.txt_seed.setText(Convert.byteArrayToHexString(pk.getHexPrivKey()));
+				String cvc = Calc.getHashSHA256_from_HexString(GUI.txt_seed.getText()).substring(61);
+				GUI.txt_cvc.setText(cvc);
+				GUI.frame.setEnabled(true);
+				dispose();		    	
+			}
+		}
+		catch(Exception ex) {lbl_error.setText(ex.getMessage());}
+	}
+});
+
 
 
 btn_save.addActionListener(new ActionListener() 
@@ -210,15 +259,6 @@ btn_delete.addActionListener(new ActionListener()
 
 
 
-btn_close.addActionListener(new ActionListener() 
-{
-	public void actionPerformed(ActionEvent e) 
-	{
-		GUI.frame.setEnabled(true);
-    	dispose();
-	}
-});
-
 
 
 // Close Button wird abgefangen und hier selbst verarbeitet.
@@ -228,6 +268,7 @@ addWindowListener(new java.awt.event.WindowAdapter()
     public void windowClosing(java.awt.event.WindowEvent windowEvent) 
     {
     	GUI.frame.setEnabled(true);
+    	dispose();
     }
 });	
 }

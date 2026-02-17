@@ -1,14 +1,14 @@
 package seedExtractor;
-import BTClib3001.Calc;
-import BTClib3001.Convert;
-import BTClib3001.ScryptHash;
 import CoinGen.Action;
 import GUI.GUI;
+import lib3001.crypt.Calc;
+import lib3001.crypt.Convert;
+import lib3001.crypt.ScryptHash;
 
 
 
 /********************************************************************
- * V1.1				 Angepasst für den CoinAddressGen.				*
+ * V1.2		 Angepasst für den CoinAddressGen.		23.01.2026		*
  * Führt die Berechnungen des SeedExtractors durch					*
  *********************************************************************/
 
@@ -23,16 +23,31 @@ public class SeedExtractor
 	
 	
 	
-	// Entschlüsselt den Seed aus dem verschlüsseltem Seed und dem Passwort
+	/** Entschlüsselt den Seed aus dem verschlüsseltem Seed und dem Passwort  **/
 	public static void encodeSeed(String vSeed, String passWort) throws Exception
 	{
-		if(vSeed.length() != 64) 					throw new Exception("Error Eingabe Seed! \nVerschlüsselter Seed muss genau 64 Zeichen lang sein!");
-		if(vSeed.matches("^[0-9a-fA-F]+$")==false) 	throw new Exception("Error Eingabe Seed! \nVerschlüsselter Seed darf nur Hexa-Zeichen enthalten!");	
+		if(vSeed.length() != 64) 					throw new Exception(GUI.t.t("Error input seed! \nEncrypted seed must be exactly 64 characters long!"));
+		if(vSeed.matches("^[0-9a-fA-F]+$")==false) 	throw new Exception(GUI.t.t("Error input seed! \nEncrypted seed can only contain hexa characters!"));	
 		seed = getScryptHash(Convert.hexStringToByteArray(Calc.getHashSHA256_from_HexString(vSeed + Calc.getHashSHA256(passWort))));
 		GUI.txt_nr.setValue(1);			
 		privKeys = keyDuplication(seed, Integer.parseInt(GUI.txt_max.getText()));
 		Action.go();
 	}
+	
+	
+	
+	
+	/**	Löscht den Seed im Speicher
+	Dies ist nötig, damit kein falscher/alter Seed im Speicher hinterlegt ist, wenn ein neuer Seed im EingabeText geladen wurde aber noch nicht entschlüsselt ist
+	In diesem Fall, muss der alte Seed gelöscht sein! 
+	Das Eingabe-Feld "Seed" muss mit dem angezeigtem Ausgabe Feld immer übereinstimmen!**/
+	public static void removeSeed()
+	{
+		seed = null;
+		privKeys = null;
+	}
+	
+	
 	
 	
 	/**	Generiert eine beliebige Menge isolierter (SHA256) Schlüsseln aus einem Master-Key.
@@ -58,6 +73,7 @@ public class SeedExtractor
 	}
 	
 	
+	
 	//	Generiert einen Scrypt-Hash, der zur Laufzeitverlängerung geeignet ist.
 	//	Achtung hierfür sollte ein eigener Thread gestartet werden!
 	//	Eingestellt sind Parameter die 1GB Ram verbrauchen und ca 8 Sec. Rechenzeit benötigen.
@@ -70,6 +86,8 @@ public class SeedExtractor
 		final int outLen 	= 32;		// Die Länge des Ausgabe Hash.
 		return ScryptHash.getHash(data, salt, memory, r, p, outLen);
 	}
+	
+	
 	
 	
 // Alt: Für ein separate Programm SeedExtractor vorgesehen.	Nicht löschen!

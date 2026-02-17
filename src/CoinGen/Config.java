@@ -10,8 +10,9 @@ import java.io.FileWriter;
 import javax.swing.DefaultComboBoxModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import GUI.GUI;
+import GUI.GUI_InfoText;
+import GUI.GUI_SignTx;
 
 
 
@@ -55,13 +56,17 @@ public static void load()
 			GUI.setSelectedAddressFormat(jo.getString("addressFormat"));
 			GUI.comboBox_coin	.setModel(new DefaultComboBoxModel(list));			
 			GUI.comboBox_coin	.setSelectedIndex(jo.getInt("comboBox_coin"));
+			GUI.cBox_language	.setSelectedIndex(jo.getInt("languageIndex"));
 			GUI.tabbedPane		.setSelectedIndex(jo.getInt("tabbedPaneInput"));
-			GUI.lbl_file_uTx	.setText(jo.getString("fileTx"));
+			GUI_SignTx.lbl_file_uTx	.setText(jo.getString("fileTx"));
+			GUI_SignTx.cBox_sigMethode.setSelectedIndex(jo.getInt("sigMethodeIndex"));
 			GUI.txt_max			.setText(jo.getString("maxKeys"));
 			GUI.mItem_newCoin	.setEnabled(jo.getBoolean("enabledImportCoin"));
 			GUI.mItem_removeCoin.setEnabled(jo.getBoolean("enabledImportCoin"));
 			GUI.posX = jo.getInt("posX");
-			GUI.posY = jo.getInt("posY");				
+			GUI.posY = jo.getInt("posY");	
+			GUI.toolTipEnabled.setSelected(jo.getBoolean("toolTipEnabled"));
+			GUI.toolTipSetDismissDelay = jo.getInt("toolTipSetDismissDelay");
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			if(GUI.posX > screenSize.width-855 || GUI.posX < 0)  GUI.posX=0;
 			if(GUI.posY > screenSize.height-340|| GUI.posY < 0) GUI.posY=0;			
@@ -69,7 +74,11 @@ public static void load()
 		} 
 		catch (Exception e) {e.printStackTrace();}
 	}	
-	else {}
+	else 
+	{
+		Translate.showStartDialogg(); 
+		GUI_InfoText.showFirstInfo();
+	}
 }
 	
 
@@ -90,13 +99,17 @@ public static void save()
 		for (int i=0;i<size;i++)  list[i] = (String) GUI.comboBox_coin.getItemAt(i);		
 		JSONArray array = new JSONArray(list);
 		jo.put("coinList", array);
-		jo.put("comboBox_coin", GUI.comboBox_coin.getSelectedIndex());
-		jo.put("addressFormat", GUI.getSelectedAddressFormat());
-		jo.put("tabbedPaneInput", GUI.tabbedPane.getSelectedIndex());
-		jo.put("fileTx", GUI.lbl_file_uTx.getText());
-		jo.put("maxKeys", GUI.txt_max.getText());
-		jo.put("enabledImportCoin", GUI.mItem_newCoin.isEnabled());
-		jo.put("enabledImportCoin", GUI.mItem_removeCoin.isEnabled());
+		jo.put("comboBox_coin", 		GUI.comboBox_coin.getSelectedIndex());
+		jo.put("languageIndex", 		GUI.cBox_language.getSelectedIndex());
+		jo.put("addressFormat", 		GUI.getSelectedAddressFormat());
+		jo.put("tabbedPaneInput", 		GUI.tabbedPane.getSelectedIndex());
+		jo.put("fileTx", 				GUI_SignTx.lbl_file_uTx.getText());
+		jo.put("sigMethodeIndex", 		GUI_SignTx.cBox_sigMethode.getSelectedIndex());	
+		jo.put("maxKeys", 				GUI.txt_max.getText());
+		jo.put("enabledImportCoin", 	GUI.mItem_newCoin.isEnabled());
+		jo.put("enabledImportCoin", 	GUI.mItem_removeCoin.isEnabled());
+		jo.put("toolTipEnabled", 		GUI.toolTipEnabled.isSelected());
+		jo.put("toolTipSetDismissDelay",GUI.toolTipSetDismissDelay);	
 		BufferedWriter br = new BufferedWriter(new FileWriter(fileName));
 		br.write(jo.toString(1));
 		br.close();

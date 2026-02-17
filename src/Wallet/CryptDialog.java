@@ -1,35 +1,35 @@
 package Wallet;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.Font;
+import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import BTClib3001.Calc;
-import BTClib3001.Convert;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import java.awt.Dimension;
-import javax.swing.JPasswordField;
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.Insets;
-import javax.swing.JTextArea;
-import javax.swing.JProgressBar;
-import java.awt.event.ItemListener;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.awt.event.ItemEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import CoinGen.MyIcons;
+import lib3001.crypt.Calc;
+import lib3001.crypt.Convert;
 
 
 
@@ -118,6 +118,7 @@ private CryptDialog(int x, int y, String profil, JSONObject klarText, byte[] chi
 	setModal(true);
 	setBounds(x, y, 500, 340);
 	setTitle("Password");
+	setIconImage(MyIcons.key.getImage());
 	
 	JPanel contentPanel = new JPanel();
 	JPanel panel_haupt 	= new JPanel();

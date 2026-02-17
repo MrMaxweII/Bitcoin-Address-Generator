@@ -9,21 +9,23 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import BTClib3001.Bech32Address;
-import BTClib3001.BitcoinAddr;
-import BTClib3001.Calc;
-import BTClib3001.CoinParameter;
-import BTClib3001.Convert;
-import BTClib3001.PrvKey;
 import GUI.GUI;
+import lib3001.btc.Bech32Address;
+import lib3001.btc.BitcoinAddr;
+import lib3001.btc.PrvKey;
+import lib3001.crypt.Calc;
+import lib3001.crypt.Convert;
+import lib3001.network.CoinParameter;
+import lib3001.qrCode.QRCodeZXING;
 import seedExtractor.SeedExtractor;
 
 
 
 /***********************************************************************************
-*	Hauptprogramm des CoinAddressGenerators	V3      		Autor: Mr. Maxwell   	*
+*	Hauptprogramm des CoinAddressGenerators	V3.1      		Autor: Mr. Maxwell   	*
 *	Hier wird die Berechnung aller Ausgaben durchgeführt,							* 
 *	sobald es eine Änderung der Eingabe gegeben hat,								*
 ************************************************************************************/
@@ -31,14 +33,13 @@ import seedExtractor.SeedExtractor;
 
 public class Action 
 {
-	public static String prvWIF;
-	public static String addr;
-	
-	static 	JLabel 		privKey;   						// QR-Code Label
-	static 	JLabel 		address;						// QR-Code Label
-	static 	JSpinner 	spinner = new JSpinner(new SpinnerNumberModel(120, 80, 500, 5));	// Verändert die größe der QR-Codes
-	static 	BufferedImage qrCode1;
-	static 	BufferedImage qrCode2;
+	public static String 	prvWIF;
+	public static String	addr;
+	static 	JLabel 			privKey;   						// QR-Code Label
+	static 	JLabel 			address;						// QR-Code Label
+	static 	JSpinner 		spinner = new JSpinner(new SpinnerNumberModel(120, 80, 500, 5));	// Verändert die größe der QR-Codes
+	static 	BufferedImage 	qrCode1;
+	static 	BufferedImage 	qrCode2;
 	
 	
 	
@@ -49,49 +50,55 @@ public class Action
 	Diese Methode muss gestartet werden, nach jeder relevanten Änderung in der GUI. **/
 public static void go()
 {
-	prvWIF = "";
-	addr = "";
-	GUI.txt_ausgabe.setForeground(Color.BLACK);
-	GUI.txt_ausgabe.setText("");
-	GUI.panel_QRCode.removeAll();
-	try
+	SwingUtilities.invokeLater(new Runnable() 
 	{
-		if(GUI.tabbedPane.getSelectedIndex()==0)
+		public void run() 
 		{
-			String str = GUI.txt_inText.getText();
-			if(str.equals("")==false) calcFromPrivKey(Calc.getHashSHA256(str));			
-		}
-		if(GUI.tabbedPane.getSelectedIndex()==1)
-		{
-			if(GUI.txt_wuerfel.getText().equals("          -          -          -          -          -          -          -          -          -          "));
-			else 
+			prvWIF = "";
+			addr = "";
+			GUI.txt_ausgabe.setForeground(Color.BLACK);
+			GUI.txt_ausgabe.setText("");
+			GUI.panel_QRCode.removeAll();
+			try
 			{
-				String str = GUI.txt_wuerfel.getText();
-				calcFromPrivKey(str);
+				if(GUI.tabbedPane.getSelectedIndex()==0)
+				{
+					String str = GUI.txt_inText.getText();
+					if(str.equals("")==false) calcFromPrivKey(Calc.getHashSHA256(str));			
+				}
+				if(GUI.tabbedPane.getSelectedIndex()==1)
+				{
+					if(GUI.txt_wuerfel.getText().equals("          -          -          -          -          -          -          -          -          -          "));
+					else 
+					{
+						String str = GUI.txt_wuerfel.getText();
+						calcFromPrivKey(str);
+					}
+				}
+				if(GUI.tabbedPane.getSelectedIndex()==2)
+				{
+					String str = GUI.txt_privKey.getText();		
+					str = str.replaceAll(" ","");
+					if(str.equals("")==false) calcFromPrivKey(str);
+				}
+				if(GUI.tabbedPane.getSelectedIndex()==3)
+				{
+					if(SeedExtractor.privKeys!=null)
+					{
+						int index = (Integer)GUI.txt_nr.getValue();
+						byte[] priv = SeedExtractor.privKeys[index-1];
+						calcFromPrivKey(Convert.byteArrayToHexString(priv));
+					}
+				}
+			}
+			catch(Exception e) 
+			{
+				GUI.txt_ausgabe.setForeground(Color.RED);
+				GUI.txt_ausgabe.setText(e.toString());
+				e.printStackTrace();
 			}
 		}
-		if(GUI.tabbedPane.getSelectedIndex()==2)
-		{
-			String str = GUI.txt_privKey.getText();		
-			str = str.replaceAll(" ","");
-			if(str.equals("")==false) calcFromPrivKey(str);
-		}
-		if(GUI.tabbedPane.getSelectedIndex()==3)
-		{
-			if(SeedExtractor.privKeys!=null)
-			{
-				int index = (Integer)GUI.txt_nr.getValue();
-				byte[] priv = SeedExtractor.privKeys[index-1];
-				calcFromPrivKey(Convert.byteArrayToHexString(priv));
-			}
-		}
-	}
-	catch(Exception e) 
-	{
-		GUI.txt_ausgabe.setForeground(Color.RED);
-		GUI.txt_ausgabe.setText(e.toString());
-		e.printStackTrace();
-	}	
+	});				
 }
 	
 	
@@ -116,14 +123,14 @@ private static void calcFromPrivKey(String priv) throws Exception
 		if(GUI.p2sh.isSelected()) 	addr = address.getP2SHAddress(cp.pref_P2SH);
 		else 						addr = address.getBase58Address();		
 	}	
-	String link = Web.getLinkHTML(addr,cp.symbol);
-	Double	final_balance 	=  Web.getValue(addr, cp.symbol);			
-	double betrag = final_balance/100000000.0;
-	String value;
-	if(final_balance != -1) value = "\nBalance: "+String.format("%11.8f", betrag)+"  "+cp.symbol; 
-	else value = "";
-	if(GUI.showPrivKeys.isSelected()) 	GUI.txt_ausgabe.setText("<pre>\nPriv Hex: "+prvHex+"\nPriv WIF: "+prvWIF+"<br>Pub Key:  "+pub+"\nHash160:  "+h160+"\nAddress:  "+addr+"\nExplorer: "+link+value+"</pre>");
-	else								GUI.txt_ausgabe.setText("<pre>\nPriv Hex: ***\nPriv WIF: ***<br>Pub Key:  "              +pub+"\nHash160:  "+h160+"\nAddress:  "+addr+"\nExplorer: "+link+value+"</pre>");
+//	String link = Web.getLinkHTML(addr,cp.symbol);
+//	Double	final_balance 	=  Web.getValue(addr, cp.symbol);		// Wurde aus Datenschutzgrüngen entfernt!	
+//	double betrag = final_balance/100000000.0;
+//	String value = "";;
+//	if(final_balance != -1) value = "\nBalance: "+String.format("%11.8f", betrag)+"  "+cp.symbol; 
+//	else value = "";	
+	if(GUI.showPrivKeys.isSelected()) 	GUI.txt_ausgabe.setText("<pre>\nPriv Hex: "+prvHex+"\nPriv WIF: "+prvWIF+"<br>Pub Key:  "+pub+"\nHash160:  "+h160+"\nAddress:  "+addr +"</pre>");
+	else								GUI.txt_ausgabe.setText("<pre>\nPriv Hex: ***\nPriv WIF: ***<br>Pub Key:  "              +pub+"\nHash160:  "+h160+"\nAddress:  "+addr +"</pre>");
 	setQRCodes(prvWIF, addr);
 }
 	
@@ -141,14 +148,13 @@ private static void setQRCodes(String prvWIF, String addr) throws Exception
 	v =  Integer.valueOf(spinner.getModel().getValue().toString());
 	GUI.panel_QRCode .add(spinner);
 
-	qrCode1 = QRCodeZXING.writeQRCode(prvWIF, GUI.color1, new Color(120,0,0), 75, 75);
+	qrCode1 = QRCodeZXING.writeQRCode(prvWIF, GUI.color1, 	new Color(120,0,0), 75, 75);
 	qrCode2 = QRCodeZXING.writeQRCode(addr, GUI.color1, 	new Color(0,80,0),  75, 75); 	
 
 	spinner.addChangeListener(new ChangeListener() 
 	{
 		public void stateChanged(ChangeEvent e) 
-		{
-			
+		{		
 			v =  Integer.valueOf(spinner.getModel().getValue().toString());	
 			privKey.setIcon(new ImageIcon(new ImageIcon(qrCode1).getImage().getScaledInstance(v, v, 2)));
 			address.setIcon(new ImageIcon(new ImageIcon(qrCode2).getImage().getScaledInstance(v, v, 2)));			

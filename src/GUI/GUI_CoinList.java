@@ -5,20 +5,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import BTClib3001.CoinParameter;
-
+import lib3001.network.CoinParameter;
 
 
-/***********************************************************************************
-*	Diese Klasse ist Teil der GUI des CoinAddressGenerators							*
-*	Erzeugt das List-Fenster, in dem Coins hinzugefügt oder entfernt werden können.	*
-***********************************************************************************/
+
+/************************************************************************************************************************
+*	Diese Klasse ist Teil der GUI des CoinAddressGenerators																*
+*	Erzeugt das List-Fenster, in dem Coins hinzugefügt oder entfernt werden können.										*
+*	Das Aufrufen dieser Klasse ist im Code dekativiert, weil Multicoin nicht mehr alle Funktionen implemntieren kann.	*
+************************************************************************************************************************/
 
 
 
